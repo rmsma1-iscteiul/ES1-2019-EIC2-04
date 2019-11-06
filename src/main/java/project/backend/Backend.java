@@ -22,7 +22,7 @@ public class Backend {
 		
 		// check map //TODO pull arguments from GUI (which arguments)
 		public Map<Integer,ArrayList<Object>> checkList (Map<Integer,ArrayList<Object>> map) {
-			
+			//TODO map
 			return map;
 		}
 		
@@ -30,7 +30,6 @@ public class Backend {
 		
 		public boolean is_long_method (int LOC, int CYCLO, int locIN, int cycloIN) {
 			return LOC > locIN && CYCLO > cycloIN;
-			
 		}
 		
 		public boolean is_feature_envy (int ATFD, int LAA, int atfdIN, int laaIN) {
