@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.gui.controllers.Controller">
   <children>
@@ -34,7 +41,43 @@
         <ScrollPane prefWidth="509.0" />
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Metrics" textAlignment="CENTER" />
+                              <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <Text layoutX="30.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOC" textAlignment="CENTER" />
+                        <TextField fx:id="locText" maxWidth="300.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </TextField>
+                        <Text layoutX="70.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CYCLO" textAlignment="CENTER" />
+                        <TextField fx:id="cycloText" maxWidth="300.0" />
+                        <Text layoutX="30.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ATFD" textAlignment="CENTER" />
+                        <TextField fx:id="atfdText" layoutX="30.0" layoutY="66.0" maxWidth="300.0" />
+                        <Text layoutX="30.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LAA" textAlignment="CENTER" />
+                        <TextField fx:id="laaText" layoutX="30.0" layoutY="102.0" maxWidth="300.0" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <Button minWidth="50.0" mnemonicParsing="false" onAction="#getMetricsFromGUI" text="Apply" textAlignment="JUSTIFY" textOverrun="CLIP">
+                                 <font>
+                                    <Font name="Arial Italic" size="12.0" />
+                                 </font>
+                              </Button>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </VBox>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
               </items>
             </SplitPane>
