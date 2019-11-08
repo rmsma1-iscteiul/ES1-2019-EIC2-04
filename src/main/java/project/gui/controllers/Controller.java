@@ -16,7 +16,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.RadioButton;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -42,6 +44,13 @@ public class Controller extends Application implements Initializable {
 
 	@FXML
 	private TextField laaText;
+	
+	@FXML
+	private RadioButton andButton;
+	
+	@FXML
+	private RadioButton orButton;
+	
 
 	/**
 	 * Method called when user clicks on open button inside the file menu
@@ -69,7 +78,13 @@ public class Controller extends Application implements Initializable {
 	}
 	
 	
-	
+	/**
+	 *  This method will retrieve the values from the LOC, CYCLO, ATFD and LAA fields, call 
+	 *  a function and give them as parameters.
+	 *  In case, any field is blank, it will throw an error and expect the user to enter the value on all fields.
+	 * 
+	 * @param event
+	 */
 
 	
 	@FXML
@@ -93,6 +108,28 @@ public class Controller extends Application implements Initializable {
 			
 		}
 
+	}
+	
+	
+	/**
+	 * 
+	 * This method will check if the user selected AND or OR radioButton
+	 *  and call a function with the 
+	 *  In case, any field is blank, it will throw an error and expect the user to enter the value on all fields.
+	 * 
+	 * 
+	 * @param event
+	 */
+	
+	
+	@FXML
+	public void getAndOrFromGUI(ActionEvent event) {
+		if(andButton.isSelected()) {
+			System.out.println("AND");
+		}else {
+			System.out.println("OR");
+		}
+		
 	}
 	
 	
