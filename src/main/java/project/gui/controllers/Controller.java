@@ -2,6 +2,10 @@ package project.gui.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
@@ -14,6 +18,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import project.backend.Backend;
@@ -26,42 +34,37 @@ import project.backend.Backend;
  */
 public class Controller extends Application implements Initializable{
 
-	private final static int HISTORY_LENGHT = 3;
-	
+	private final static int OPEN_FILE_HISTORY_LENGHT = 3;
+
 	private Stage window;
-	
+
 	private Backend manager;
-	
-	
+
+	@FXML  private TableView<String> table;
+
+	private Map<String,String> openFileHistory = new HashMap<>();
+
+
+
+
 	/**
 	 * Displays a dialog chooser to user 
 	 * select the file that he want to open
 	 */
-    @FXML
-    public void openFile(ActionEvent event) {
-    	FileChooser fc = new FileChooser();
-    	fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("*(.xlsx) Excel", "*.xlsx"));
-    	
-    	File selectedFile = fc.showOpenDialog(window);
-    	
-    	loadList(selectedFile);
-    }
-    
-    
-    
-    
-    
-    /**
-     * 
-     * @param selectedFile file to be displayed as a List
-     */
-    private void loadList(File selectedFile) {
-		manager = new Backend();
-		
-		
-		
-		
-		
+	@FXML
+	public void openFile(ActionEvent event) {
+		FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("*(.xlsx) Excel", "*.xlsx"));
+
+		File selectedFile = fc.showOpenDialog(window);
+
+		try {
+			loadList(manager.parseFileToMap(selectedFile));
+
+			addRecentOpenFile(selectedFile.getAbsolutePath());
+		}catch(Exception e) {
+			showErrorDialog(e.getMessage());
+		}
 	}
 
 
@@ -69,30 +72,53 @@ public class Controller extends Application implements Initializable{
 
 
 	/**
-     * 
-     * This method saves the file path in history
-     * 
-     * @param absolutePath Path of recent open file
-     */
-    private void addRecentOpenFile(String absolutePath) {
-		// TODO Auto-generated method stub
-		
+	 * @param selectedFile file to be displayed as a List
+	 */
+	private void loadList( Map<Integer,List<Object>> map) {
+		List<TableColumn<String,String>> columns = new ArrayList<>();
+		for (int rowID : map.keySet()) {
+			for (int i = 0; i < map.get(rowID).size() ; i++) {
+				if(rowID == 0){											//first row (title row)
+					TableColumn<String, String> column = new TableColumn<String,String>(map.get(rowID).get(i).toString());
+					column.setCellValueFactory(new PropertyValueFactory<String, String>(map.get(rowID).get(i).toString()));
+				}
+			}
+		}
+
+
+
 	}
 
-    
-    
-    
-    
-    
-    @FXML
+
+
+
+
+	/**
+	 * 
+	 * This method saves the file path in history
+	 * 
+	 * @param absolutePath Path of recent open file
+	 */
+	private void addRecentOpenFile(String absolutePath) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+
+
+
+
+	@FXML
 	public void openRecent(ActionEvent event) {
-		//TODO
-    }
-	
-	
-	
-	
-	
+		String fileName = ((MenuItem)(event.getSource())).getText();
+
+	}
+
+
+
+
+
 	/**
 	 * This method starts the engine and the platform Thread
 	 * 
@@ -108,15 +134,15 @@ public class Controller extends Application implements Initializable{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("scene.fxml")); 
 		Parent node = loader.load();
 		Scene scene = new Scene(node);
-		
+
 
 		window.setScene(scene);
 		window.show();
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Displays a error dialog with  @param error message
 	 */
@@ -129,22 +155,21 @@ public class Controller extends Application implements Initializable{
 			dialog.show();
 		});
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+		manager = new Backend();
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public static void show(String[] args) {
 		launch(args);
 	}
-	
+
 }
