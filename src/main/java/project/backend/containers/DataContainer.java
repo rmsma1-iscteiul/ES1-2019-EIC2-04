@@ -1,4 +1,4 @@
-package project.backend.store;
+package project.backend.containers;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;

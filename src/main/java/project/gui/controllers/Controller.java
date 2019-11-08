@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -64,6 +65,8 @@ public class Controller extends Application implements Initializable{
 
 	@FXML
 	private RadioButton orButton;
+	
+	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
 
 
 
@@ -141,7 +144,7 @@ public class Controller extends Application implements Initializable{
 	 * @param event
 	 */
 	@FXML
-	public void getMetricsFromGUI(ActionEvent event) {
+	public void getMetrics(ActionEvent event) {
 		String erro = "Please enter the metrics in the following spaces: \n";
 		if (locText.getText().isBlank() || cycloText.getText().isBlank() || atfdText.getText().isBlank()
 				|| laaText.getText().isBlank()) {
@@ -158,6 +161,8 @@ public class Controller extends Application implements Initializable{
 		}else {
 			//manager.checkList();
 			//loadList();
+			getAndOr(event);
+			System.out.println(logicSelector);
 
 		}
 
@@ -178,11 +183,11 @@ public class Controller extends Application implements Initializable{
 	 * @param event
 	 */
 	@FXML
-	public void getAndOrFromGUI(ActionEvent event) {
-		if(andButton.isSelected()) 
-			System.out.println("AND");
+	public void getAndOr(ActionEvent event) {
+		if(andButton.isSelected())
+			logicSelector = false;
 		if(orButton.isSelected()) 
-			System.out.println("OR");
+			logicSelector = true;
 
 	}
 
@@ -227,13 +232,9 @@ public class Controller extends Application implements Initializable{
 		});
 	}
 
-
-	@FXML 
-	public void getMetricsFromGUI() {
-		
-	}
-
-
+	
+	
+	
 
 	public void initialize(URL location, ResourceBundle resources) {
 		manager = new Backend();
