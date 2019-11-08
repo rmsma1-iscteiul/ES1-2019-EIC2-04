@@ -1,10 +1,16 @@
 package project.backend;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class Backend {
 	
 	
@@ -12,10 +18,15 @@ public class Backend {
 	// parse file to ... (map?)
 		public Map<Integer,List<Object>> parseFileToMap (File file) {
 			Map<Integer,List<Object>> map = new HashMap<Integer, List<Object>>();
-			//TODO file --> map
+			
 			return map;
 		}
-		
+		public Sheet file_to_sheet(File file) throws EncryptedDocumentException, IOException {
+			Workbook workbook;
+			workbook = WorkbookFactory.create(file);
+			Sheet sheet = workbook.getSheetAt(0);
+			return sheet;
+		}
 		// check map //TODO pull arguments from GUI (which arguments)
 		public Map<Integer,ArrayList<Object>> checkList (Map<Integer,ArrayList<Object>> map) {
 			//TODO map
