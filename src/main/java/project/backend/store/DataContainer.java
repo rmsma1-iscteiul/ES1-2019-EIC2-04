@@ -1,6 +1,7 @@
 package project.backend.store;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -11,11 +12,12 @@ public class DataContainer {
 
 	private SimpleStringProperty packageName = new SimpleStringProperty();
 	private SimpleStringProperty className = new SimpleStringProperty();
+	private SimpleStringProperty method = new SimpleStringProperty();
 	
 	private SimpleIntegerProperty LOC = new SimpleIntegerProperty();
 	private SimpleIntegerProperty CYCLO = new SimpleIntegerProperty();
 	private SimpleIntegerProperty ATFD = new SimpleIntegerProperty();
-	private SimpleIntegerProperty LAA = new SimpleIntegerProperty();
+	private SimpleDoubleProperty LAA = new SimpleDoubleProperty();
 	
 	private SimpleBooleanProperty is_long_method = new SimpleBooleanProperty();
 	
@@ -27,12 +29,13 @@ public class DataContainer {
 
 	
 	
-	public DataContainer(int methodID, String packageName, String className, int lOC, int cYCLO, int aTFD,
-			int lAA, boolean is_long_method, String iPlasma,String pMD, boolean is_feature_envy) {
+	public DataContainer(int methodID, String packageName, String className, String method, int lOC, int cYCLO, int aTFD,
+			double lAA, boolean is_long_method, String iPlasma,String pMD, boolean is_feature_envy) {
 
 		this.methodID.set(methodID);
 		this.packageName.set(packageName);
 		this.className.set(className);
+		this.method.set(method);
 		this.LOC.set(lOC);
 		this.CYCLO.set(cYCLO);
 		this.ATFD.set(aTFD);
@@ -93,7 +96,7 @@ public class DataContainer {
 	/**
 	 * @return the lAA
 	 */
-	public SimpleIntegerProperty getLAA() {
+	public SimpleDoubleProperty getLAA() {
 		return LAA;
 	}
 
@@ -170,7 +173,7 @@ public class DataContainer {
 	/**
 	 * @param lAA the lAA to set
 	 */
-	public void setLAA(SimpleIntegerProperty lAA) {
+	public void setLAA(SimpleDoubleProperty lAA) {
 		LAA = lAA;
 	}
 

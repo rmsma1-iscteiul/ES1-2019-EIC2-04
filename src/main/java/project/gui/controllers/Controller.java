@@ -81,8 +81,8 @@ public class Controller extends Application implements Initializable{
 		File selectedFile = fc.showOpenDialog(window);
 
 		try {
-			loadList(manager.parseFileToMap(selectedFile));
-
+			//loadList(manager.parseFileToMap(selectedFile));
+			manager.parseFileToMap(selectedFile);
 			addRecentOpenFile(selectedFile.getAbsolutePath());
 		}catch(Exception e) {
 			showErrorDialog(e.getMessage());
