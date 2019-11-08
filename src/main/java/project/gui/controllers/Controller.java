@@ -187,11 +187,10 @@ public class Controller extends Application implements Initializable{
 	 */
 	@FXML
 	public void getAndOrFromGUI(ActionEvent event) {
-		if(andButton.isSelected()) {
+		if(andButton.isSelected()) 
 			System.out.println("AND");
-		}else {
+		if(orButton.isSelected()) 
 			System.out.println("OR");
-		}
 
 	}
 
