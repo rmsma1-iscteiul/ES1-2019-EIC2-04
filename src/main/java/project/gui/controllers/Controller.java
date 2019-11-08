@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -96,18 +97,6 @@ public class Controller extends Application implements Initializable{
 	 * @param selectedFile file to be displayed as a List
 	 */
 	private void loadList( Map<Integer,List<Object>> map) {
-		List<TableColumn<String,String>> columns = new ArrayList<>();
-		for (int rowID : map.keySet()) {
-			for (int i = 0; i < map.get(rowID).size() ; i++) {
-				if(rowID == 0){											//first row (title row)
-					TableColumn<String, String> column = new TableColumn<String,String>(map.get(rowID).get(i).toString());
-					column.setCellValueFactory(new PropertyValueFactory<String, String>(map.get(rowID).get(i).toString()));
-				}
-			}
-		}
-
-
-
 	}
 
 
@@ -129,10 +118,13 @@ public class Controller extends Application implements Initializable{
 
 
 
-
+	/**
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void openRecent(ActionEvent event) {
-		String fileName = ((MenuItem)(event.getSource())).getText();
+	//	String fileName = ((MenuItem)(event.getSource())).getText();
 
 	}
 	
@@ -236,11 +228,16 @@ public class Controller extends Application implements Initializable{
 	}
 
 
+	@FXML 
+	public void getMetricsFromGUI() {
+		
+	}
 
 
 
 	public void initialize(URL location, ResourceBundle resources) {
 		manager = new Backend();
+		loadList(null);
 	}
 
 
