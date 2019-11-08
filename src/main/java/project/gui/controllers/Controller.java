@@ -20,8 +20,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import project.backend.Backend;
@@ -43,6 +45,25 @@ public class Controller extends Application implements Initializable{
 	@FXML  private TableView<String> table;
 
 	private Map<String,String> openFileHistory = new HashMap<>();
+
+	@FXML
+	private TextField locText;
+
+	@FXML
+	private TextField cycloText;
+
+	@FXML
+	private TextField atfdText;
+
+	@FXML
+	private TextField laaText;
+
+	@FXML
+	private RadioButton andButton;
+
+	@FXML
+	private RadioButton orButton;
+
 
 
 
@@ -112,6 +133,65 @@ public class Controller extends Application implements Initializable{
 	@FXML
 	public void openRecent(ActionEvent event) {
 		String fileName = ((MenuItem)(event.getSource())).getText();
+
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 *  This method will retrieve the values from the LOC, CYCLO, ATFD and LAA fields, call
+	 *  a function and give them as parameters.
+	 *  In case, any field is blank, it will throw an error and expect the user to enter the value on all fields.
+	 *
+	 * @param event
+	 */
+	@FXML
+	public void getMetricsFromGUI(ActionEvent event) {
+		String erro = "Please enter the metrics in the following spaces: \n";
+		if (locText.getText().isBlank() || cycloText.getText().isBlank() || atfdText.getText().isBlank()
+				|| laaText.getText().isBlank()) {
+			if(locText.getText().isBlank())
+				erro += "LOC \n";
+			if(cycloText.getText().isBlank())
+				erro += "CYCLO \n";
+			if(atfdText.getText().isBlank())
+				erro += "ATFD \n";
+			if(laaText.getText().isBlank())
+				erro += "LAA \n";
+
+			showErrorDialog(erro);
+		}else {
+			//manager.checkList();
+			//loadList();
+
+		}
+
+	}
+	
+	
+	
+	
+	
+
+	/**
+	 *
+	 * This method will check if the user selected AND or OR radioButton
+	 *  and call a function with the
+	 *  In case, any field is blank, it will throw an error and expect the user to enter the value on all fields.
+	 *
+	 *
+	 * @param event
+	 */
+	@FXML
+	public void getAndOrFromGUI(ActionEvent event) {
+		if(andButton.isSelected()) {
+			System.out.println("AND");
+		}else {
+			System.out.println("OR");
+		}
 
 	}
 
