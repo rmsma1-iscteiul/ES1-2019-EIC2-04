@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
@@ -48,25 +50,28 @@ public class Controller extends Application implements Initializable{
 
 	private Map<String,String> openFileHistory = new HashMap<>();
 
-	@FXML
-	private TextField locText;
+	@FXML private TextField locText;
 
-	@FXML
-	private TextField cycloText;
+	@FXML private TextField cycloText;
 
-	@FXML
-	private TextField atfdText;
+	@FXML private TextField atfdText;
 
-	@FXML
-	private TextField laaText;
+	@FXML private TextField laaText;
 
-	@FXML
-	private RadioButton andButton;
+	@FXML private RadioButton andButton;
 
-	@FXML
-	private RadioButton orButton;
+	@FXML private RadioButton orButton;
+	
+	@FXML private Label DCI;
+	
+	@FXML private Label DII;
+	
+	@FXML private Label ADCI;
+	
+	@FXML private Label ADII;
 	
 	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
+	
 
 
 
@@ -84,7 +89,7 @@ public class Controller extends Application implements Initializable{
 		File selectedFile = fc.showOpenDialog(window);
 
 		try {
-			loadList(manager.parseFileToMap(selectedFile));
+			//loadList(manager.parseFileToMap(selectedFile));
 
 			addRecentOpenFile(selectedFile.getAbsolutePath());
 		}catch(Exception e) {
@@ -143,8 +148,7 @@ public class Controller extends Application implements Initializable{
 	 *
 	 * @param event
 	 */
-	@FXML
-	public void getMetrics(ActionEvent event) {
+	public void getMetrics() {
 		String erro = "Please enter the metrics in the following spaces: \n";
 		if (locText.getText().isBlank() || cycloText.getText().isBlank() || atfdText.getText().isBlank()
 				|| laaText.getText().isBlank()) {
@@ -161,7 +165,7 @@ public class Controller extends Application implements Initializable{
 		}else {
 			//manager.checkList();
 			//loadList();
-			getAndOr(event);
+			getAndOr();
 			System.out.println(logicSelector);
 
 		}
@@ -171,30 +175,63 @@ public class Controller extends Application implements Initializable{
 	
 	
 	
-	
 
 	/**
 	 *
 	 * This method will check if the user selected AND or OR radioButton
-	 *  and call a function with the
-	 *  In case, any field is blank, it will throw an error and expect the user to enter the value on all fields.
-	 *
 	 *
 	 * @param event
 	 */
-	@FXML
-	public void getAndOr(ActionEvent event) {
+	public void getAndOr() {
 		if(andButton.isSelected())
 			logicSelector = false;
 		if(orButton.isSelected()) 
 			logicSelector = true;
 
 	}
+	
+	
+	
+	
+	
+	/**
+	 * 
+	 * This method will get the total values from DCI,DII,ADCI,ADII and show them to the user
+	 * in the form of results
+	 * @param totalDCI
+	 * @param totalDII
+	 * @param totalADCI
+	 * @param totalADII
+	 */
+	public void setQualityIndicatorsTotals(int totalDCI, int totalDII, int totalADCI, int totalADII) {
+		DCI.setText(Integer.toString(totalDCI));
+		DII.setText(Integer.toString(totalDII));
+		ADCI.setText(Integer.toString(totalADCI));
+		ADII.setText(Integer.toString(totalADII));
+		
+	}
+
+	
+	
+	
+	
+	/**
+	 * This method will be called when the Apply button is pressed
+	 * 
+	 * 
+	 * @param event
+	 */
+	@FXML
+	public void applyPressed(ActionEvent event) {
+		getMetrics();
+		setQualityIndicatorsTotals(10, 20, 30, 40); //This are only premade values, change to dynamic values later
+	}
+	
 
 
-
-
-
+	
+	
+	
 	/**
 	 * This method starts the engine and the platform Thread
 	 * 
@@ -240,6 +277,11 @@ public class Controller extends Application implements Initializable{
 		manager = new Backend();
 		loadList(null);
 	}
+
+
+
+
+
 
 
 
