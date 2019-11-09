@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -59,10 +60,9 @@ public class Controller extends Application implements Initializable{
 	@FXML private TableView<DataContainer> table;
 	@FXML private Menu openRecentMenu;
 
+	@FXML private Label DCI;
 	@FXML private Label DII;
-	
 	@FXML private Label ADCI;
-	
 	@FXML private Label ADII;
 	
 	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
@@ -85,7 +85,7 @@ public class Controller extends Application implements Initializable{
 		try {
 			loadList(manager.parseFileToMap(selectedFile));
 
-			addRecentOpenFile(selectedFile.getAbsolutePath());
+//			addRecentOpenFile(selectedFile.getAbsolutePath());
 			
 //			window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )"); 
 		}catch(Exception e) {
@@ -116,6 +116,7 @@ public class Controller extends Application implements Initializable{
 	 * 
 	 * @param absolutePath Path of recent open file
 	 */
+	//TODO
 	private void addRecentOpenFile(String absolutePath) {
 		if(!ArrayUtil.contains(openFileHistory, absolutePath)) {
 			ArrayUtil.shiftRight(openFileHistory);
