@@ -59,6 +59,13 @@ public class Controller extends Application implements Initializable{
 	@FXML private TableView<DataContainer> table;
 	@FXML private Menu openRecentMenu;
 
+	@FXML private Label DII;
+	
+	@FXML private Label ADCI;
+	
+	@FXML private Label ADII;
+	
+	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
 
 
 	
@@ -157,15 +164,14 @@ public class Controller extends Application implements Initializable{
 
 
 
-	/**
+/**
 	 *  This method will retrieve the values from the LOC, CYCLO, ATFD and LAA fields, call
 	 *  a function and give them as parameters.
 	 *  In case, any field is blank, it will throw an error and expect the user to enter the value on all fields.
 	 *
 	 * @param event
 	 */
-	@FXML
-	public void getMetricsFromGUI(ActionEvent event) {
+	public void getMetrics() {
 		String erro = "Please enter the metrics in the following spaces: \n";
 		if (locText.getText().isBlank() || cycloText.getText().isBlank() || atfdText.getText().isBlank()
 				|| laaText.getText().isBlank()) {
@@ -182,6 +188,8 @@ public class Controller extends Application implements Initializable{
 		}else {
 			//manager.checkList();
 			//loadList();
+			getAndOr();
+			System.out.println(logicSelector);
 
 		}
 
@@ -195,19 +203,52 @@ public class Controller extends Application implements Initializable{
 	/**
 	 *
 	 * This method will check if the user selected AND or OR radioButton
-	 *  and call a function with the
-	 *  In case, any field is blank, it will throw an error and expect the user to enter the value on all fields.
-	 *
 	 *
 	 * @param event
 	 */
+	public void getAndOr() {
+		if(andButton.isSelected())
+			logicSelector = false;
+		if(orButton.isSelected()) 
+			logicSelector = true;
+
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 
+	 * This method will get the total values from DCI,DII,ADCI,ADII and show them to the user
+	 * in the form of results
+	 * @param totalDCI
+	 * @param totalDII
+	 * @param totalADCI
+	 * @param totalADII
+	 */
+	public void setQualityIndicatorsTotals(int totalDCI, int totalDII, int totalADCI, int totalADII) {
+		DCI.setText(Integer.toString(totalDCI));
+		DII.setText(Integer.toString(totalDII));
+		ADCI.setText(Integer.toString(totalADCI));
+		ADII.setText(Integer.toString(totalADII));
+		
+	}
+
+	
+	
+	
+	
+	/**
+	 * This method will be called when the Apply button is pressed
+	 * 
+	 * 
+	 * @param event
+	 */
 	@FXML
-	public void getAndOrFromGUI(ActionEvent event) {
-		if(andButton.isSelected()) {
-			System.out.println("AND");
-		}else {
-			System.out.println("OR");
-		}
+	public void applyPressed(ActionEvent event) {
+		getMetrics();
+		setQualityIndicatorsTotals(10, 20, 30, 40); //This are only premade values, change to dynamic values later
 	}
 
 
