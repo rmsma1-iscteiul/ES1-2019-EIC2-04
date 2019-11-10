@@ -26,13 +26,14 @@ public class DataContainer {
 	
 	private SimpleBooleanProperty is_feature_envy = new SimpleBooleanProperty();
 
-	private SimpleStringProperty status = new SimpleStringProperty();
+	private SimpleStringProperty statusPMD = new SimpleStringProperty();
+	private SimpleStringProperty statusIPLASMA = new SimpleStringProperty();
 
 	
 	
 	
 	public DataContainer(int methodID, String packageName, String className, String method, int lOC, int cYCLO, int aTFD,
-			double lAA, boolean is_long_method, String iPlasma,String pMD, boolean is_feature_envy, String status) {
+			double lAA, boolean is_long_method, String iPlasma,String pMD, boolean is_feature_envy, String statuspmd, String statusiplasma) {
 
 		this.methodID = new SimpleIntegerProperty(methodID);
 		this.packageName = new SimpleStringProperty(packageName);
@@ -46,7 +47,8 @@ public class DataContainer {
 		this.iPlasma = new SimpleStringProperty(iPlasma);
 		this.pmd = new SimpleStringProperty(pMD);
 		this.is_feature_envy = new SimpleBooleanProperty(is_feature_envy);
-		this.status = new SimpleStringProperty(status);
+		this.statusPMD = new SimpleStringProperty(statuspmd);
+		this.statusIPLASMA = new SimpleStringProperty(statusiplasma);
 	}
 	
 	
@@ -83,7 +85,8 @@ public class DataContainer {
 				
 				{"Envy Feature" ,"Boolean"  , "isFeatureEnvy"},
 				
-				{"Status"       ,"String"   , "status"}};
+				{"StatusPMD"       ,"String"   , "statusPMD"},
+				{"StatusIPLASMA"       ,"String"   , "statusIPLASMA"}};
 		
 		return matrix;
 	}
@@ -229,7 +232,93 @@ public class DataContainer {
 	/**
 	 * @return the packageName property
 	 */
-	public SimpleStringProperty statusProperty()  {
-		return status;
+	public SimpleStringProperty statusPMDProperty()  {
+		return statusPMD;
 	}
+	
+	
+	
+	
+	
+	/**
+	 * @return the packageName property
+	 */
+	public SimpleStringProperty statusIPLASMAProperty()  {
+		return statusIPLASMA;
+	}
+
+	
+	
+	//getters ------------------------------------------
+	
+	
+	public int getMethodID() {
+		return methodID.get();
+	}
+
+
+	public String getPackageName() {
+		return packageName.get();
+	}
+
+
+	public String getClassName() {
+		return className.get();
+	}
+
+
+	public String getMethod() {
+		return method.get();
+	}
+
+
+	public int getLoc() {
+		return loc.get();
+	}
+
+
+	public int getCyclo() {
+		return cyclo.get();
+	}
+
+
+	public int getAtfd() {
+		return atfd.get();
+	}
+
+
+	public double getLaa() {
+		return laa.get();
+	}
+
+
+	public boolean getIs_long_method() {
+		return is_long_method.get();
+	}
+
+
+	public String getiPlasma() {
+		return iPlasma.get();
+	}
+
+
+	public String getPmd() {
+		return pmd.get();
+	}
+
+
+	public boolean getIs_feature_envy() {
+		return is_feature_envy.get();
+	}
+
+
+	public String getStatusPMD() {
+		return statusPMD.get();
+	}
+	
+	
+	public String getStatusIPLASMA() {
+		return statusIPLASMA.get();
+	}
+	
 }

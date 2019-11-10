@@ -16,9 +16,43 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import project.backend.containers.DataContainer;
+
+
 public class Backend {
 
+	private double LOC = 80;
+	private double CYCLO = 10;
+	private double ATFD = 4;
+	private double LAA = 0.42;
+	
+	private List<DataContainer> fileListed;
 
+
+
+	public void setLOC(double lOC) {
+		LOC = lOC;
+	}
+
+	public void setCYCLO(double cYCLO) {
+		CYCLO = cYCLO;
+	}
+
+	public void setATFD(double aTFD) {
+		ATFD = aTFD;
+	}
+
+	public void setLAA(double lAA) {
+		LAA = lAA;
+	}
+	
+	
+	public List<DataContainer> getFileListed() {
+		return fileListed;
+	}
+	public void setFileListed(List<DataContainer> filelisted) {
+		fileListed = filelisted;
+	}
+	
 
 	
 	
@@ -91,7 +125,7 @@ public class Backend {
 		String iPlasma = cells[9];
 		String pMD = cells[10];
 		boolean is_feature_envy = (cells[11].charAt(0) == 'V');//TODO change to is_feature_envy()
-		DataContainer container = new DataContainer(methodID, packageName, className,method, lOC, cYCLO, aTFD, lAA, is_long_method, iPlasma, pMD, is_feature_envy, "TODO"); 
+		DataContainer container = new DataContainer(methodID, packageName, className,method, lOC, cYCLO, aTFD, lAA, is_long_method, iPlasma, pMD, is_feature_envy, "TODO", "TODO"); 
 		return container;
 	}
 
@@ -100,9 +134,10 @@ public class Backend {
 	
 	
 	// check map //TODO pull arguments from GUI (which arguments)
-	public Map<Integer,ArrayList<Object>> checkList (Map<Integer,ArrayList<Object>> map) {
+	public List<DataContainer> checkList () {
+		assert (fileListed != null);
 		//TODO map
-		return map;
+		return fileListed;
 	}
 
 	
@@ -119,25 +154,6 @@ public class Backend {
 	
 	public boolean is_feature_envy (int ATFD, int LAA, int atfdIN, int laaIN) {
 		return ATFD > atfdIN && LAA < laaIN;
-	}
-
-	
-	
-	
-	
-	//não percebi
-	public boolean iPlasma () {
-		return true;
-	}
-
-
-	
-	
-	
-	
-	//não percebi
-	public boolean PMD () {
-		return true;
 	}
 
 	
