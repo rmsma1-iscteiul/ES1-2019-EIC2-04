@@ -21,8 +21,8 @@ public class DataContainer {
 	
 	private SimpleBooleanProperty is_long_method = new SimpleBooleanProperty();
 	
-	private SimpleStringProperty iPlasma = new SimpleStringProperty();
-	private SimpleStringProperty pmd = new SimpleStringProperty();
+	private SimpleBooleanProperty iPlasma = new SimpleBooleanProperty();
+	private SimpleBooleanProperty pmd = new SimpleBooleanProperty();
 	
 	private SimpleBooleanProperty is_feature_envy = new SimpleBooleanProperty();
 
@@ -33,7 +33,7 @@ public class DataContainer {
 	
 	
 	public DataContainer(int methodID, String packageName, String className, String method, int lOC, int cYCLO, int aTFD,
-			double lAA, boolean is_long_method, String iPlasma,String pMD, boolean is_feature_envy, String statuspmd, String statusiplasma) {
+			double lAA, boolean is_long_method, boolean iPlasma,boolean pMD, boolean is_feature_envy, String statuspmd, String statusiplasma) {
 
 		this.methodID = new SimpleIntegerProperty(methodID);
 		this.packageName = new SimpleStringProperty(packageName);
@@ -44,8 +44,8 @@ public class DataContainer {
 		this.atfd = new SimpleIntegerProperty(aTFD);
 		this.laa = new SimpleDoubleProperty(lAA);
 		this.is_long_method = new SimpleBooleanProperty(is_long_method);
-		this.iPlasma = new SimpleStringProperty(iPlasma);
-		this.pmd = new SimpleStringProperty(pMD);
+		this.iPlasma = new SimpleBooleanProperty(iPlasma);
+		this.pmd = new SimpleBooleanProperty(pMD);
 		this.is_feature_envy = new SimpleBooleanProperty(is_feature_envy);
 		this.statusPMD = new SimpleStringProperty(statuspmd);
 		this.statusIPLASMA = new SimpleStringProperty(statusiplasma);
@@ -80,8 +80,8 @@ public class DataContainer {
 				
 				{"Long Method"  ,"Boolean"  , "isLongMethod"},
 				
-				{"Iplasma"      ,"String"   , "iPlasma"},
-				{"Pmd"          ,"String"   , "pmd"},
+				{"Iplasma"      ,"Boolean"   , "iPlasma"},
+				{"Pmd"          ,"Boolean"   , "pmd"},
 				
 				{"Envy Feature" ,"Boolean"  , "isFeatureEnvy"},
 				
@@ -199,7 +199,7 @@ public class DataContainer {
 	/**
 	 * @return the packageName property
 	 */
-	public SimpleStringProperty iPlasmaProperty()  {
+	public SimpleBooleanProperty iPlasmaProperty()  {
 		return iPlasma;
 	}
 	
@@ -210,7 +210,7 @@ public class DataContainer {
 	/**
 	 * @return the packageName property
 	 */
-	public SimpleStringProperty pmdProperty()  {
+	public SimpleBooleanProperty pmdProperty()  {
 		return pmd;
 	}
 	
@@ -297,12 +297,12 @@ public class DataContainer {
 	}
 
 
-	public String getiPlasma() {
+	public boolean getiPlasma() {
 		return iPlasma.get();
 	}
 
 
-	public String getPmd() {
+	public boolean getPmd() {
 		return pmd.get();
 	}
 
@@ -319,6 +319,24 @@ public class DataContainer {
 	
 	public String getStatusIPLASMA() {
 		return statusIPLASMA.get();
+	}
+	
+	//setters -------------
+	
+	public void setIs_long_method(boolean bool) {
+		is_long_method.set(bool);
+	}
+	
+	public void setIs_feature_envy(boolean bool) {
+		is_feature_envy.set(bool);
+	}
+	
+	public void setStatusPMD(String str) {
+		statusPMD.set(str);
+	}
+	
+	public void setStatusIPLASMA(String str) {
+		statusIPLASMA.set(str);
 	}
 	
 }
