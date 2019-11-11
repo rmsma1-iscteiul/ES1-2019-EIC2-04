@@ -18,7 +18,7 @@ import project.backend.containers.DataContainer;
 
 
 public class Backend {
-
+	private Workbook workbook;
 	private double LOC = 80;
 	private double CYCLO = 10;
 	private double ATFD = 4;
@@ -83,6 +83,7 @@ public class Backend {
 	 * parse file to List of DataContainers
 	 * @param file file ot be parsed
 	 * @return  list of DataContainer s
+	 * @throws IOException
 	 */
 	public List<DataContainer> parseFileToMap (File file) {
 
@@ -110,6 +111,12 @@ public class Backend {
 			throw new InvalidParameterException("file is in the wrong format");
 		}
 		fileListed = list;
+		try {
+			workbook.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return list;
 	}
 	
@@ -124,7 +131,6 @@ public class Backend {
 	 * @throws IOException
 	 */
 	private Sheet file_to_sheet(File file) throws EncryptedDocumentException, IOException {
-		Workbook workbook;
 		workbook = WorkbookFactory.create(file);
 		Sheet sheet = workbook.getSheetAt(0);
 		return sheet;
