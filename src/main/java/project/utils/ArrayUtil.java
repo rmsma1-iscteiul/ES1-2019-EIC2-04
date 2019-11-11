@@ -1,12 +1,74 @@
 package project.utils;
 
-
+/**
+ * 
+ * @author RuiMenoita
+ */
 public class ArrayUtil {
 
 
 
+	
+
+	/**
+	 * 
+	 * @param array array that have the item
+	 * @param item	item to be searched for
+	 * @return 
+	 * returns the first occurrence index in array, returns -1 if item is not present in array
+	 */
+	public static <T> int getIndex(T[] array , T item) {
+		for (int i = 0; i < array.length; i++) {
+			if(array[i] != null) {
+				if(array[i].equals(item))
+					return i;
+			}
+		}
+		return -1;
+	}
 
 
+	
+
+	/**
+	 * 
+	 * @param array array that have the item
+	 * @param item	item to be searched for
+	 * @return 
+	 * returns the first occurrence index in array, returns -1 if item is not present in array
+	 */
+	public static int getIndex(int[] array , int item) {
+		for (int i = 0; i < array.length; i++) {
+				if(array[i]==(item))
+					return i;
+		}
+		return -1;
+	}
+
+
+
+	
+
+	/**
+	 * 
+	 * @param array array that have the item
+	 * @param item	item to be searched for
+	 * @return 
+	 * returns the first occurrence index in array, returns -1 if item is not present in array
+	 */
+	public static int getIndex(String[] array , String item) {
+		for (int i = 0; i < array.length; i++) {
+			if(array[i] != null) {
+				if(array[i].equals(item))
+					return i;
+			}
+		}
+		return -1;
+	}
+
+	
+	
+	
 
 	/**
 	 * @param array array to be checked
@@ -180,8 +242,10 @@ public class ArrayUtil {
 
 	//to teste and debug
 	public static void main(String[] args) {
-		int[] i = {0,1,2,3,4,5,6,7,8,9};
-		System.out.println(ArrayUtil.contains(i, 10));
+		String s = "C:\\Users\\Rui Menoita\\Downloads\\Long-Method.xlsx";
+		String[] sp = s.split("\\\\");
+		for (String string : sp) 
+			System.out.println(string);
 	}
 
 }

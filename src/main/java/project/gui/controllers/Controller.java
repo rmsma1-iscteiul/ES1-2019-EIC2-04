@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -32,9 +33,9 @@ import project.backend.containers.DataContainer;
 import project.utils.ArrayUtil;
 
 /**
- * 
+ *
  * This class controls application GUI , receives and process input from user
- * 
+ *
  * @author RuiMenoita
  */
 public class Controller extends Application implements Initializable {
@@ -48,37 +49,28 @@ public class Controller extends Application implements Initializable {
 
 	private Backend manager;
 
-	@FXML
-	private TextField locText;
-	@FXML
-	private TextField cycloText;
-	@FXML
-	private TextField atfdText;
-	@FXML
-	private TextField laaText;
+	@FXML private TextField locText;
+	@FXML private TextField cycloText;
+	@FXML private TextField atfdText;
+	@FXML private TextField laaText;
 
-	@FXML
-	private RadioButton andButton;
-	@FXML
-	private RadioButton orButton;
+	@FXML private RadioButton andButton;
+	@FXML private RadioButton orButton;
 
-	@FXML
-	private AnchorPane dataTabPane;
-	@FXML
-	private TableView<DataContainer> table;
-	@FXML
-	private Menu openRecentMenu;
+	@FXML private AnchorPane dataTabPane;
+	@FXML private TableView<DataContainer> table;
+	@FXML private Menu openRecentMenu;
 
-	@FXML
-	private Label DCI;
-	@FXML
-	private Label DII;
-	@FXML
-	private Label ADCI;
-	@FXML
-	private Label ADII;
+	@FXML private Label DCI;
+	@FXML private Label DII;
+	@FXML private Label ADCI;
+	@FXML private Label ADII;
 
-	private Boolean logicSelector = false; // AND = FALSE, OR = TRUE
+	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
+
+
+
+
 
 	/**
 	 * Displays a dialog chooser to user select the file that he want to open
@@ -93,10 +85,10 @@ public class Controller extends Application implements Initializable {
 		try {
 			loadList(manager.parseFileToMap(selectedFile));
 
-//			addRecentOpenFile(selectedFile.getAbsolutePath());
+			addRecentOpenFile(selectedFile.getAbsolutePath());
 
-//			window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )"); 
-		} catch (Exception e) {
+			//window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )");
+		}catch(Exception e) {
 			e.printStackTrace();
 			showErrorDialog(e.getMessage());
 		}
@@ -111,38 +103,43 @@ public class Controller extends Application implements Initializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * This method saves the file path in history
-	 * 
+	 *
 	 * @param absolutePath Path of recent open file
 	 */
-	// TODO
-	private void addRecentOpenFile(String absolutePath) {
-		if (!ArrayUtil.contains(openFileHistory, absolutePath)) {
+	//TODO
+	public void addRecentOpenFile(String absolutePath) {
+		if(!ArrayUtil.contains(openFileHistory, absolutePath)) {
 			ArrayUtil.shiftRight(openFileHistory);
 			openFileHistory[0] = absolutePath;
+		}else {
+			int index = ArrayUtil.getIndex(openFileHistory,absolutePath);
+			String buffer = openFileHistory[index];
+			openFileHistory[index] = null;
+			ArrayUtil.shiftRight(openFileHistory);
+			openFileHistory[0]= buffer;
 		}
 
 		openRecentMenu.getItems().clear();
 
 		for (String path : openFileHistory) {
-			String name = path.split("/")[path.split("/").length];
-			for (String anotherPath : openFileHistory) {
-				if (!path.equals(anotherPath))
-					name = getNoCommonPastDir(path, anotherPath);
-				// TODO
+			if(path != null) {
+				MenuItem item = new MenuItem(path.split("\\\\")[path.split("\\\\").length -1]);
+				openRecentMenu.getItems().add(item);
 			}
 		}
-
 	}
 
-	private String getNoCommonPastDir(String path, String anotherPath) {
-		// TODO
-		return null;
-	}
+
+
+
+
+
+
 
 	/**
-	 * 
+	 *
 	 * @param event
 	 */
 	@FXML
@@ -203,11 +200,15 @@ public class Controller extends Application implements Initializable {
 
 	}
 
+
+
+
+
 	/**
-	 * 
+	 *
 	 * This method will get the total values from DCI,DII,ADCI,ADII and show them to
 	 * the user in the form of results
-	 * 
+	 *
 	 * @param totalDCI
 	 * @param totalDII
 	 * @param totalADCI
@@ -218,12 +219,17 @@ public class Controller extends Application implements Initializable {
 		DII.setText(Integer.toString(totalDII));
 		ADCI.setText(Integer.toString(totalADCI));
 		ADII.setText(Integer.toString(totalADII));
+
 	}
+
+
+
+
 
 	/**
 	 * This method will be called when the Apply button is pressed
-	 * 
-	 * 
+	 *
+	 *
 	 * @param event
 	 */
 	@FXML
@@ -234,10 +240,10 @@ public class Controller extends Application implements Initializable {
 
 	/**
 	 * This method starts the engine and the platform Thread
-	 * 
+	 *
 	 * The Platform Thread is here the User interface will be executed all the GUI
 	 * actions must be executed in this Thread (like swing)
-	 * 
+	 *
 	 * You can use inside controllers the Method Plataform.runLater(Runnable r );
 	 * when you need to execute an GUI action that is not called by Platform Thread
 	 */
@@ -253,6 +259,10 @@ public class Controller extends Application implements Initializable {
 		window.show();
 	}
 
+
+
+
+
 	/**
 	 * Displays a error dialog with @param error message
 	 */
@@ -266,13 +276,17 @@ public class Controller extends Application implements Initializable {
 		});
 	}
 
+
+
+
+
 	/**
 	 * Opens a new project Window
 	 */
 	@FXML
 	public void openNewWindow(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("dataVisualizerScene.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("scene.fxml"));
 			Parent node = loader.load();
 			Scene scene = new Scene(node);
 			Stage stage = new Stage();
@@ -282,19 +296,24 @@ public class Controller extends Application implements Initializable {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			showErrorDialog(e.getMessage());
 		}
 	}
 
+
+
+
+
 	/**
 	 * This method is called when Scenes.fxml is load
-	 * 
+	 *
 	 * This method instantiates manager and creates the Column table that will be
 	 * added to TableView
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void initialize(URL location, ResourceBundle resources) {
 		manager = new Backend();
-		
+
 
 		TableColumn<DataContainer, ?> col = null;
 
@@ -319,13 +338,18 @@ public class Controller extends Application implements Initializable {
 
 			table.getColumns().add(col);
 		}
-		
+
 		setBindings();
 		locText.setPromptText("50");
 		cycloText.setPromptText("10");
 		atfdText.setPromptText("10");
 		laaText.setPromptText("5");
 	}
+
+
+
+
+
 
 	/**
 	 * This makes table size response when Data tab is resized
@@ -335,11 +359,14 @@ public class Controller extends Application implements Initializable {
 		dataTabPane.widthProperty().addListener((obs, old, newValue) -> table.setPrefWidth(newValue.doubleValue()));
 	}
 
+
+
+
+
 	/**
 	 * Calls the application start method that creates the platform thread
 	 */
 	public static void show(String[] args) {
 		launch(args);
 	}
-
 }
