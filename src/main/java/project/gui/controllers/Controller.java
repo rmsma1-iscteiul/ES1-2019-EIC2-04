@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -40,7 +41,7 @@ import project.utils.ArrayUtil;
 public class Controller extends Application implements Initializable{
 
 	private static final String PROGRAM_NAME = "Code Analyzer";
-	
+
 	private final static int OPEN_FILE_HISTORY_LENGHT = 3;
 	private String[] openFileHistory = new String[OPEN_FILE_HISTORY_LENGHT];
 
@@ -52,7 +53,7 @@ public class Controller extends Application implements Initializable{
 	@FXML private TextField cycloText;
 	@FXML private TextField atfdText;
 	@FXML private TextField laaText;
-	
+
 	@FXML private RadioButton andButton;
 	@FXML private RadioButton orButton;
 
@@ -64,13 +65,13 @@ public class Controller extends Application implements Initializable{
 	@FXML private Label DII;
 	@FXML private Label ADCI;
 	@FXML private Label ADII;
-	
+
 	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
 
 
-	
-	
-	
+
+
+
 	/**
 	 * Displays a dialog chooser to user 
 	 * select the file that he want to open
@@ -85,9 +86,9 @@ public class Controller extends Application implements Initializable{
 		try {
 			loadList(manager.parseFileToMap(selectedFile));
 
-//			addRecentOpenFile(selectedFile.getAbsolutePath());
-			
-//			window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )"); 
+			addRecentOpenFile(selectedFile.getAbsolutePath());
+
+			//window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )"); 
 		}catch(Exception e) {
 			e.printStackTrace();
 			showErrorDialog(e.getMessage());
@@ -117,34 +118,30 @@ public class Controller extends Application implements Initializable{
 	 * @param absolutePath Path of recent open file
 	 */
 	//TODO
-	private void addRecentOpenFile(String absolutePath) {
+	public void addRecentOpenFile(String absolutePath) {
 		if(!ArrayUtil.contains(openFileHistory, absolutePath)) {
 			ArrayUtil.shiftRight(openFileHistory);
 			openFileHistory[0] = absolutePath;
+		}else {
+			int index = ArrayUtil.getIndex(openFileHistory,absolutePath);
+			String buffer = openFileHistory[index];
+			openFileHistory[index] = null;
+			ArrayUtil.shiftRight(openFileHistory);
+			openFileHistory[0]= buffer;
 		}
-			
+
 		openRecentMenu.getItems().clear();
-		
+
 		for (String path : openFileHistory) {
-			String name = path.split("/")[path.split("/").length];
-			for (String anotherPath : openFileHistory) {
-				if(!path.equals(anotherPath))
-					name = getNoCommonPastDir(path,anotherPath);
-					//TODO
+			if(path != null) {
+				MenuItem item = new MenuItem(path.split("\\\\")[path.split("\\\\").length -1]);
+				openRecentMenu.getItems().add(item);
 			}
 		}
-		
-
 	}
 
 
 
-
-
-	private String getNoCommonPastDir(String path, String anotherPath) {
-		//TODO
-		return null;
-	}
 
 
 
@@ -165,7 +162,7 @@ public class Controller extends Application implements Initializable{
 
 
 
-/**
+	/**
 	 *  This method will retrieve the values from the LOC, CYCLO, ATFD and LAA fields, call
 	 *  a function and give them as parameters.
 	 *  In case, any field is blank, it will throw an error and expect the user to enter the value on all fields.
@@ -214,11 +211,11 @@ public class Controller extends Application implements Initializable{
 			logicSelector = true;
 
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * 
 	 * This method will get the total values from DCI,DII,ADCI,ADII and show them to the user
@@ -233,13 +230,13 @@ public class Controller extends Application implements Initializable{
 		DII.setText(Integer.toString(totalDII));
 		ADCI.setText(Integer.toString(totalADCI));
 		ADII.setText(Integer.toString(totalADII));
-		
+
 	}
 
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * This method will be called when the Apply button is pressed
 	 * 
@@ -279,7 +276,7 @@ public class Controller extends Application implements Initializable{
 	}
 
 
-	
+
 
 
 	/**
@@ -297,15 +294,15 @@ public class Controller extends Application implements Initializable{
 
 
 
-	
-	
+
+
 	/**
 	 * Opens a new project Window 
 	 */
 	@FXML
 	public void openNewWindow(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("dataVisualizerScene.fxml")); 
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("scene.fxml")); 
 			Parent node = loader.load();
 			Scene scene = new Scene(node);
 			Stage stage = new Stage();
@@ -315,13 +312,14 @@ public class Controller extends Application implements Initializable{
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			showErrorDialog(e.getMessage());
 		}
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * This method is called when Scenes.fxml is load
 	 * 
@@ -356,15 +354,15 @@ public class Controller extends Application implements Initializable{
 
 			table.getColumns().add(col);
 		}
-		
+
 		setBindings();
 	}
 
 
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * This makes table size response when Data tab is resized
 	 */
@@ -374,8 +372,8 @@ public class Controller extends Application implements Initializable{
 	}
 
 
-	
-	
+
+
 
 	/**
 	 * Calls the application start method that creates the platform thread
@@ -383,5 +381,4 @@ public class Controller extends Application implements Initializable{
 	public static void show(String[] args) {
 		launch(args);
 	}
-
 }

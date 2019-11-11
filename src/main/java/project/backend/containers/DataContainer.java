@@ -27,12 +27,12 @@ public class DataContainer {
 	private SimpleBooleanProperty is_feature_envy = new SimpleBooleanProperty();
 
 	private SimpleStringProperty status = new SimpleStringProperty();
-
+	private SimpleStringProperty statusPMD = new SimpleStringProperty();
 	
 	
 	
 	public DataContainer(int methodID, String packageName, String className, String method, int lOC, int cYCLO, int aTFD,
-			double lAA, boolean is_long_method, String iPlasma,String pMD, boolean is_feature_envy, String status) {
+			double lAA, boolean is_long_method, String iPlasma,String pMD, boolean is_feature_envy, String status, String statusPMD) {
 
 		this.methodID = new SimpleIntegerProperty(methodID);
 		this.packageName = new SimpleStringProperty(packageName);
@@ -47,6 +47,7 @@ public class DataContainer {
 		this.pmd = new SimpleStringProperty(pMD);
 		this.is_feature_envy = new SimpleBooleanProperty(is_feature_envy);
 		this.status = new SimpleStringProperty(status);
+		this.statusPMD = new SimpleStringProperty(statusPMD);
 	}
 	
 	
@@ -64,7 +65,7 @@ public class DataContainer {
 	public static String[][] getAttributes(){
 		
 		String [][] matrix = {
-				{"Method ID"    , "Integer" , "methodID"   },
+				{"Method ID"    ,"Integer"  , "methodID"   },
 				
 				{"Package"      ,"String"   , "packageName"},
 				{"Class"        ,"String"   , "className"},
@@ -83,7 +84,8 @@ public class DataContainer {
 				
 				{"Envy Feature" ,"Boolean"  , "isFeatureEnvy"},
 				
-				{"Status"       ,"String"   , "status"}};
+				{"Status"       ,"String"   , "status"},
+				{"Status PMD"   ,"String"   , "statusPMD"}};
 		
 		return matrix;
 	}
@@ -231,5 +233,15 @@ public class DataContainer {
 	 */
 	public SimpleStringProperty statusProperty()  {
 		return status;
+	}
+	
+	
+	
+	
+	/**
+	 * @return the packageName property
+	 */
+	public SimpleStringProperty statusPMDProperty()  {
+		return statusPMD;
 	}
 }
