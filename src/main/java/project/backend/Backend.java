@@ -159,11 +159,25 @@ public class Backend {
 		int cYCLO = Integer.parseInt(cells[5]);
 		int aTFD = Integer.parseInt(cells[6]);
 		double lAA = Double.parseDouble(cells[7]);
-		boolean is_long_method = (cells[8].charAt(0) == 'V');
+		boolean is_long_method = is_long_method(false,lOC, cYCLO);
 		boolean iPlasma = (cells[9].charAt(0) == 'V');
 		boolean pMD = (cells[10].charAt(0) == 'V');
-		boolean is_feature_envy = (cells[11].charAt(0) == 'V');
-		DataContainer container = new DataContainer(methodID, packageName, className,method, lOC, cYCLO, aTFD, lAA, is_long_method, iPlasma, pMD, is_feature_envy, "TODO", "TODO"); 
+		boolean is_feature_envy = is_feature_envy(false, aTFD, lAA);
+		DataContainer container = new DataContainer(
+				methodID, 
+				packageName, 
+				className,
+				method, 
+				lOC, 
+				cYCLO, 
+				aTFD, 
+				lAA, 
+				is_long_method, 
+				iPlasma, 
+				pMD, 
+				is_feature_envy, 
+				"TODO", 
+				"TODO"); 
 		return container;
 	}
 
