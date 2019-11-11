@@ -79,7 +79,11 @@ public class Backend {
 	
 	
 	
-	// parse file to ... (map?)
+	/**
+	 * parse file to List of DataContainers
+	 * @param file file ot be parsed
+	 * @return  list of DataContainer s
+	 */
 	public List<DataContainer> parseFileToMap (File file) {
 
 		List<DataContainer> list = new ArrayList<DataContainer>();
@@ -112,6 +116,13 @@ public class Backend {
 	
 	
 	
+	/**
+	 * takes in a excel file and converts it into a apache.poi sheet
+	 * @param file to be converted
+	 * @return apache.poi sheet 
+	 * @throws EncryptedDocumentException the file is incripted
+	 * @throws IOException
+	 */
 	private Sheet file_to_sheet(File file) throws EncryptedDocumentException, IOException {
 		Workbook workbook;
 		workbook = WorkbookFactory.create(file);
@@ -122,7 +133,12 @@ public class Backend {
 	
 	
 	
-	
+	/**
+	 * takes in a row from a excell file previously converted into a apache.poi sheet and creates a new instace of DataContainer from it
+	 * @param row 
+	 * @return
+	 * @throws Exception this is trhown in case the excel file is in the wrong format
+ 	 */
 	private DataContainer row_to_container(Row row) throws Exception {
 		DataFormatter dataFormatter = new DataFormatter();
 		String[] cells = new String[12];
