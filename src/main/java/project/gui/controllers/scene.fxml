@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
@@ -17,6 +20,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -57,7 +61,53 @@
                 </Tab>
                 <Tab text="Statistics">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="541.6" prefWidth="767.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox prefHeight="208.0" prefWidth="767.0" spacing="20.0">
+                                       <children>
+                                          <Pane fx:id="DCIpane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #295AE5; -fx-background-radius: 50;">
+                                             <HBox.margin>
+                                                <Insets bottom="20.0" left="20.0" top="20.0" />
+                                             </HBox.margin>
+                                          </Pane>
+                                          <Region prefHeight="200.0" prefWidth="0.0" />
+                                          <Pane fx:id="DIIpane" layoutX="30.0" layoutY="30.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #DB971E; -fx-background-radius: 50;">
+                                             <HBox.margin>
+                                                <Insets bottom="20.0" top="20.0" />
+                                             </HBox.margin>
+                                          </Pane>
+                                          <Region layoutX="180.0" layoutY="10.0" prefHeight="200.0" prefWidth="0.0" />
+                                          <Pane fx:id="ADCIpane" layoutX="230.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #5AAA5A; -fx-background-radius: 50;">
+                                             <HBox.margin>
+                                                <Insets bottom="20.0" top="20.0" />
+                                             </HBox.margin>
+                                          </Pane>
+                                          <Region layoutX="673.0" layoutY="10.0" prefHeight="200.0" prefWidth="0.0" />
+                                          <Pane fx:id="ADIIpane" layoutX="430.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #DB4822; -fx-background-radius: 50;">
+                                             <HBox.margin>
+                                                <Insets bottom="20.0" right="20.0" top="20.0" />
+                                             </HBox.margin>
+                                          </Pane>
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="10.0" prefHeight="433.0" prefWidth="767.0" spacing="20.0">
+                                       <children>
+                                          <PieChart />
+                                          <StackedBarChart>
+                                            <xAxis>
+                                              <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                          </StackedBarChart>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                   </content>
                 </Tab>
               </tabs>

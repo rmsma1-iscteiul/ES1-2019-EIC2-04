@@ -37,10 +37,10 @@ import project.utils.ArrayUtil;
  * 
  * @author RuiMenoita
  */
-public class Controller extends Application implements Initializable{
+public class Controller extends Application implements Initializable {
 
 	private static final String PROGRAM_NAME = "Code Analyzer";
-	
+
 	private final static int OPEN_FILE_HISTORY_LENGHT = 3;
 	private String[] openFileHistory = new String[OPEN_FILE_HISTORY_LENGHT];
 
@@ -48,32 +48,40 @@ public class Controller extends Application implements Initializable{
 
 	private Backend manager;
 
-	@FXML private TextField locText;
-	@FXML private TextField cycloText;
-	@FXML private TextField atfdText;
-	@FXML private TextField laaText;
-	
-	@FXML private RadioButton andButton;
-	@FXML private RadioButton orButton;
+	@FXML
+	private TextField locText;
+	@FXML
+	private TextField cycloText;
+	@FXML
+	private TextField atfdText;
+	@FXML
+	private TextField laaText;
 
-	@FXML private AnchorPane dataTabPane;
-	@FXML private TableView<DataContainer> table;
-	@FXML private Menu openRecentMenu;
+	@FXML
+	private RadioButton andButton;
+	@FXML
+	private RadioButton orButton;
 
-	@FXML private Label DCI;
-	@FXML private Label DII;
-	@FXML private Label ADCI;
-	@FXML private Label ADII;
-	
-	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
+	@FXML
+	private AnchorPane dataTabPane;
+	@FXML
+	private TableView<DataContainer> table;
+	@FXML
+	private Menu openRecentMenu;
 
+	@FXML
+	private Label DCI;
+	@FXML
+	private Label DII;
+	@FXML
+	private Label ADCI;
+	@FXML
+	private Label ADII;
 
-	
-	
-	
+	private Boolean logicSelector = false; // AND = FALSE, OR = TRUE
+
 	/**
-	 * Displays a dialog chooser to user 
-	 * select the file that he want to open
+	 * Displays a dialog chooser to user select the file that he want to open
 	 */
 	@FXML
 	public void openFile(ActionEvent event) {
@@ -86,29 +94,21 @@ public class Controller extends Application implements Initializable{
 			loadList(manager.parseFileToMap(selectedFile));
 
 //			addRecentOpenFile(selectedFile.getAbsolutePath());
-			
+
 //			window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )"); 
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			showErrorDialog(e.getMessage());
 		}
 	}
 
-
-
-
-
 	/**
 	 * @param rowList List to be load on TableView table
 	 */
-	private void loadList( List<DataContainer> rowList) {
+	private void loadList(List<DataContainer> rowList) {
 		table.getItems().clear();
 		table.getItems().addAll(FXCollections.observableList(rowList));
 	}
-
-
-
-
 
 	/**
 	 * 
@@ -116,39 +116,30 @@ public class Controller extends Application implements Initializable{
 	 * 
 	 * @param absolutePath Path of recent open file
 	 */
-	//TODO
+	// TODO
 	private void addRecentOpenFile(String absolutePath) {
-		if(!ArrayUtil.contains(openFileHistory, absolutePath)) {
+		if (!ArrayUtil.contains(openFileHistory, absolutePath)) {
 			ArrayUtil.shiftRight(openFileHistory);
 			openFileHistory[0] = absolutePath;
 		}
-			
+
 		openRecentMenu.getItems().clear();
-		
+
 		for (String path : openFileHistory) {
 			String name = path.split("/")[path.split("/").length];
 			for (String anotherPath : openFileHistory) {
-				if(!path.equals(anotherPath))
-					name = getNoCommonPastDir(path,anotherPath);
-					//TODO
+				if (!path.equals(anotherPath))
+					name = getNoCommonPastDir(path, anotherPath);
+				// TODO
 			}
 		}
-		
 
 	}
-
-
-
-
 
 	private String getNoCommonPastDir(String path, String anotherPath) {
-		//TODO
+		// TODO
 		return null;
 	}
-
-
-
-
 
 	/**
 	 * 
@@ -156,50 +147,47 @@ public class Controller extends Application implements Initializable{
 	 */
 	@FXML
 	public void openRecent(ActionEvent event) {
-		//	String fileName = ((MenuItem)(event.getSource())).getText();
+		// String fileName = ((MenuItem)(event.getSource())).getText();
 
 	}
 
-
-
-
-
-
-/**
-	 *  This method will retrieve the values from the LOC, CYCLO, ATFD and LAA fields, call
-	 *  a function and give them as parameters.
-	 *  In case, any field is blank, it will throw an error and expect the user to enter the value on all fields.
+	/**
+	 * This method will retrieve the values from the LOC, CYCLO, ATFD and LAA
+	 * fields, call a function and give them as parameters. In case, any field is
+	 * blank, it will assume a predefined value.
 	 *
 	 * @param event
 	 */
 	public void getMetrics() {
-		String erro = "Please enter the metrics in the following spaces: \n";
-		if (locText.getText().isBlank() || cycloText.getText().isBlank() || atfdText.getText().isBlank()
-				|| laaText.getText().isBlank()) {
-			if(locText.getText().isBlank())
-				erro += "LOC \n";
-			if(cycloText.getText().isBlank())
-				erro += "CYCLO \n";
-			if(atfdText.getText().isBlank())
-				erro += "ATFD \n";
-			if(laaText.getText().isBlank())
-				erro += "LAA \n";
+		int loc = 50; //
+		int cyclo = 10;
+		int atfd = 10;
+		int laa = 5;
 
-			showErrorDialog(erro);
-		}else {
-			//manager.checkList();
-			//loadList();
-			getAndOr();
-			System.out.println(logicSelector);
-
+		if (!locText.getText().isBlank()) {
+			loc = Integer.parseInt(locText.getText());
+			// erro += "LOC \n";
 		}
+		if (!cycloText.getText().isBlank()) {
+			cyclo = Integer.parseInt(cycloText.getText());
+			// erro += "CYCLO \n";
+		}
+		if (!atfdText.getText().isBlank()) {
+			atfd = Integer.parseInt(atfdText.getText());
+			// erro += "ATFD \n";
+		}
+		if (!laaText.getText().isBlank()) {
+			laa = Integer.parseInt(laaText.getText());
+			// erro += "LAA \n";
+		}
+		// manager.checkList();
+		// loadList();
+		getAndOr();
+		setQualityIndicatorsTotals(loc, cyclo, atfd, laa); // just testing
+
+		// }
 
 	}
-
-
-
-
-
 
 	/**
 	 *
@@ -208,38 +196,30 @@ public class Controller extends Application implements Initializable{
 	 * @param event
 	 */
 	public void getAndOr() {
-		if(andButton.isSelected())
+		if (andButton.isSelected())
 			logicSelector = false;
-		if(orButton.isSelected()) 
+		if (orButton.isSelected())
 			logicSelector = true;
 
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * 
-	 * This method will get the total values from DCI,DII,ADCI,ADII and show them to the user
-	 * in the form of results
+	 * This method will get the total values from DCI,DII,ADCI,ADII and show them to
+	 * the user in the form of results
+	 * 
 	 * @param totalDCI
 	 * @param totalDII
 	 * @param totalADCI
 	 * @param totalADII
 	 */
-	public void setQualityIndicatorsTotals(int totalDCI, int totalDII, int totalADCI, int totalADII) {
+	public void setQualityIndicatorsTotals(int totalDCI, int totalDII, int totalADCI, int totalADII) { //Get totals
 		DCI.setText(Integer.toString(totalDCI));
 		DII.setText(Integer.toString(totalDII));
 		ADCI.setText(Integer.toString(totalADCI));
 		ADII.setText(Integer.toString(totalADII));
-		
 	}
 
-	
-	
-	
-	
 	/**
 	 * This method will be called when the Apply button is pressed
 	 * 
@@ -249,41 +229,32 @@ public class Controller extends Application implements Initializable{
 	@FXML
 	public void applyPressed(ActionEvent event) {
 		getMetrics();
-		setQualityIndicatorsTotals(10, 20, 30, 40); //This are only premade values, change to dynamic values later
+		//change to dynamic values later
 	}
-
-
-
-
 
 	/**
 	 * This method starts the engine and the platform Thread
 	 * 
-	 * The Platform Thread is here the User interface will be executed
-	 * all the GUI actions must be executed in this Thread (like swing)
+	 * The Platform Thread is here the User interface will be executed all the GUI
+	 * actions must be executed in this Thread (like swing)
 	 * 
-	 * You can use inside controllers the Method Plataform.runLater(Runnable r ); when 
-	 * you need to execute an GUI action that is not called by Platform Thread
+	 * You can use inside controllers the Method Plataform.runLater(Runnable r );
+	 * when you need to execute an GUI action that is not called by Platform Thread
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.window = stage;
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("scene.fxml")); 
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("scene.fxml"));
 		Parent node = loader.load();
 		Scene scene = new Scene(node);
-
 
 		window.setScene(scene);
 		window.setTitle(PROGRAM_NAME);
 		window.show();
 	}
 
-
-	
-
-
 	/**
-	 * Displays a error dialog with  @param error message
+	 * Displays a error dialog with @param error message
 	 */
 	private void showErrorDialog(String error) {
 		Platform.runLater(() -> {
@@ -295,17 +266,13 @@ public class Controller extends Application implements Initializable{
 		});
 	}
 
-
-
-	
-	
 	/**
-	 * Opens a new project Window 
+	 * Opens a new project Window
 	 */
 	@FXML
 	public void openNewWindow(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("dataVisualizerScene.fxml")); 
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("dataVisualizerScene.fxml"));
 			Parent node = loader.load();
 			Scene scene = new Scene(node);
 			Stage stage = new Stage();
@@ -317,39 +284,35 @@ public class Controller extends Application implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * This method is called when Scenes.fxml is load
 	 * 
-	 * This method instantiates manager and creates the Column table that will 
-	 * be added to TableView
+	 * This method instantiates manager and creates the Column table that will be
+	 * added to TableView
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void initialize(URL location, ResourceBundle resources) {
 		manager = new Backend();
+		
 
-
-		TableColumn<DataContainer,?> col = null;
+		TableColumn<DataContainer, ?> col = null;
 
 		for (String[] data : DataContainer.getAttributes()) {
 
-			if(data[1].equals("Integer")) {									//Integer Column Type
+			if (data[1].equals("Integer")) { // Integer Column Type
 				col = new TableColumn<DataContainer, Integer>(data[0]);
 				col.setCellValueFactory(new PropertyValueFactory(data[2]));
 
-			}else if(data[1].equals("Double")) {							//Double Column Type
-				col = new TableColumn<DataContainer, Double> (data[0]);
+			} else if (data[1].equals("Double")) { // Double Column Type
+				col = new TableColumn<DataContainer, Double>(data[0]);
 				col.setCellValueFactory(new PropertyValueFactory(data[2]));
 
-			}else if(data[1].equals("String")) {							//String Column Type
+			} else if (data[1].equals("String")) { // String Column Type
 				col = new TableColumn<DataContainer, String>(data[0]);
 				col.setCellValueFactory(new PropertyValueFactory(data[2]));
 
-			}else if(data[1].equals("Boolean")) {							//Boolean Column Type
+			} else if (data[1].equals("Boolean")) { // Boolean Column Type
 				col = new TableColumn<DataContainer, Boolean>(data[0]);
 				col.setCellValueFactory(new PropertyValueFactory(data[2]));
 			}
@@ -358,13 +321,12 @@ public class Controller extends Application implements Initializable{
 		}
 		
 		setBindings();
+		locText.setPromptText("50");
+		cycloText.setPromptText("10");
+		atfdText.setPromptText("10");
+		laaText.setPromptText("5");
 	}
 
-
-	
-	
-	
-	
 	/**
 	 * This makes table size response when Data tab is resized
 	 */
@@ -372,10 +334,6 @@ public class Controller extends Application implements Initializable{
 		dataTabPane.heightProperty().addListener((obs, old, newValue) -> table.setPrefHeight(newValue.doubleValue()));
 		dataTabPane.widthProperty().addListener((obs, old, newValue) -> table.setPrefWidth(newValue.doubleValue()));
 	}
-
-
-	
-	
 
 	/**
 	 * Calls the application start method that creates the platform thread
