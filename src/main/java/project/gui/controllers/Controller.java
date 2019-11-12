@@ -3,18 +3,27 @@ package project.gui.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -26,6 +35,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import project.backend.Backend;
@@ -65,7 +75,16 @@ public class Controller extends Application implements Initializable {
 	@FXML private Label DII;
 	@FXML private Label ADCI;
 	@FXML private Label ADII;
-
+	
+	@FXML private Text DCItext;
+	@FXML private Text DIItext;
+	@FXML private Text ADCItext;
+	@FXML private Text ADIItext;
+	
+	@FXML private PieChart pieChart;
+	@FXML private StackedBarChart<String, Number> barChart;
+	
+	
 	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
 
 
@@ -156,33 +175,21 @@ public class Controller extends Application implements Initializable {
 	 * @param event
 	 */
 	public void getMetrics() {
-		int loc = 50; //
-		int cyclo = 10;
-		int atfd = 10;
-		int laa = 5;
-
 		if (!locText.getText().isBlank()) {
-			loc = Integer.parseInt(locText.getText());
-			// erro += "LOC \n";
+			manager.setLOC(Double.parseDouble(locText.getText()));
 		}
 		if (!cycloText.getText().isBlank()) {
-			cyclo = Integer.parseInt(cycloText.getText());
-			// erro += "CYCLO \n";
+			manager.setCYCLO(Double.parseDouble(cycloText.getText()));
 		}
 		if (!atfdText.getText().isBlank()) {
-			atfd = Integer.parseInt(atfdText.getText());
-			// erro += "ATFD \n";
+			manager.setATFD(Double.parseDouble(atfdText.getText()));
 		}
 		if (!laaText.getText().isBlank()) {
-			laa = Integer.parseInt(laaText.getText());
-			// erro += "LAA \n";
+			manager.setLAA(Double.parseDouble(laaText.getText()));
 		}
 		// manager.checkList();
 		// loadList();
 		getAndOr();
-		setQualityIndicatorsTotals(loc, cyclo, atfd, laa); // just testing
-
-		// }
 
 	}
 
@@ -214,12 +221,73 @@ public class Controller extends Application implements Initializable {
 	 * @param totalADCI
 	 * @param totalADII
 	 */
-	public void setQualityIndicatorsTotals(int totalDCI, int totalDII, int totalADCI, int totalADII) { //Get totals
-		DCI.setText(Integer.toString(totalDCI));
-		DII.setText(Integer.toString(totalDII));
-		ADCI.setText(Integer.toString(totalADCI));
-		ADII.setText(Integer.toString(totalADII));
+	public void setQualityIndicatorsTotals() {
+//		float total = manager.getDci() + manager.getDii() + manager.getAdci() + manager.getAdii();
+		
+				
+				
+				
+		DCI.setText(Integer.toString(manager.getDci()));
+		DII.setText(Integer.toString(manager.getDii()));
+		ADCI.setText(Integer.toString(manager.getAdci()));
+		ADII.setText(Integer.toString(manager.getAdii()));
+//		DCItext.setText(Float.toString(Math.round((float) manager.getDci()/(float)total)*100) + "%");
+//		DIItext.setText(Float.toString(Math.round((float) manager.getDii()/(float)total)*100) + "%");
+//		ADCItext.setText(Float.toString(Math.round((float) manager.getAdci()/(float)total)*100) + "%");
+//		ADIItext.setText(Float.toString(Math.round((float) manager.getAdii()/(float)total)*100) + "%");
+		
+		configurePieChart();
+		configureStackedBarChart();
+		
+		
 
+	}
+	
+	
+	
+	
+	
+	private void configurePieChart() {
+		ObservableList<PieChart.Data> pieChartData = 
+				FXCollections.observableArrayList(
+						new PieChart.Data("DCI", manager.getDci()),
+						new PieChart.Data("DII", manager.getDii()),
+						new PieChart.Data("ADCI", manager.getAdci()),
+						new PieChart.Data("ADII", manager.getAdii())
+						);
+		pieChart.setData(pieChartData);
+		pieChart.setTitle("Quality Indicators");
+		pieChart.setLegendSide(Side.LEFT);
+	}
+	
+	
+	
+	
+	
+	private void configureStackedBarChart() {
+		CategoryAxis xAxis = new CategoryAxis(); //String
+		
+		xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList
+				("DCI","DII","ADCI","ADII")));
+		
+		xAxis.setLabel("Quality Indicators");
+		
+		NumberAxis yAxis = new NumberAxis(); //int
+		yAxis.setLabel("Value in units");
+		
+		barChart = new StackedBarChart<>(xAxis, yAxis);
+		
+		XYChart.Series<String, Number> data = new XYChart.Series<>();
+		data.getData().add(new XYChart.Data<>("DCI", manager.getDci()));
+		data.getData().add(new XYChart.Data<>("DII", manager.getDii()));
+		data.getData().add(new XYChart.Data<>("ADCI", manager.getAdci()));
+		data.getData().add(new XYChart.Data<>("ADII", manager.getAdii()));
+		
+		barChart.getData().add(data);
+		
+		
+		
+		
 	}
 
 
@@ -235,7 +303,8 @@ public class Controller extends Application implements Initializable {
 	@FXML
 	public void applyPressed(ActionEvent event) {
 		getMetrics();
-		//change to dynamic values later
+		manager.calculateIndicators(logicSelector);
+		setQualityIndicatorsTotals();
 	}
 
 	/**
@@ -340,10 +409,10 @@ public class Controller extends Application implements Initializable {
 		}
 
 		setBindings();
-		locText.setPromptText("50");
+		locText.setPromptText("80");
 		cycloText.setPromptText("10");
-		atfdText.setPromptText("10");
-		laaText.setPromptText("5");
+		atfdText.setPromptText("4");
+		laaText.setPromptText("0.42");
 	}
 
 
