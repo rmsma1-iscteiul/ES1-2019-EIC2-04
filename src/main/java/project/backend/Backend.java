@@ -166,8 +166,8 @@ public class Backend {
 		int aTFD = Integer.parseInt(cells[6]);
 		double lAA = Double.parseDouble(cells[7]);
 		boolean is_long_method = is_long_method(false,lOC, cYCLO);
-		boolean iPlasma = (cells[9].charAt(0) == 'V');
-		boolean pMD = (cells[10].charAt(0) == 'V');
+		boolean iPlasma = (cells[9].charAt(0) == 'T');
+		boolean pMD = (cells[10].charAt(0) == 'T');
 		boolean is_feature_envy = is_feature_envy(false, aTFD, lAA);
 		DataContainer container = new DataContainer(
 				methodID, 
