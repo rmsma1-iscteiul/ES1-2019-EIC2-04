@@ -35,6 +35,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -83,6 +84,7 @@ public class Controller extends Application implements Initializable {
 	
 	@FXML private PieChart pieChart;
 	@FXML private StackedBarChart<String, Number> barChart;
+	@FXML private HBox hboxChart;
 	
 	
 	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
@@ -188,7 +190,7 @@ public class Controller extends Application implements Initializable {
 			manager.setLAA(Double.parseDouble(laaText.getText()));
 		}
 		// manager.checkList();
-		// loadList();
+		//loadList(manager.checkList(logicSelector));
 		getAndOr();
 
 	}
@@ -222,7 +224,7 @@ public class Controller extends Application implements Initializable {
 	 * @param totalADII
 	 */
 	public void setQualityIndicatorsTotals() {
-//		float total = manager.getDci() + manager.getDii() + manager.getAdci() + manager.getAdii();
+		int total = manager.getDci() + manager.getDii() + manager.getAdci() + manager.getAdii();
 		
 				
 				
@@ -231,12 +233,13 @@ public class Controller extends Application implements Initializable {
 		DII.setText(Integer.toString(manager.getDii()));
 		ADCI.setText(Integer.toString(manager.getAdci()));
 		ADII.setText(Integer.toString(manager.getAdii()));
-//		DCItext.setText(Float.toString(Math.round((float) manager.getDci()/(float)total)*100) + "%");
-//		DIItext.setText(Float.toString(Math.round((float) manager.getDii()/(float)total)*100) + "%");
-//		ADCItext.setText(Float.toString(Math.round((float) manager.getAdci()/(float)total)*100) + "%");
-//		ADIItext.setText(Float.toString(Math.round((float) manager.getAdii()/(float)total)*100) + "%");
+		DCItext.setText(Float.toString((manager.getDci()/total)*100) + "%");
+		DIItext.setText(Float.toString(Math.round((float) manager.getDii()/(float)total)*100) + "%");
+		ADCItext.setText(Float.toString(Math.round((float) manager.getAdci()/(float)total)*100) + "%");
+		ADIItext.setText(Integer.toString((manager.getAdii()/total)*100) + "%");
 		
 		configurePieChart();
+		
 		configureStackedBarChart();
 		
 		
@@ -265,6 +268,9 @@ public class Controller extends Application implements Initializable {
 	
 	
 	private void configureStackedBarChart() {
+		
+		hboxChart.getChildren().remove(barChart);
+		
 		CategoryAxis xAxis = new CategoryAxis(); //String
 		
 		xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList
@@ -283,11 +289,13 @@ public class Controller extends Application implements Initializable {
 		data.getData().add(new XYChart.Data<>("ADCI", manager.getAdci()));
 		data.getData().add(new XYChart.Data<>("ADII", manager.getAdii()));
 		
-		barChart.getData().add(data);
+		barChart.getData().addAll(data);
 		
+		hboxChart.getChildren().add(barChart);
 		
+			
 		
-		
+			
 	}
 
 
