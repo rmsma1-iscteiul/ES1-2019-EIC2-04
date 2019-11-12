@@ -18,7 +18,7 @@ import project.backend.containers.DataContainer;
 
 
 public class Backend {
-
+	private Workbook workbook;
 	private double LOC = 80;
 	private double CYCLO = 10;
 	private double ATFD = 4;
@@ -83,6 +83,7 @@ public class Backend {
 	 * parse file to List of DataContainers
 	 * @param file file ot be parsed
 	 * @return  list of DataContainer s
+	 * @throws IOException
 	 */
 	public List<DataContainer> parseFileToMap (File file) {
 
@@ -110,7 +111,12 @@ public class Backend {
 			throw new InvalidParameterException("file is in the wrong format");
 		}
 		fileListed = list;
-		//System.out.println(fileListed.);
+		try {
+			workbook.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return list;
 	}
 	
@@ -125,7 +131,6 @@ public class Backend {
 	 * @throws IOException
 	 */
 	private Sheet file_to_sheet(File file) throws EncryptedDocumentException, IOException {
-		Workbook workbook;
 		workbook = WorkbookFactory.create(file);
 		Sheet sheet = workbook.getSheetAt(0);
 		return sheet;
@@ -160,11 +165,25 @@ public class Backend {
 		int cYCLO = Integer.parseInt(cells[5]);
 		int aTFD = Integer.parseInt(cells[6]);
 		double lAA = Double.parseDouble(cells[7]);
-		boolean is_long_method = (cells[8].charAt(0) == 'T');
-		boolean iPlasma = (cells[9].charAt(0) == 'T');
-		boolean pMD = (cells[10].charAt(0) == 'T');
-		boolean is_feature_envy = (cells[11].charAt(0) == 'T');
-		DataContainer container = new DataContainer(methodID, packageName, className,method, lOC, cYCLO, aTFD, lAA, is_long_method, iPlasma, pMD, is_feature_envy, "TODO", "TODO"); 
+		boolean is_long_method = is_long_method(false,lOC, cYCLO);
+		boolean iPlasma = (cells[9].charAt(0) == 'V');
+		boolean pMD = (cells[10].charAt(0) == 'V');
+		boolean is_feature_envy = is_feature_envy(false, aTFD, lAA);
+		DataContainer container = new DataContainer(
+				methodID, 
+				packageName, 
+				className,
+				method, 
+				lOC, 
+				cYCLO, 
+				aTFD, 
+				lAA, 
+				is_long_method, 
+				iPlasma, 
+				pMD, 
+				is_feature_envy, 
+				"TODO", 
+				"TODO"); 
 		return container;
 	}
 
@@ -287,3 +306,4 @@ public class Backend {
 	
 
 }
+
