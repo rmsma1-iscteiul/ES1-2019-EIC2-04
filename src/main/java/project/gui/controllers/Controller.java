@@ -60,38 +60,53 @@ public class Controller extends Application implements Initializable {
 
 	private Backend manager;
 
-	@FXML private TextField locText;
-	@FXML private TextField cycloText;
-	@FXML private TextField atfdText;
-	@FXML private TextField laaText;
+	@FXML
+	private TextField locText;
+	@FXML
+	private TextField cycloText;
+	@FXML
+	private TextField atfdText;
+	@FXML
+	private TextField laaText;
 
-	@FXML private RadioButton andButton;
-	@FXML private RadioButton orButton;
+	@FXML
+	private RadioButton andButton;
+	@FXML
+	private RadioButton orButton;
 
-	@FXML private AnchorPane dataTabPane;
-	@FXML private TableView<DataContainer> table;
-	@FXML private Menu openRecentMenu;
+	@FXML
+	private AnchorPane dataTabPane;
+	@FXML
+	private TableView<DataContainer> table;
+	@FXML
+	private Menu openRecentMenu;
 
-	@FXML private Label DCI;
-	@FXML private Label DII;
-	@FXML private Label ADCI;
-	@FXML private Label ADII;
-	
-	@FXML private Text DCItext;
-	@FXML private Text DIItext;
-	@FXML private Text ADCItext;
-	@FXML private Text ADIItext;
-	
-	@FXML private PieChart pieChart;
-	@FXML private StackedBarChart<String, Number> barChart;
-	@FXML private HBox hboxChart;
-	
-	
-	private Boolean logicSelector = false; //AND = FALSE, OR = TRUE
+	@FXML
+	private Label DCI;
+	@FXML
+	private Label DII;
+	@FXML
+	private Label ADCI;
+	@FXML
+	private Label ADII;
 
+	@FXML
+	private Text DCItext;
+	@FXML
+	private Text DIItext;
+	@FXML
+	private Text ADCItext;
+	@FXML
+	private Text ADIItext;
 
+	@FXML
+	private PieChart pieChart;
+	@FXML
+	private StackedBarChart<String, Number> barChart;
+	@FXML
+	private HBox hboxChart;
 
-
+	private Boolean logicSelector = false; // AND = FALSE, OR = TRUE
 
 	/**
 	 * Displays a dialog chooser to user select the file that he want to open
@@ -108,8 +123,8 @@ public class Controller extends Application implements Initializable {
 
 			addRecentOpenFile(selectedFile.getAbsolutePath());
 
-			//window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )");
-		}catch(Exception e) {
+			// window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )");
+		} catch (Exception e) {
 			e.printStackTrace();
 			showErrorDialog(e.getMessage());
 		}
@@ -129,35 +144,28 @@ public class Controller extends Application implements Initializable {
 	 *
 	 * @param absolutePath Path of recent open file
 	 */
-	//TODO
+	// TODO
 	public void addRecentOpenFile(String absolutePath) {
-		if(!ArrayUtil.contains(openFileHistory, absolutePath)) {
+		if (!ArrayUtil.contains(openFileHistory, absolutePath)) {
 			ArrayUtil.shiftRight(openFileHistory);
 			openFileHistory[0] = absolutePath;
-		}else {
-			int index = ArrayUtil.getIndex(openFileHistory,absolutePath);
+		} else {
+			int index = ArrayUtil.getIndex(openFileHistory, absolutePath);
 			String buffer = openFileHistory[index];
 			openFileHistory[index] = null;
 			ArrayUtil.shiftRight(openFileHistory);
-			openFileHistory[0]= buffer;
+			openFileHistory[0] = buffer;
 		}
 
 		openRecentMenu.getItems().clear();
 
 		for (String path : openFileHistory) {
-			if(path != null) {
-				MenuItem item = new MenuItem(path.split("\\\\")[path.split("\\\\").length -1]);
+			if (path != null) {
+				MenuItem item = new MenuItem(path.split("\\\\")[path.split("\\\\").length - 1]);
 				openRecentMenu.getItems().add(item);
 			}
 		}
 	}
-
-
-
-
-
-
-
 
 	/**
 	 *
@@ -177,20 +185,26 @@ public class Controller extends Application implements Initializable {
 	 * @param event
 	 */
 	public void getMetrics() {
-		if (!locText.getText().isBlank()) {
-			manager.setLOC(Double.parseDouble(locText.getText()));
+		if (locText.getText().matches("[0-9]*") || cycloText.getText().matches("[0-9]*") ||
+				atfdText.getText().matches("[0-9]*") || laaText.getText().matches("[0-9]*")) {
+			if (!locText.getText().isBlank()) {
+				manager.setLOC(Double.parseDouble(locText.getText()));
+			}
+			if (!cycloText.getText().isBlank()) {
+				manager.setCYCLO(Double.parseDouble(cycloText.getText()));
+			}
+			if (!atfdText.getText().isBlank()) {
+				manager.setATFD(Double.parseDouble(atfdText.getText()));
+			}
+			if (!laaText.getText().isBlank()) {
+				manager.setLAA(Double.parseDouble(laaText.getText()));
+			}
+		}else {
+			showErrorDialog("Only numbers allowed");
 		}
-		if (!cycloText.getText().isBlank()) {
-			manager.setCYCLO(Double.parseDouble(cycloText.getText()));
-		}
-		if (!atfdText.getText().isBlank()) {
-			manager.setATFD(Double.parseDouble(atfdText.getText()));
-		}
-		if (!laaText.getText().isBlank()) {
-			manager.setLAA(Double.parseDouble(laaText.getText()));
-		}
+
 		// manager.checkList();
-		//loadList(manager.checkList(logicSelector));
+		// loadList(manager.checkList(logicSelector));
 		getAndOr();
 
 	}
@@ -209,10 +223,6 @@ public class Controller extends Application implements Initializable {
 
 	}
 
-
-
-
-
 	/**
 	 *
 	 * This method will get the total values from DCI,DII,ADCI,ADII and show them to
@@ -224,83 +234,68 @@ public class Controller extends Application implements Initializable {
 	 * @param totalADII
 	 */
 	public void setQualityIndicatorsTotals() {
-		int total = manager.getDci() + manager.getDii() + manager.getAdci() + manager.getAdii();
-		
-				
-				
-				
+		float total = manager.getDci() + manager.getDii() + manager.getAdci() + manager.getAdii();
+		double dciP = 0;
+		double diiP = 0;
+		double adciP = 0;
+		double adiiP = 0;
+
 		DCI.setText(Integer.toString(manager.getDci()));
 		DII.setText(Integer.toString(manager.getDii()));
 		ADCI.setText(Integer.toString(manager.getAdci()));
 		ADII.setText(Integer.toString(manager.getAdii()));
-		DCItext.setText(Float.toString((manager.getDci()/total)*100) + "%");
-		DIItext.setText(Float.toString(Math.round((float) manager.getDii()/(float)total)*100) + "%");
-		ADCItext.setText(Float.toString(Math.round((float) manager.getAdci()/(float)total)*100) + "%");
-		ADIItext.setText(Integer.toString((manager.getAdii()/total)*100) + "%");
 		
+		dciP =(int) Math.round((((float)manager.getDci() / total)) * 100.0);
+		diiP =(int) Math.round((((float)manager.getDii() / total)) * 100.0);
+		adciP =(int) Math.round((((float)manager.getAdci() / total)) * 100.0);
+		adiiP =(int) Math.round((((float)manager.getAdii() / total)) * 100.0);
+		
+		DCItext.setText(Double.toString(dciP) + "%");
+		DIItext.setText(Double.toString(diiP) + "%");
+		ADCItext.setText(Double.toString(adciP) + "%");
+		ADIItext.setText(Double.toString(adiiP) + "%");
+
 		configurePieChart();
-		
+
 		configureStackedBarChart();
-		
-		
 
 	}
-	
-	
-	
-	
-	
+
 	private void configurePieChart() {
-		ObservableList<PieChart.Data> pieChartData = 
-				FXCollections.observableArrayList(
-						new PieChart.Data("DCI", manager.getDci()),
-						new PieChart.Data("DII", manager.getDii()),
-						new PieChart.Data("ADCI", manager.getAdci()),
-						new PieChart.Data("ADII", manager.getAdii())
-						);
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+				new PieChart.Data("DCI", manager.getDci()), new PieChart.Data("DII", manager.getDii()),
+				new PieChart.Data("ADCI", manager.getAdci()), new PieChart.Data("ADII", manager.getAdii()));
 		pieChart.setData(pieChartData);
 		pieChart.setTitle("Quality Indicators");
 		pieChart.setLegendSide(Side.LEFT);
 	}
-	
-	
-	
-	
-	
+
 	private void configureStackedBarChart() {
-		
+
 		hboxChart.getChildren().remove(barChart);
-		
-		CategoryAxis xAxis = new CategoryAxis(); //String
-		
-		xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList
-				("DCI","DII","ADCI","ADII")));
-		
+
+		CategoryAxis xAxis = new CategoryAxis(); // String
+
+		xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList("DCI", "DII", "ADCI", "ADII")));
+
 		xAxis.setLabel("Quality Indicators");
-		
-		NumberAxis yAxis = new NumberAxis(); //int
+
+		NumberAxis yAxis = new NumberAxis(); // int
 		yAxis.setLabel("Value in units");
-		
+
 		barChart = new StackedBarChart<>(xAxis, yAxis);
-		
+
 		XYChart.Series<String, Number> data = new XYChart.Series<>();
 		data.getData().add(new XYChart.Data<>("DCI", manager.getDci()));
 		data.getData().add(new XYChart.Data<>("DII", manager.getDii()));
 		data.getData().add(new XYChart.Data<>("ADCI", manager.getAdci()));
 		data.getData().add(new XYChart.Data<>("ADII", manager.getAdii()));
-		
+
 		barChart.getData().addAll(data);
-		
+
 		hboxChart.getChildren().add(barChart);
-		
-			
-		
-			
+
 	}
-
-
-
-
 
 	/**
 	 * This method will be called when the Apply button is pressed
@@ -336,10 +331,6 @@ public class Controller extends Application implements Initializable {
 		window.show();
 	}
 
-
-
-
-
 	/**
 	 * Displays a error dialog with @param error message
 	 */
@@ -352,10 +343,6 @@ public class Controller extends Application implements Initializable {
 			dialog.show();
 		});
 	}
-
-
-
-
 
 	/**
 	 * Opens a new project Window
@@ -377,10 +364,6 @@ public class Controller extends Application implements Initializable {
 		}
 	}
 
-
-
-
-
 	/**
 	 * This method is called when Scenes.fxml is load
 	 *
@@ -390,7 +373,6 @@ public class Controller extends Application implements Initializable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void initialize(URL location, ResourceBundle resources) {
 		manager = new Backend();
-
 
 		TableColumn<DataContainer, ?> col = null;
 
@@ -423,11 +405,6 @@ public class Controller extends Application implements Initializable {
 		laaText.setPromptText("0.42");
 	}
 
-
-
-
-
-
 	/**
 	 * This makes table size response when Data tab is resized
 	 */
@@ -435,10 +412,6 @@ public class Controller extends Application implements Initializable {
 		dataTabPane.heightProperty().addListener((obs, old, newValue) -> table.setPrefHeight(newValue.doubleValue()));
 		dataTabPane.widthProperty().addListener((obs, old, newValue) -> table.setPrefWidth(newValue.doubleValue()));
 	}
-
-
-
-
 
 	/**
 	 * Calls the application start method that creates the platform thread
