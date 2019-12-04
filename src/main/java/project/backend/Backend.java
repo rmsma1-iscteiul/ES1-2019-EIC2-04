@@ -19,51 +19,76 @@ import project.backend.containers.DataContainer;
 
 public class Backend {
 	private Workbook workbook;
-	private double LOC = 80;
-	private double CYCLO = 10;
-	private double ATFD = 4;
-	private double LAA = 0.42;
+	private double loc = 80;
+	private double cyclo = 10;
+	private double atfd = 4;
+	private double laa = 0.42;
 	
-	private int dci=0;
-	private int dii=0;
-	private int adci=0;
-	private int adii=0;
+	//pmd
+	private int pdci=0;
+	private int pdii=0;
+	private int padci=0;
+	private int padii=0;
+	
+	//iplasma
+	private int ipdci=0;
+	private int ipdii=0;
+	private int ipadci=0;
+	private int ipadii=0;
 	
 	private List<DataContainer> fileListed;
 
 
 
 	public void setLOC(double lOC) {
-		LOC = lOC;
+		loc = lOC;
 	}
 
 	public void setCYCLO(double cYCLO) {
-		CYCLO = cYCLO;
+		cyclo = cYCLO;
 	}
 
 	public void setATFD(double aTFD) {
-		ATFD = aTFD;
+		atfd = aTFD;
 	}
 
 	public void setLAA(double lAA) {
-		LAA = lAA;
+		laa = lAA;
 	}
 	
 	
-	public int getDci() {
-		return dci;
+	
+	
+	public int getPdci() {
+		return pdci;
 	}
 
-	public int getDii() {
-		return dii;
+	public int getPdii() {
+		return pdii;
 	}
 
-	public int getAdci() {
-		return adci;
+	public int getPadci() {
+		return padci;
 	}
 
-	public int getAdii() {
-		return adii;
+	public int getPadii() {
+		return padii;
+	}
+
+	public int getIpdci() {
+		return ipdci;
+	}
+
+	public int getIpdii() {
+		return ipdii;
+	}
+
+	public int getIpadci() {
+		return ipadci;
+	}
+
+	public int getIpadii() {
+		return ipadii;
 	}
 
 	
@@ -117,6 +142,7 @@ public class Backend {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		calculateIndicators(false);
 		return list;
 	}
 	
@@ -165,10 +191,10 @@ public class Backend {
 		int cYCLO = Integer.parseInt(cells[5]);
 		int aTFD = Integer.parseInt(cells[6]);
 		double lAA = Double.parseDouble(cells[7]);
-		boolean is_long_method = is_long_method(false,lOC, cYCLO);
+		boolean is_long_method = (cells[8].charAt(0) == 'T');
 		boolean iPlasma = (cells[9].charAt(0) == 'T');
 		boolean pMD = (cells[10].charAt(0) == 'T');
-		boolean is_feature_envy = is_feature_envy(false, aTFD, lAA);
+		boolean is_feature_envy = (cells[11].charAt(0) == 'T');
 		DataContainer container = new DataContainer(
 				methodID, 
 				packageName, 
@@ -182,8 +208,8 @@ public class Backend {
 				iPlasma, 
 				pMD, 
 				is_feature_envy, 
-				"TODO", 
-				"TODO"); 
+				"-", 
+				"-"); 
 		return container;
 	}
 
@@ -217,8 +243,8 @@ public class Backend {
 	 * @return true or false, depending on inputs
 	 */
 	public boolean is_long_method (boolean bool, double locf, double cyclof) {
-		if (!bool) return locf > LOC && cyclof > CYCLO;
-		else return locf > LOC || cyclof > CYCLO;
+		if (!bool) return locf > loc && cyclof > cyclo;
+		else return locf > loc || cyclof > cyclo;
 	}
 
 	
@@ -232,8 +258,8 @@ public class Backend {
 	 * @return true or false, depending on inputs
 	 */
 	public boolean is_feature_envy (boolean bool, double atfdf, double laaf) {
-		if (!bool) return atfdf > ATFD && laaf < LAA;
-		else return atfdf > ATFD || laaf < LAA;
+		if (!bool) return atfdf > atfd && laaf < laa;
+		else return atfdf > atfd || laaf < laa;
 	}
 	
 
@@ -250,58 +276,64 @@ public class Backend {
 	 */
 	public void calculateIndicators (boolean bool) {
 		assert (fileListed != null);
-		dci=0;
-		dii=0;
-		adci=0;
-		adii=0;
 		
 		for (DataContainer dc: fileListed) {
-			dc.setIs_long_method( is_long_method(bool, dc.getLoc(), dc.getCyclo()) );
-			dc.setIs_feature_envy( is_feature_envy(bool, dc.getAtfd(), dc.getLaa()) );
 			
 			//PMD
 			if(dc.getPmd() && dc.getIs_long_method()) {
 				dc.setStatusPMD("DCI");
-				dci++;
+				pdci++;
 			}
 		
 			else if(dc.getPmd() && !dc.getIs_long_method()) {
 				dc.setStatusPMD("DII");
-				dii++;
+				pdii++;
 			}
 			
 			else if(!dc.getPmd() && !dc.getIs_long_method()) {
 				dc.setStatusPMD("ADCI");
-				adci++;
+				padci++;
 			}
 		
 			else if(!dc.getPmd() && dc.getIs_long_method()) {
 				dc.setStatusPMD("ADII");
-				adii++;
+				padii++;
 			}
 			
 			//iPLASMA
 			if(dc.getiPlasma() && dc.getIs_long_method()) {
 				dc.setStatusIPLASMA("DCI");
-				dci++;
+				ipdci++;
 			}
 		
 			else if(dc.getiPlasma() && !dc.getIs_long_method()) {
 				dc.setStatusIPLASMA("DII");
-				dii++;
+				ipdii++;
 			}
 			
 			else if(!dc.getiPlasma() && !dc.getIs_long_method()) {
 				dc.setStatusIPLASMA("ADCI");
-				adci++;
+				ipadci++;
 			}
 		
 			else if(!dc.getiPlasma() && dc.getIs_long_method()) {
 				dc.setStatusIPLASMA("ADII");
-				adii++;
+				ipadii++;
 			}
 
 		}
+		//debugging
+		int a = pdci+pdii+padci+padii;
+		int b = ipdci+ipdii+ipadci+ipadii;
+		
+		System.out.println("PMD");
+		System.out.println(pdci+" / "+pdii+" / "+padci+" / "+padii);
+		System.out.println(a);
+		
+		System.out.println("iPlasma");
+		System.out.println(ipdci+" / "+ipdii+" / "+ipadci+" / "+ipadii);
+		System.out.println(b);
+		//
 	}
 	
 

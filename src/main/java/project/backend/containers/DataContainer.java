@@ -26,8 +26,8 @@ public class DataContainer {
 	
 	private SimpleBooleanProperty is_feature_envy = new SimpleBooleanProperty();
 
-	private SimpleStringProperty statusPMD = new SimpleStringProperty();
-	private SimpleStringProperty statusIPLASMA = new SimpleStringProperty();
+	private SimpleStringProperty quality_PMD = new SimpleStringProperty();
+	private SimpleStringProperty quality_IPLASMA = new SimpleStringProperty();
 
 	
 	
@@ -47,8 +47,8 @@ public class DataContainer {
 		this.iPlasma = new SimpleBooleanProperty(iPlasma);
 		this.pmd = new SimpleBooleanProperty(pMD);
 		this.is_feature_envy = new SimpleBooleanProperty(is_feature_envy);
-		this.statusPMD = new SimpleStringProperty(statuspmd);
-		this.statusIPLASMA = new SimpleStringProperty(statusiplasma);
+		this.quality_PMD = new SimpleStringProperty(statuspmd);
+		this.quality_IPLASMA = new SimpleStringProperty(statusiplasma);
 	}
 	
 	
@@ -233,7 +233,7 @@ public class DataContainer {
 	 * @return the packageName property
 	 */
 	public SimpleStringProperty statusPMDProperty()  {
-		return statusPMD;
+		return quality_PMD;
 	}
 	
 	
@@ -244,7 +244,7 @@ public class DataContainer {
 	 * @return the packageName property
 	 */
 	public SimpleStringProperty statusIPLASMAProperty()  {
-		return statusIPLASMA;
+		return quality_IPLASMA;
 	}
 
 	
@@ -313,12 +313,12 @@ public class DataContainer {
 
 
 	public String getStatusPMD() {
-		return statusPMD.get();
+		return quality_PMD.get();
 	}
 	
 	
 	public String getStatusIPLASMA() {
-		return statusIPLASMA.get();
+		return quality_IPLASMA.get();
 	}
 	
 	//setters -------------
@@ -332,11 +332,11 @@ public class DataContainer {
 	}
 	
 	public void setStatusPMD(String str) {
-		statusPMD.set(str);
+		quality_PMD.set(str);
 	}
 	
 	public void setStatusIPLASMA(String str) {
-		statusIPLASMA.set(str);
+		quality_IPLASMA.set(str);
 	}
 	
 }
