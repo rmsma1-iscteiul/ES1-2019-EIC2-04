@@ -3,12 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -43,7 +46,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.7715430861723447" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane dividerPositions="0.7444889779559118" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
             <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
@@ -151,7 +154,7 @@
             </TabPane>
             <SplitPane dividerPositions="0.5" maxWidth="300.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
               <items>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                  <VBox minWidth="220.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -160,18 +163,58 @@
                               <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <Text layoutX="30.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOC" textAlignment="CENTER" />
-                        <TextField fx:id="locText" maxWidth="300.0">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </TextField>
-                        <Text layoutX="70.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CYCLO" textAlignment="CENTER" />
-                        <TextField fx:id="cycloText" maxWidth="300.0" />
-                        <Text layoutX="30.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ATFD" textAlignment="CENTER" />
-                        <TextField fx:id="atfdText" layoutX="30.0" layoutY="66.0" maxWidth="300.0" />
-                        <Text layoutX="30.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LAA" textAlignment="CENTER" />
-                        <TextField fx:id="laaText" layoutX="30.0" layoutY="102.0" maxWidth="300.0" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
+                           <children>
+                              <Label minWidth="40.0" text="LOC" />
+                              <TextField fx:id="locText" maxWidth="300.0" minWidth="20.0" prefHeight="25.0" prefWidth="136.0" />
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <SplitMenuButton minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                                        <MenuItem mnemonicParsing="false" text="Action 2" />
+                                      </items>
+                                    </SplitMenuButton>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
+                           <children>
+                              <Label minWidth="40.0" text="CYCLO" />
+                              <TextField fx:id="cycloText" maxWidth="300.0" minWidth="20.0" />
+                              <SplitMenuButton minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Bigger than" />
+                                    <MenuItem mnemonicParsing="false" text="Less than" />
+                                 </items>
+                              </SplitMenuButton>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
+                           <children>
+                              <Label minWidth="40.0" text="ATFD" />
+                              <TextField fx:id="atfdText" maxWidth="300.0" minWidth="20.0" />
+                              <SplitMenuButton minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Bigger than" />
+                                    <MenuItem mnemonicParsing="false" text="Less than" />
+                                 </items>
+                              </SplitMenuButton>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
+                           <children>
+                              <Label minWidth="40.0" text="LAA" />
+                              <TextField fx:id="laaText" maxWidth="300.0" minWidth="20.0" />
+                              <SplitMenuButton minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Bigger than" />
+                                    <MenuItem mnemonicParsing="false" text="Less than" />
+                                 </items>
+                              </SplitMenuButton>
+                           </children>
+                        </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <RadioButton fx:id="andButton" minWidth="50.0" mnemonicParsing="false" selected="true" text="AND">
@@ -185,69 +228,56 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Region prefHeight="200.0" prefWidth="200.0" />
-                              <Button minWidth="50.0" mnemonicParsing="false" onAction="#applyPressed" text="Apply" textAlignment="JUSTIFY" textOverrun="CLIP">
-                                 <font>
-                                    <Font name="Arial Italic" size="12.0" />
-                                 </font>
-                              </Button>
-                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                                <buttons>
+                                  <Button mnemonicParsing="false" text="Save" />
+                                    <Button minWidth="50.0" mnemonicParsing="false" onAction="#applyPressed" text="Apply" textAlignment="JUSTIFY" textOverrun="CLIP">
+                                       <font>
+                                          <Font name="Arial Italic" size="12.0" />
+                                       </font>
+                                    </Button>
+                                </buttons>
+                              </ButtonBar>
                            </children>
                         </HBox>
                      </children>
                      <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <HBox prefHeight="50.0" prefWidth="200.0">
+                        <HBox prefHeight="25.0" prefWidth="252.0">
                            <children>
-                              <Region prefHeight="200.0" prefWidth="200.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Results">
-                                 <HBox.margin>
-                                    <Insets top="10.0" />
-                                 </HBox.margin>
-                              </Text>
                               <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Rules" />
                               <Region prefHeight="200.0" prefWidth="200.0" />
                            </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
                         </HBox>
-                        <HBox layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="200.0">
+                        <ListView prefHeight="319.0" prefWidth="280.0" />
+                        <HBox maxWidth="20.0" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Region prefHeight="200.0" prefWidth="200.0" />
-                                          <Label prefWidth="200.0" text="DCI:" />
-                                          <Label fx:id="DCI" layoutX="60.0" layoutY="10.0" prefWidth="200.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Region prefHeight="200.0" prefWidth="200.0" />
-                                          <Label prefWidth="200.0" text="DII:" />
-                                          <Label fx:id="DII" layoutX="60.0" layoutY="10.0" prefWidth="200.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox layoutX="10.0" layoutY="80.0" prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Region prefHeight="200.0" prefWidth="200.0" />
-                                          <Label prefWidth="200.0" text="ADCI:" />
-                                          <Label fx:id="ADCI" layoutX="60.0" layoutY="10.0" prefWidth="200.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox layoutX="10.0" layoutY="80.0" prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Region prefHeight="200.0" prefWidth="200.0" />
-                                          <Label prefWidth="200.0" text="ADII:" />
-                                          <Label fx:id="ADII" layoutX="60.0" layoutY="10.0" prefWidth="200.0" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
+                              <Label minWidth="35.0" prefWidth="200.0" text="DCI:" />
+                              <Label fx:id="DCI" minWidth="35.0" prefWidth="200.0" />
+                              <Label minWidth="35.0" prefWidth="200.0" text="DII:" />
+                              <Label fx:id="DII" minWidth="35.0" prefWidth="200.0" />
+                              <Label minWidth="35.0" prefWidth="200.0" text="ADCI:" />
+                              <Label fx:id="ADCI" minWidth="35.0" prefWidth="200.0" />
+                              <Label minWidth="35.0" prefWidth="200.0" text="ADII:" />
+                              <Label fx:id="ADII" minWidth="35.0" prefWidth="200.0" />
                            </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
                         </HBox>
                      </children>
                   </VBox>

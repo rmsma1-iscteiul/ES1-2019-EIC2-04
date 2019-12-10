@@ -185,11 +185,8 @@ public class Controller extends Application implements Initializable {
 	 * @param event
 	 */
 	public void getMetrics() {
-		if (( locText.getText().isBlank() || locText.getText().matches("[0-9]*")) && 
-				( cycloText.getText().isBlank() || cycloText.getText().matches("[0-9]*")) &&
-				( atfdText.getText().isBlank() ||atfdText.getText().matches("[0-9]*")) && 
-				( laaText.getText().isBlank() || laaText.getText().matches("[0-9]*|") )) { //Meter para confirmar se é double
-			
+		if (locText.getText().matches("[0-9]*") || cycloText.getText().matches("[0-9]*") ||
+				atfdText.getText().matches("[0-9]*") || laaText.getText().matches("[0-9]*")) {
 			if (!locText.getText().isBlank()) {
 				manager.setLOC(Double.parseDouble(locText.getText()));
 			}
@@ -237,22 +234,26 @@ public class Controller extends Application implements Initializable {
 	 * @param totalADII
 	 */
 	public void setQualityIndicatorsTotals() {
-		double total = manager.getDci() + manager.getDii() + manager.getAdci() + manager.getAdii();
+		float total = manager.getPdci() + manager.getPdii() + manager.getPadci() + manager.getPadii();
+		double dciP = 0;
+		double diiP = 0;
+		double adciP = 0;
+		double adiiP = 0;
 
-		DCI.setText(Integer.toString(manager.getDci()));
-		DII.setText(Integer.toString(manager.getDii()));
-		ADCI.setText(Integer.toString(manager.getAdci()));
-		ADII.setText(Integer.toString(manager.getAdii()));
+		DCI.setText(Integer.toString(manager.getPdci()));
+		DII.setText(Integer.toString(manager.getPdii()));
+		ADCI.setText(Integer.toString(manager.getPadci()));
+		ADII.setText(Integer.toString(manager.getPadii()));
 		
-		double dciP = (((double)manager.getDci() / total)) * 100.0;
-		double diiP = (((double)manager.getDii() / total)) * 100.0;
-		double adciP = (((double)manager.getAdci() / total)) * 100.0;
-		double adiiP = (((double)manager.getAdii() / total)) * 100.0;
+		dciP =(int) Math.round((((float)manager.getPdci() / total)) * 100.0);
+		diiP =(int) Math.round((((float)manager.getPdii() / total)) * 100.0);
+		adciP =(int) Math.round((((float)manager.getPadci() / total)) * 100.0);
+		adiiP =(int) Math.round((((float)manager.getPadii() / total)) * 100.0);
 		
-		DCItext.setText((dciP+"").substring(0,(dciP+"").indexOf('.')+2) + "%");
-		DIItext.setText((diiP+"").substring(0,(diiP+"").indexOf('.')+2) + "%");
-		ADCItext.setText((adciP+"").substring(0,(adciP+"").indexOf('.')+2) + "%");
-		ADIItext.setText((adiiP+"").substring(0,(adiiP+"").indexOf('.')+2) + "%");
+		DCItext.setText(Double.toString(dciP) + "%");
+		DIItext.setText(Double.toString(diiP) + "%");
+		ADCItext.setText(Double.toString(adciP) + "%");
+		ADIItext.setText(Double.toString(adiiP) + "%");
 
 		configurePieChart();
 
@@ -262,14 +263,13 @@ public class Controller extends Application implements Initializable {
 
 	private void configurePieChart() {
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-				new PieChart.Data("DCI", manager.getDci()), new PieChart.Data("DII", manager.getDii()),
-				new PieChart.Data("ADCI", manager.getAdci()), new PieChart.Data("ADII", manager.getAdii()));
+				new PieChart.Data("DCI", manager.getPdci()), new PieChart.Data("DII", manager.getPdii()),
+				new PieChart.Data("ADCI", manager.getPadci()), new PieChart.Data("ADII", manager.getPadii()));
 		pieChart.setData(pieChartData);
 		pieChart.setTitle("Quality Indicators");
 		pieChart.setLegendSide(Side.LEFT);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void configureStackedBarChart() {
 
 		hboxChart.getChildren().remove(barChart);
@@ -286,10 +286,10 @@ public class Controller extends Application implements Initializable {
 		barChart = new StackedBarChart<>(xAxis, yAxis);
 
 		XYChart.Series<String, Number> data = new XYChart.Series<>();
-		data.getData().add(new XYChart.Data<>("DCI", manager.getDci()));
-		data.getData().add(new XYChart.Data<>("DII", manager.getDii()));
-		data.getData().add(new XYChart.Data<>("ADCI", manager.getAdci()));
-		data.getData().add(new XYChart.Data<>("ADII", manager.getAdii()));
+		data.getData().add(new XYChart.Data<>("DCI", manager.getPdci()));
+		data.getData().add(new XYChart.Data<>("DII", manager.getPdii()));
+		data.getData().add(new XYChart.Data<>("ADCI", manager.getPadci()));
+		data.getData().add(new XYChart.Data<>("ADII", manager.getPadii()));
 
 		barChart.getData().addAll(data);
 
@@ -306,7 +306,7 @@ public class Controller extends Application implements Initializable {
 	@FXML
 	public void applyPressed(ActionEvent event) {
 		getMetrics();
-		manager.calculateIndicators(logicSelector);
+		manager.calculateIndicators();
 		setQualityIndicatorsTotals();
 	}
 
