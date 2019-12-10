@@ -185,8 +185,11 @@ public class Controller extends Application implements Initializable {
 	 * @param event
 	 */
 	public void getMetrics() {
-		if (locText.getText().matches("[0-9]*") || cycloText.getText().matches("[0-9]*") ||
-				atfdText.getText().matches("[0-9]*") || laaText.getText().matches("[0-9]*")) {
+		if (( locText.getText().isBlank() || locText.getText().matches("[0-9]*")) && 
+				( cycloText.getText().isBlank() || cycloText.getText().matches("[0-9]*")) &&
+				( atfdText.getText().isBlank() ||atfdText.getText().matches("[0-9]*")) && 
+				( laaText.getText().isBlank() || laaText.getText().matches("[0-9]*|") )) { //Meter para confirmar se é double
+			
 			if (!locText.getText().isBlank()) {
 				manager.setLOC(Double.parseDouble(locText.getText()));
 			}
@@ -234,26 +237,22 @@ public class Controller extends Application implements Initializable {
 	 * @param totalADII
 	 */
 	public void setQualityIndicatorsTotals() {
-		float total = manager.getDci() + manager.getDii() + manager.getAdci() + manager.getAdii();
-		double dciP = 0;
-		double diiP = 0;
-		double adciP = 0;
-		double adiiP = 0;
+		double total = manager.getDci() + manager.getDii() + manager.getAdci() + manager.getAdii();
 
 		DCI.setText(Integer.toString(manager.getDci()));
 		DII.setText(Integer.toString(manager.getDii()));
 		ADCI.setText(Integer.toString(manager.getAdci()));
 		ADII.setText(Integer.toString(manager.getAdii()));
 		
-		dciP =(int) Math.round((((float)manager.getDci() / total)) * 100.0);
-		diiP =(int) Math.round((((float)manager.getDii() / total)) * 100.0);
-		adciP =(int) Math.round((((float)manager.getAdci() / total)) * 100.0);
-		adiiP =(int) Math.round((((float)manager.getAdii() / total)) * 100.0);
+		double dciP = (((double)manager.getDci() / total)) * 100.0;
+		double diiP = (((double)manager.getDii() / total)) * 100.0;
+		double adciP = (((double)manager.getAdci() / total)) * 100.0;
+		double adiiP = (((double)manager.getAdii() / total)) * 100.0;
 		
-		DCItext.setText(Double.toString(dciP) + "%");
-		DIItext.setText(Double.toString(diiP) + "%");
-		ADCItext.setText(Double.toString(adciP) + "%");
-		ADIItext.setText(Double.toString(adiiP) + "%");
+		DCItext.setText((dciP+"").substring(0,(dciP+"").indexOf('.')+2) + "%");
+		DIItext.setText((diiP+"").substring(0,(diiP+"").indexOf('.')+2) + "%");
+		ADCItext.setText((adciP+"").substring(0,(adciP+"").indexOf('.')+2) + "%");
+		ADIItext.setText((adiiP+"").substring(0,(adiiP+"").indexOf('.')+2) + "%");
 
 		configurePieChart();
 
@@ -270,6 +269,7 @@ public class Controller extends Application implements Initializable {
 		pieChart.setLegendSide(Side.LEFT);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void configureStackedBarChart() {
 
 		hboxChart.getChildren().remove(barChart);
