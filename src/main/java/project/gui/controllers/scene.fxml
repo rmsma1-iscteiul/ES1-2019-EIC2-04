@@ -10,6 +10,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.SplitPane?>
@@ -65,7 +66,7 @@
                            <children>
                               <VBox prefHeight="541.6" prefWidth="767.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <HBox prefHeight="208.0" prefWidth="767.0" spacing="20.0">
+                                    <HBox prefHeight="208.0" prefWidth="710.0" spacing="20.0">
                                        <children>
                                           <Pane fx:id="DCIpane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #295AE5; -fx-background-radius: 50;">
                                              <HBox.margin>
@@ -140,11 +141,32 @@
                                           </Pane>
                                        </children>
                                     </HBox>
-                                    <HBox fx:id="hboxChart" layoutX="10.0" layoutY="10.0" prefHeight="433.0" prefWidth="767.0" spacing="20.0">
-                                       <children>
-                                          <PieChart fx:id="pieChart" />
-                                       </children>
-                                    </HBox>
+                                    <ScrollPane minHeight="300.0" minWidth="600.0" prefHeight="463.0" prefWidth="712.0">
+                                      <content>
+                                        <AnchorPane minHeight="300.0" minWidth="500.0" prefHeight="1200.0" prefWidth="712.0">
+                                             <children>
+                                                <VBox prefHeight="1200.0" prefWidth="712.0">
+                                                   <children>
+                                                      <HBox fx:id="hboxChartPMD" prefHeight="400.0" prefWidth="712.0">
+                                                         <children>
+                                                            <PieChart fx:id="pieChartPMD" prefHeight="400.0" prefWidth="400.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox fx:id="hboxChartiPlasma" prefHeight="400.0" prefWidth="712.0">
+                                                         <children>
+                                                            <PieChart fx:id="pieChartiPlasma" prefHeight="400.0" prefWidth="400.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox fx:id="hboxChartNewRule" prefHeight="400.0" prefWidth="400.0" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </ScrollPane>
                                  </children>
                               </VBox>
                            </children></AnchorPane>

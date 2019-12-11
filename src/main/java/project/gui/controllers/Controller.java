@@ -16,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
@@ -47,7 +46,7 @@ import project.utils.ArrayUtil;
  *
  * This class controls application GUI , receives and process input from user
  *
- * @author RuiMenoita
+ * @author RuiMenoita and FranciscoCardoso
  */
 public class Controller extends Application implements Initializable {
 
@@ -100,12 +99,27 @@ public class Controller extends Application implements Initializable {
 	private Text ADIItext;
 
 	@FXML
-	private PieChart pieChart;
+	private PieChart pieChartiPlasma;
 	@FXML
-	private StackedBarChart<String, Number> barChart;
+	private PieChart pieChartPMD;
 	@FXML
-	private HBox hboxChart;
-
+	private PieChart pieChartNewRule;
+	
+	@FXML
+	private StackedBarChart<String, Number> barChartPMD;
+	@FXML
+	private StackedBarChart<String, Number> barChartiPlasma;
+	@FXML
+	private StackedBarChart<String, Number> barChartNewRule;
+	
+	@FXML
+	private HBox hboxChartPMD;
+	@FXML
+	private HBox hboxChartiPlasma;
+	@FXML
+	private HBox hboxChartNewRule;
+	
+	@SuppressWarnings("unused")
 	private Boolean logicSelector = false; // AND = FALSE, OR = TRUE
 
 	/**
@@ -122,6 +136,11 @@ public class Controller extends Application implements Initializable {
 			loadList(manager.parseFileToMap(selectedFile));
 
 			addRecentOpenFile(selectedFile.getAbsolutePath());
+			
+			//Calculates everything without the need to press the apply button
+			getMetrics();
+			//manager.calculateIndicators();
+			setQualityIndicatorsTotals();
 
 			// window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )");
 		} catch (Exception e) {
@@ -129,6 +148,11 @@ public class Controller extends Application implements Initializable {
 			showErrorDialog(e.getMessage());
 		}
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * @param rowList List to be load on TableView table
@@ -137,6 +161,11 @@ public class Controller extends Application implements Initializable {
 		table.getItems().clear();
 		table.getItems().addAll(FXCollections.observableList(rowList));
 	}
+	
+	
+	
+	
+	
 
 	
 	
@@ -170,6 +199,11 @@ public class Controller extends Application implements Initializable {
 			}
 		}
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 *
@@ -180,6 +214,11 @@ public class Controller extends Application implements Initializable {
 		// String fileName = ((MenuItem)(event.getSource())).getText();
 
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * This method will retrieve the values from the LOC, CYCLO, ATFD and LAA
@@ -212,6 +251,11 @@ public class Controller extends Application implements Initializable {
 		getAndOr();
 
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 *
@@ -226,6 +270,11 @@ public class Controller extends Application implements Initializable {
 			logicSelector = true;
 
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 *
@@ -244,10 +293,10 @@ public class Controller extends Application implements Initializable {
 		double adciP = 0;
 		double adiiP = 0;
 
-		DCI.setText(Integer.toString(manager.getPdci()));
-		DII.setText(Integer.toString(manager.getPdii()));
-		ADCI.setText(Integer.toString(manager.getPadci()));
-		ADII.setText(Integer.toString(manager.getPadii()));
+		DCI.setText(Integer.toString(manager.getPdci() + manager.getIpdci()));
+		DII.setText(Integer.toString(manager.getPdii() + manager.getIpdii()));
+		ADCI.setText(Integer.toString(manager.getPadci() + + manager.getIpadci()));
+		ADII.setText(Integer.toString(manager.getPadii() + + manager.getIpadii()));
 		
 		dciP =(int) Math.round((((float)manager.getPdci() / total)) * 100.0);
 		diiP =(int) Math.round((((float)manager.getPdii() / total)) * 100.0);
@@ -260,46 +309,202 @@ public class Controller extends Application implements Initializable {
 		ADIItext.setText(Double.toString(adiiP) + "%");
 
 		configurePieChart();
-
 		configureStackedBarChart();
-
 	}
-
+	
+	
+	
+	
+	
+	
+	/**
+	 * Creates and adds to the UI a Pie Chart for the iPlasma, PMD and (if selected) the new Rule
+	 */
 	private void configurePieChart() {
-		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+		iPlasmaPieChart();
+		pmdPieChart();		
+//		if() //check if there is a new rule selected
+		newRulePieChart();
+		
+	}
+	
+	
+	/**
+	 * Creates pie chart for iPlasma
+	 */
+	private void iPlasmaPieChart() {
+		//create iPlasma PieChart
+		ObservableList<PieChart.Data> pieChartDataiPlasma = FXCollections.observableArrayList(
+				new PieChart.Data("DCI", manager.getIpdci()), new PieChart.Data("DII", manager.getIpdii()),
+				new PieChart.Data("ADCI", manager.getIpadci()), new PieChart.Data("ADII", manager.getIpadii()));
+		pieChartiPlasma.setData(pieChartDataiPlasma);
+		pieChartiPlasma.setTitle("iPlasma");
+		pieChartiPlasma.setLegendSide(Side.LEFT);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Creates pie chart for PMD
+	 */
+	private void pmdPieChart() {
+		//create PMD PieChart
+		ObservableList<PieChart.Data> pieChartDataPMD = FXCollections.observableArrayList(
 				new PieChart.Data("DCI", manager.getPdci()), new PieChart.Data("DII", manager.getPdii()),
 				new PieChart.Data("ADCI", manager.getPadci()), new PieChart.Data("ADII", manager.getPadii()));
-		pieChart.setData(pieChartData);
-		pieChart.setTitle("Quality Indicators");
-		pieChart.setLegendSide(Side.LEFT);
+		//pieChartDataPMD.
+		pieChartPMD.setData(pieChartDataPMD);
+		pieChartPMD.setTitle("PMD");
+		pieChartPMD.setLegendSide(Side.LEFT);
 	}
+	
+	
+	
+	
+	
+	/**
+	 * Creates pie chart for the new rule
+	 */
+	private void newRulePieChart() {
+//		ObservableList<PieChart.Data> pieChartDataNewRule = FXCollections.observableArrayList(
+//		new PieChart.Data("DCI", manager.getPdci()), new PieChart.Data("DII", manager.getPdii()),
+//		new PieChart.Data("ADCI", manager.getPadci()), new PieChart.Data("ADII", manager.getPadii()));
+//pieChartNewRule.setData(pieChartDataNewRule); 
+//pieChartNewRule.setTitle();	//getRuleName()
+//pieChartNewRule.setLegendSide(Side.RIGHT);
+//pieChartNewRule.setVisible(true);
+		
+	}
+	
+	
+	
+	
 
+	/**
+	 * 
+	 * This method will create the iPlasma and PMD bar charts
+	 * 
+	 */
 	private void configureStackedBarChart() {
-
-		hboxChart.getChildren().remove(barChart);
-
-		CategoryAxis xAxis = new CategoryAxis(); // String
-
-		xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList("DCI", "DII", "ADCI", "ADII")));
-
-		xAxis.setLabel("Quality Indicators");
-
-		NumberAxis yAxis = new NumberAxis(); // int
-		yAxis.setLabel("Value in units");
-
-		barChart = new StackedBarChart<>(xAxis, yAxis);
-
-		XYChart.Series<String, Number> data = new XYChart.Series<>();
-		data.getData().add(new XYChart.Data<>("DCI", manager.getPdci()));
-		data.getData().add(new XYChart.Data<>("DII", manager.getPdii()));
-		data.getData().add(new XYChart.Data<>("ADCI", manager.getPadci()));
-		data.getData().add(new XYChart.Data<>("ADII", manager.getPadii()));
-
-		barChart.getData().addAll(data);
-
-		hboxChart.getChildren().add(barChart);
-
+		pmdBarChart();
+		iPlasmaBarChart();
+//		if(){
+//			newRuleBarChart();
+//		}
+		
 	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Creates PMD bar chart
+	 */
+	@SuppressWarnings("unchecked")
+	private void pmdBarChart() {
+		
+		//creating/setting up PMD bar chart
+				hboxChartPMD.getChildren().remove(barChartPMD);
+
+				CategoryAxis xAxisPMD = new CategoryAxis(); // String
+
+				xAxisPMD.setCategories(FXCollections.<String>observableArrayList(Arrays.asList("DCI", "DII", "ADCI", "ADII")));
+
+				NumberAxis yAxisPMD = new NumberAxis(); // int
+
+				barChartPMD = new StackedBarChart<>(xAxisPMD, yAxisPMD);
+				
+				//creates PMD data
+				XYChart.Series<String, Number> dataPMD = new XYChart.Series<>();
+				dataPMD.getData().add(new XYChart.Data<>("DCI", manager.getPdci()));
+				dataPMD.getData().add(new XYChart.Data<>("DII", manager.getPdii()));
+				dataPMD.getData().add(new XYChart.Data<>("ADCI", manager.getPadci()));
+				dataPMD.getData().add(new XYChart.Data<>("ADII", manager.getPadii()));
+				
+				//sets the data in the StackedBarChart
+				barChartPMD.getData().addAll(dataPMD);
+				
+				//draws it on the hbox
+				hboxChartPMD.getChildren().add(barChartPMD);
+		
+		
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Creates iPlasma bar chart
+	 */
+	@SuppressWarnings("unchecked")
+	private void iPlasmaBarChart() {
+		//creating/setting up iPlasma bar chart
+		hboxChartiPlasma.getChildren().remove(barChartiPlasma);
+
+		CategoryAxis xAxisiPlasma = new CategoryAxis(); // String
+
+		xAxisiPlasma.setCategories(FXCollections.<String>observableArrayList(Arrays.asList("DCI", "DII", "ADCI", "ADII")));
+
+		NumberAxis yAxisiPlasma = new NumberAxis(); // int
+
+		barChartiPlasma = new StackedBarChart<>(xAxisiPlasma, yAxisiPlasma);
+		
+		
+		//creates iPlasma data
+		XYChart.Series<String, Number> dataiPlasma = new XYChart.Series<>();
+		dataiPlasma.getData().add(new XYChart.Data<>("DCI", manager.getIpdci()));
+		dataiPlasma.getData().add(new XYChart.Data<>("DII", manager.getIpdii()));
+		dataiPlasma.getData().add(new XYChart.Data<>("ADCI", manager.getIpadci()));
+		dataiPlasma.getData().add(new XYChart.Data<>("ADII", manager.getIpadii()));
+		
+		//sets the data in the StackedBarChart
+		barChartiPlasma.getData().addAll(dataiPlasma);
+		
+		//draws it on the hbox
+		hboxChartiPlasma.getChildren().add(barChartiPlasma);
+	}
+	
+	
+	
+	
+	/**
+	 * 
+	 * Creates bar chart for the new rule selected
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	private void newRuleBarChart() {
+		//creating/setting up iPlasma bar chart
+		hboxChartNewRule.getChildren().remove(barChartNewRule);
+
+		CategoryAxis xAxisNewRule = new CategoryAxis(); // String
+
+		xAxisNewRule.setCategories(FXCollections.<String>observableArrayList(Arrays.asList("DCI", "DII", "ADCI", "ADII")));
+
+		NumberAxis yAxisNewRule = new NumberAxis(); // int
+		barChartNewRule = new StackedBarChart<>(xAxisNewRule, yAxisNewRule);			
+			
+		//creates iPlasma data
+		XYChart.Series<String, Number> dataNewRule = new XYChart.Series<>();
+		dataNewRule.getData().add(new XYChart.Data<>("DCI", manager.getIpdci()));
+		dataNewRule.getData().add(new XYChart.Data<>("DII", manager.getIpdii()));
+		dataNewRule.getData().add(new XYChart.Data<>("ADCI", manager.getIpadci()));
+		dataNewRule.getData().add(new XYChart.Data<>("ADII", manager.getIpadii()));
+			
+		//sets the data in the StackedBarChart
+		barChartNewRule.getData().addAll(dataNewRule);
+				
+		//draws it on the hbox
+		hboxChartNewRule.getChildren().add(barChartNewRule);
+	}
+	
+	
+	
 
 	/**
 	 * This method will be called when the Apply button is pressed
@@ -310,9 +515,13 @@ public class Controller extends Application implements Initializable {
 	@FXML
 	public void applyPressed(ActionEvent event) {
 		getMetrics();
-		manager.calculateIndicators();
 		setQualityIndicatorsTotals();
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * This method starts the engine and the platform Thread
@@ -334,6 +543,10 @@ public class Controller extends Application implements Initializable {
 		window.setTitle(PROGRAM_NAME);
 		window.show();
 	}
+	
+	
+	
+	
 
 	/**
 	 * Displays a error dialog with @param error message
@@ -347,6 +560,10 @@ public class Controller extends Application implements Initializable {
 			dialog.show();
 		});
 	}
+	
+	
+	
+	
 
 	/**
 	 * Opens a new project Window
@@ -367,6 +584,11 @@ public class Controller extends Application implements Initializable {
 			showErrorDialog(e.getMessage());
 		}
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * This method is called when Scenes.fxml is load
@@ -408,6 +630,11 @@ public class Controller extends Application implements Initializable {
 		atfdText.setPromptText("4");
 		laaText.setPromptText("0.42");
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * This makes table size response when Data tab is resized
@@ -416,6 +643,11 @@ public class Controller extends Application implements Initializable {
 		dataTabPane.heightProperty().addListener((obs, old, newValue) -> table.setPrefHeight(newValue.doubleValue()));
 		dataTabPane.widthProperty().addListener((obs, old, newValue) -> table.setPrefWidth(newValue.doubleValue()));
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Calls the application start method that creates the platform thread
