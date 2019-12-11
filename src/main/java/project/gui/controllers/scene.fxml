@@ -54,7 +54,7 @@
                   <content>
                     <AnchorPane fx:id="dataTabPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                                    <TableView fx:id="table" prefHeight="544.0" prefWidth="767.0" />
+                                    <TableView fx:id="table" prefHeight="544.0" prefWidth="712.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                   </content>

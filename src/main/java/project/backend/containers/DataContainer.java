@@ -29,6 +29,10 @@ public class DataContainer {
 	private SimpleStringProperty quality_PMD = new SimpleStringProperty();
 	private SimpleStringProperty quality_IPLASMA = new SimpleStringProperty();
 
+	private SimpleBooleanProperty LOBATO = new SimpleBooleanProperty();
+	private SimpleBooleanProperty NUNO = new SimpleBooleanProperty();
+	private SimpleStringProperty quality_NUNO = new SimpleStringProperty();
+	private SimpleStringProperty quality_LOBATO = new SimpleStringProperty();
 	
 	
 	

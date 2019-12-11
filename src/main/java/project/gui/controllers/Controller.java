@@ -138,6 +138,10 @@ public class Controller extends Application implements Initializable {
 		table.getItems().addAll(FXCollections.observableList(rowList));
 	}
 
+	
+	
+	
+	
 	/**
 	 *
 	 * This method saves the file path in history
