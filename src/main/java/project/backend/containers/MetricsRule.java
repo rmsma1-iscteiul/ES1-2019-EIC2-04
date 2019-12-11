@@ -5,22 +5,24 @@ import javafx.beans.property.*;
  * 
  */
 public class MetricsRule {
+	
+	private SimpleStringProperty metricName = new SimpleStringProperty();
 
-	private SimpleIntegerProperty locValue;
-	private SimpleBooleanProperty locComparison;
+	private SimpleIntegerProperty locValue = new SimpleIntegerProperty();
+	private SimpleBooleanProperty locComparison = new SimpleBooleanProperty();
 	
-	private SimpleBooleanProperty locCycloAndOr;
+	private SimpleBooleanProperty locCycloAndOr = new SimpleBooleanProperty();
 	
-	private SimpleIntegerProperty cycloValue;
-	private SimpleBooleanProperty cycloComparison;
+	private SimpleIntegerProperty cycloValue = new SimpleIntegerProperty();
+	private SimpleBooleanProperty cycloComparison = new SimpleBooleanProperty();
 	
-	private SimpleIntegerProperty aftdValue;
-	private SimpleBooleanProperty aftdComparison;
+	private SimpleIntegerProperty aftdValue = new SimpleIntegerProperty();
+	private SimpleBooleanProperty aftdComparison = new SimpleBooleanProperty();
 	
-	private SimpleBooleanProperty aftdLaaAndOr;
+	private SimpleBooleanProperty aftdLaaAndOr = new SimpleBooleanProperty();
 	
-	private SimpleIntegerProperty laaValue;
-	private SimpleBooleanProperty laaComparison;
+	private SimpleIntegerProperty laaValue = new SimpleIntegerProperty();
+	private SimpleBooleanProperty laaComparison = new SimpleBooleanProperty();
 	
 	
 	
@@ -32,7 +34,8 @@ public class MetricsRule {
 			int cycloVal, boolean cycloComp,
 			int aftdVal, boolean aftdComp,
 			boolean aftdLaa,
-			int laaVal, boolean laaComp) {
+			int laaVal, boolean laaComp,
+			String name) {
 		
 		locValue.set(locVal);
 		locComparison.set(locComp);
@@ -50,6 +53,7 @@ public class MetricsRule {
 		laaValue.set(laaVal);
 		laaComparison.set(laaComp);
 		
+		metricName.set(name);
 	}
 	
 	
@@ -210,5 +214,27 @@ public class MetricsRule {
 
 	public void setLaaComparison(boolean laaComparison) {
 		this.laaComparison.set(laaComparison);
+	}
+
+
+
+
+
+	/**
+	 * @return the metricName
+	 */
+	public String getMetricName() {
+		return metricName.get();
+	}
+
+
+
+
+
+	/**
+	 * @param metricName the metricName to set
+	 */
+	public void setMetricName(String metricName) {
+		this.metricName.set(metricName);
 	}
 }	

@@ -26,21 +26,23 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import project.backend.Backend;
 import project.backend.containers.DataContainer;
-import project.utils.ArrayUtil;
+import project.backend.containers.MetricsRule;
 
 /**
  *
@@ -52,76 +54,75 @@ public class Controller extends Application implements Initializable {
 
 	private static final String PROGRAM_NAME = "Code Analyzer";
 
-	private final static int OPEN_FILE_HISTORY_LENGHT = 3;
-	private String[] openFileHistory = new String[OPEN_FILE_HISTORY_LENGHT];
-
 	private Stage window;
-
 	private Backend manager;
 
-	@FXML
-	private TextField locText;
-	@FXML
-	private TextField cycloText;
-	@FXML
-	private TextField atfdText;
-	@FXML
-	private TextField laaText;
+	@FXML private AnchorPane dataTabPane;
+	@FXML private TableView<DataContainer> table;
+	@FXML private Menu openRecentMenu;
 
-	@FXML
-	private RadioButton andButton;
-	@FXML
-	private RadioButton orButton;
+	@FXML private Label DCI;
+	@FXML private Label DII;
+	@FXML private Label ADCI;
+	@FXML private Label ADII;
 
-	@FXML
-	private AnchorPane dataTabPane;
-	@FXML
-	private TableView<DataContainer> table;
-	@FXML
-	private Menu openRecentMenu;
+	@FXML private Text DCItext;
+	@FXML private Text DIItext;
+	@FXML private Text ADCItext;
+	@FXML private Text ADIItext;
 
-	@FXML
-	private Label DCI;
-	@FXML
-	private Label DII;
-	@FXML
-	private Label ADCI;
-	@FXML
-	private Label ADII;
-
-	@FXML
-	private Text DCItext;
-	@FXML
-	private Text DIItext;
-	@FXML
-	private Text ADCItext;
-	@FXML
-	private Text ADIItext;
-
-	@FXML
-	private PieChart pieChartiPlasma;
-	@FXML
-	private PieChart pieChartPMD;
-	@FXML
-	private PieChart pieChartNewRule;
+	@FXML private PieChart pieChartiPlasma;
+	@FXML private PieChart pieChartPMD;
+	@FXML private PieChart pieChartNewRule;
 	
-	@FXML
-	private StackedBarChart<String, Number> barChartPMD;
-	@FXML
-	private StackedBarChart<String, Number> barChartiPlasma;
-	@FXML
-	private StackedBarChart<String, Number> barChartNewRule;
+	@FXML private StackedBarChart<String, Number> barChartPMD;
+	@FXML private StackedBarChart<String, Number> barChartiPlasma;
+	@FXML private StackedBarChart<String, Number> barChartNewRule;
 	
-	@FXML
-	private HBox hboxChartPMD;
-	@FXML
-	private HBox hboxChartiPlasma;
-	@FXML
-	private HBox hboxChartNewRule;
+	@FXML private HBox hboxChartPMD;
+	@FXML private HBox hboxChartiPlasma;
+	@FXML private HBox hboxChartNewRule;
 	
-	@SuppressWarnings("unused")
-	private Boolean logicSelector = false; // AND = FALSE, OR = TRUE
 
+    @FXML private Pane DCIpane;
+    @FXML private Pane DIIpane;
+    @FXML private Pane ADCIpane;
+    @FXML private Pane ADIIpane;
+
+    //-----------------------------
+    //LOC
+    @FXML private TextField locText;
+    @FXML private SplitMenuButton locBiggerThanSelector;
+    
+    //AND OR
+    @FXML private RadioButton locCycloandButton;
+    @FXML private RadioButton locCycloOrButton;
+
+    //CYCLO
+    @FXML private TextField cycloText;
+    @FXML private SplitMenuButton cycloBiggerThanSelector;
+    
+    //AFTD
+    @FXML private TextField atfdText;
+    @FXML private SplitMenuButton atfdBiggerThanSelector;
+
+    //AND OR
+    @FXML private RadioButton atfdLaaAndButton;
+    @FXML private RadioButton atfdLaaOrButton;    
+    
+    //LAA
+    @FXML private TextField laaText;
+    @FXML private SplitMenuButton laaBiggerThanSelector;
+    //----------------------------
+    
+    @FXML private ListView<MetricsRule> metricList;
+
+
+	
+	
+	
+	
+	
 	/**
 	 * Displays a dialog chooser to user select the file that he want to open
 	 */
@@ -135,14 +136,11 @@ public class Controller extends Application implements Initializable {
 		try {
 			loadList(manager.parseFileToMap(selectedFile));
 
-			addRecentOpenFile(selectedFile.getAbsolutePath());
-			
 			//Calculates everything without the need to press the apply button
 			getMetrics();
 			//manager.calculateIndicators();
 			setQualityIndicatorsTotals();
 
-			// window.setTitle(PROGRAM_NAME+ " ( "+selectedFile.getName()+" )");
 		} catch (Exception e) {
 			e.printStackTrace();
 			showErrorDialog(e.getMessage());
@@ -160,59 +158,6 @@ public class Controller extends Application implements Initializable {
 	private void loadList(List<DataContainer> rowList) {
 		table.getItems().clear();
 		table.getItems().addAll(FXCollections.observableList(rowList));
-	}
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	/**
-	 *
-	 * This method saves the file path in history
-	 *
-	 * @param absolutePath Path of recent open file
-	 */
-	// TODO
-	public void addRecentOpenFile(String absolutePath) {
-		if (!ArrayUtil.contains(openFileHistory, absolutePath)) {
-			ArrayUtil.shiftRight(openFileHistory);
-			openFileHistory[0] = absolutePath;
-		} else {
-			int index = ArrayUtil.getIndex(openFileHistory, absolutePath);
-			String buffer = openFileHistory[index];
-			openFileHistory[index] = null;
-			ArrayUtil.shiftRight(openFileHistory);
-			openFileHistory[0] = buffer;
-		}
-
-		openRecentMenu.getItems().clear();
-
-		for (String path : openFileHistory) {
-			if (path != null) {
-				MenuItem item = new MenuItem(path.split("\\\\")[path.split("\\\\").length - 1]);
-				openRecentMenu.getItems().add(item);
-			}
-		}
-	}
-	
-	
-	
-	
-	
-
-	/**
-	 *
-	 * @param event
-	 */
-	@FXML
-	public void openRecent(ActionEvent event) {
-		// String fileName = ((MenuItem)(event.getSource())).getText();
-
 	}
 	
 	
@@ -248,26 +193,6 @@ public class Controller extends Application implements Initializable {
 
 		// manager.checkList();
 		// loadList(manager.checkList(logicSelector));
-		getAndOr();
-
-	}
-	
-	
-	
-	
-	
-
-	/**
-	 *
-	 * This method will check if the user selected AND or OR radioButton
-	 *
-	 * @param event
-	 */
-	public void getAndOr() {
-		if (andButton.isSelected())
-			logicSelector = false;
-		if (orButton.isSelected())
-			logicSelector = true;
 
 	}
 	
@@ -508,8 +433,6 @@ public class Controller extends Application implements Initializable {
 
 	/**
 	 * This method will be called when the Apply button is pressed
-	 *
-	 *
 	 * @param event
 	 */
 	@FXML

@@ -151,7 +151,6 @@ public class Backend {
 		try {
 			workbook.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		calculateIndicators();
@@ -178,10 +177,10 @@ public class Backend {
 	
 	
 	/**
-	 * takes in a row from a excell file previously converted into a apache.poi sheet and creates a new instace of DataContainer from it
+	 * takes in a row from a excel file previously converted into a apache.poi sheet and creates a new instace of DataContainer from it
 	 * @param row 
 	 * @return
-	 * @throws Exception this is trhown in case the excel file is in the wrong format
+	 * @throws Exception this is thrown in case the excel file is in the wrong format
  	 */
 	private DataContainer row_to_container(Row row) throws Exception {
 		DataFormatter dataFormatter = new DataFormatter();
@@ -510,7 +509,64 @@ public class Backend {
 		System.out.println("total: "+b);
 		//
 	}
-	
 
+	
+	
+	
+	/**
+	 * @return the loc
+	 */
+	public double getLoc() {
+		return loc;
+	}
+
+	/**
+	 * @return the cyclo
+	 */
+	public double getCyclo() {
+		return cyclo;
+	}
+
+	/**
+	 * @return the atfd
+	 */
+	public double getAtfd() {
+		return atfd;
+	}
+
+	/**
+	 * @return the laa
+	 */
+	public double getLaa() {
+		return laa;
+	}
+
+	/**
+	 * @param laa the laa to set
+	 */
+	public void setLaa(double laa) {
+		this.laa = laa;
+	}
+
+	/**
+	 * @param atfd the atfd to set
+	 */
+	public void setAtfd(double atfd) {
+		this.atfd = atfd;
+	}
+
+	/**
+	 * @param cyclo the cyclo to set
+	 */
+	public void setCyclo(double cyclo) {
+		this.cyclo = cyclo;
+	}
+
+	/**
+	 * @param loc the loc to set
+	 */
+	public void setLoc(double loc) {
+		this.loc = loc;
+	}
 }
 

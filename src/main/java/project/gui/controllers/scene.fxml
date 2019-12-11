@@ -11,6 +11,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.SplitPane?>
@@ -33,9 +34,8 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#openNewWindow" text="New" />
+            <MenuItem mnemonicParsing="false" onAction="#openNewWindow" text="New         " />
             <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
-            <Menu fx:id="openRecentMenu" mnemonicParsing="false" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Quit" />
           </items>
@@ -185,13 +185,14 @@
                               <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
+                        <Separator prefWidth="200.0" />
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                            <children>
                               <Label minWidth="40.0" text="LOC" />
                               <TextField fx:id="locText" maxWidth="300.0" minWidth="20.0" prefHeight="25.0" prefWidth="136.0" />
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <SplitMenuButton minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                                    <SplitMenuButton fx:id="locBiggerThanSelector" minWidth="102.0" mnemonicParsing="false" text="Bigger than">
                                       <items>
                                         <MenuItem mnemonicParsing="false" text="Action 1" />
                                         <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -201,11 +202,24 @@
                               </VBox>
                            </children>
                         </HBox>
+                        <HBox prefHeight="64.0" prefWidth="260.0">
+                           <children>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <RadioButton fx:id="locCycloandButton" minWidth="50.0" mnemonicParsing="false" selected="true" text="AND">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="AndOr" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <RadioButton fx:id="locCycloOrButton" minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr" />
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                            <children>
                               <Label minWidth="40.0" text="CYCLO" />
                               <TextField fx:id="cycloText" maxWidth="300.0" minWidth="20.0" />
-                              <SplitMenuButton minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                              <SplitMenuButton fx:id="cycloBiggerThanSelector" minWidth="102.0" mnemonicParsing="false" text="Bigger than">
                                  <items>
                                     <MenuItem mnemonicParsing="false" text="Bigger than" />
                                     <MenuItem mnemonicParsing="false" text="Less than" />
@@ -213,23 +227,37 @@
                               </SplitMenuButton>
                            </children>
                         </HBox>
+                        <Separator prefWidth="200.0" />
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                            <children>
                               <Label minWidth="40.0" text="ATFD" />
                               <TextField fx:id="atfdText" maxWidth="300.0" minWidth="20.0" />
-                              <SplitMenuButton minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                              <SplitMenuButton fx:id="atfdBiggerThanSelector" minWidth="102.0" mnemonicParsing="false" text="Bigger than">
                                  <items>
                                     <MenuItem mnemonicParsing="false" text="Bigger than" />
                                     <MenuItem mnemonicParsing="false" text="Less than" />
                                  </items>
                               </SplitMenuButton>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="20.0" layoutY="102.0" prefHeight="64.0" prefWidth="260.0">
+                           <children>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <RadioButton fx:id="atfdLaaAndButton" minWidth="50.0" mnemonicParsing="false" selected="true" text="AND">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="AndOr1" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <RadioButton fx:id="atfdLaaOrButton" minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr1" />
+                              <Region prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                            <children>
                               <Label minWidth="40.0" text="LAA" />
                               <TextField fx:id="laaText" maxWidth="300.0" minWidth="20.0" />
-                              <SplitMenuButton minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                              <SplitMenuButton fx:id="laaBiggerThanSelector" minWidth="102.0" mnemonicParsing="false" text="Bigger than">
                                  <items>
                                     <MenuItem mnemonicParsing="false" text="Bigger than" />
                                     <MenuItem mnemonicParsing="false" text="Less than" />
@@ -237,27 +265,13 @@
                               </SplitMenuButton>
                            </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <RadioButton fx:id="andButton" minWidth="50.0" mnemonicParsing="false" selected="true" text="AND">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="AndOr" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <Region prefHeight="200.0" prefWidth="200.0" />
-                              <RadioButton fx:id="orButton" minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr" />
-                           </children>
-                        </HBox>
+                        <Separator prefWidth="200.0" />
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <ButtonBar prefHeight="40.0" prefWidth="200.0">
                                 <buttons>
-                                  <Button mnemonicParsing="false" text="Save" />
-                                    <Button minWidth="50.0" mnemonicParsing="false" onAction="#applyPressed" text="Apply" textAlignment="JUSTIFY" textOverrun="CLIP">
-                                       <font>
-                                          <Font name="Arial Italic" size="12.0" />
-                                       </font>
-                                    </Button>
+                                  <Button mnemonicParsing="false" onAction="#saveMetric" text="Save" />
+                                    <Button minWidth="50.0" mnemonicParsing="false" onAction="#applyPressed" text="Apply" textAlignment="JUSTIFY" textOverrun="CLIP" />
                                 </buttons>
                               </ButtonBar>
                            </children>
@@ -282,7 +296,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </HBox>
-                        <ListView prefHeight="319.0" prefWidth="280.0" />
+                        <ListView fx:id="metricList" prefHeight="319.0" prefWidth="280.0" />
                         <HBox maxWidth="20.0" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Label minWidth="35.0" prefWidth="200.0" text="DCI:" />
