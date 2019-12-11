@@ -141,13 +141,13 @@
                                           </Pane>
                                        </children>
                                     </HBox>
-                                    <ScrollPane minHeight="300.0" minWidth="600.0" prefHeight="463.0" prefWidth="710.0">
+                                    <ScrollPane minHeight="300.0" minWidth="600.0" prefHeight="463.0" prefWidth="712.0">
                                       <content>
-                                        <AnchorPane minHeight="300.0" minWidth="500.0" prefHeight="393.0" prefWidth="701.0">
+                                        <AnchorPane minHeight="300.0" minWidth="500.0" prefHeight="1200.0" prefWidth="712.0">
                                              <children>
-                                                <VBox prefHeight="411.0" prefWidth="698.0">
+                                                <VBox prefHeight="1200.0" prefWidth="712.0">
                                                    <children>
-                                                      <HBox fx:id="hboxChartPMD" prefHeight="400.0" prefWidth="712.0" spacing="20.0">
+                                                      <HBox fx:id="hboxChartPMD" prefHeight="400.0" prefWidth="712.0">
                                                          <children>
                                                             <PieChart fx:id="pieChartPMD" prefHeight="400.0" prefWidth="400.0" />
                                                          </children>
@@ -157,7 +157,7 @@
                                                             <PieChart fx:id="pieChartiPlasma" prefHeight="400.0" prefWidth="400.0" />
                                                          </children>
                                                       </HBox>
-                                                      <HBox fx:id="hboxChartNewRule" prefHeight="100.0" prefWidth="200.0" />
+                                                      <HBox fx:id="hboxChartNewRule" prefHeight="400.0" prefWidth="400.0" />
                                                    </children>
                                                 </VBox>
                                              </children>
