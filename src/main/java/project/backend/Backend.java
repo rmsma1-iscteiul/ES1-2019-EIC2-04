@@ -36,6 +36,18 @@ public class Backend {
 	private int ipadci=0;
 	private int ipadii=0;
 	
+	//metric loc and cyclo
+	private int mLMdci=0;
+	private int mLMdii=0;
+	private int mLMadci=0;
+	private int mLMadii=0;
+	
+	//metric atfd and laa
+	private int mFEdci=0;
+	private int mFEdii=0;
+	private int mFEadci=0;
+	private int mFEadii=0;
+	
 	private List<DataContainer> fileListed;
 
 
@@ -142,7 +154,7 @@ public class Backend {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		calculateIndicators(false);
+		calculateIndicators();
 		return list;
 	}
 	
@@ -209,11 +221,15 @@ public class Backend {
 				pMD, 
 				is_feature_envy, 
 				"-", 
-				"-"); 
+				"-",
+				false, 
+				false,
+				"-", 
+				"-"
+				); 
 		return container;
 	}
 
-	
 	
 	
 	
@@ -225,56 +241,137 @@ public class Backend {
 	 */
 	public List<DataContainer> checkList (boolean bool) {
 		assert (fileListed != null);
-		calculateIndicators (bool);
+		calculateIndicators ();
 		return fileListed;
 	}
 
 	
 	
 	
-	
-	/** 
-	 * @param bool
-	 * boolean that comes from GUI deciding AND/OR operator (true=OR/false=AND)
-	 * @param locf
-	 * number of lines of code from file
-	 * @param cyclof
-	 * cycle complexity from file
-	 * @return true or false, depending on inputs
+	/**
+	 * sets column MetricLongMethod true or false, depending on inputs in GUI and comparing those inputs with values from file
+	 * @param and 
+	 * boolean that comes from GUI deciding AND/OR operator (true=AND/false=OR) between loc and cyclo
+	 * @param locLessThan
+	 * boolean: if true then use ( locFile <= locGUI ) for comparison; else ( locFile > locGUI )
+	 * @param cycloLessThan
+	 * boolean: if true then use ( cycloFile <= cycloGUI ) for comparison; else ( cycloFile > cycloGUI )
+	 * @param locGUI
+	 * loc value input from GUI
+	 * @param cycloGUI
+	 * cyclo value input from GUI
 	 */
-	public boolean is_long_method (boolean bool, double locf, double cyclof) {
-		if (!bool) return locf > loc && cyclof > cyclo;
-		else return locf > loc || cyclof > cyclo;
+	public void MetricLongMethod (boolean and, boolean locLessThan, boolean cycloLessThan, int locGUI, int cycloGUI) {
+		for (DataContainer dc: fileListed) {
+			dc.setMetric_longmethod(true);
+			
+			if(and && locLessThan && cycloLessThan) {
+				if (dc.getLoc() <= locGUI && dc.getCyclo() <= cycloGUI)
+					dc.setMetric_longmethod(false);
+			}
+			else if(!and && locLessThan && cycloLessThan) {
+				if (dc.getLoc() <= locGUI || dc.getCyclo() <= cycloGUI)
+					dc.setMetric_longmethod(false);
+			}
+			
+			else if(and && !locLessThan && !cycloLessThan) {
+				if (dc.getLoc() > locGUI && dc.getCyclo() > cycloGUI)
+					dc.setMetric_longmethod(false);
+			}
+			else if(!and && !locLessThan && !cycloLessThan) {
+				if (dc.getLoc() > locGUI || dc.getCyclo() > cycloGUI)
+					dc.setMetric_longmethod(false);
+			}
+			
+			else if(and && locLessThan && !cycloLessThan) {
+				if (dc.getLoc() <= locGUI && dc.getCyclo() > cycloGUI)
+					dc.setMetric_longmethod(false);
+			}
+			else if(!and && locLessThan && !cycloLessThan) {
+				if (dc.getLoc() <= locGUI || dc.getCyclo() > cycloGUI)
+					dc.setMetric_longmethod(false);
+			}
+			
+			else if(and && !locLessThan && cycloLessThan) {
+				if (dc.getLoc() > locGUI && dc.getCyclo() <= cycloGUI)
+					dc.setMetric_longmethod(false);
+			}
+			else if(!and && !locLessThan && cycloLessThan) {
+				if (dc.getLoc() > locGUI || dc.getCyclo() <= cycloGUI)
+					dc.setMetric_longmethod(false);
+			}
+		}
 	}
-
+	
+	
+	
 	
 	/**
-	 * @param bool
-	 * boolean that comes from GUI deciding AND/OR operator (true=OR/false=AND)
-	 * @param atfdf
-	 * access to methods from other classes from file
-	 * @param laaf
-	 * access to attributes from same class from file
-	 * @return true or false, depending on inputs
+	 *  sets column MetricFeatureEnvy true or false, depending on inputs in GUI and comparing those inputs with values from file
+	 * @param and
+	 * boolean that comes from GUI deciding AND/OR operator (true=AND/false=OR) between atfd and laa
+	 * @param atfdLessThan
+	 * boolean: if true then use ( atfdFile <= atfdGUI ) for comparison; else ( atfdFile > atfdGUI )
+	 * @param laaLessThan
+	 * boolean: if true then use ( laaFile <= laaGUI ) for comparison; else ( laaFile > laaGUI )
+	 * @param atfdGUI
+	 * atfd value input from GUI
+	 * @param laaGUI
+	 * laa value input from GUI
 	 */
-	public boolean is_feature_envy (boolean bool, double atfdf, double laaf) {
-		if (!bool) return atfdf > atfd && laaf < laa;
-		else return atfdf > atfd || laaf < laa;
+	public void MetricFeatureEnvy (boolean and, boolean atfdLessThan, boolean laaLessThan, int atfdGUI, double laaGUI) {
+		for (DataContainer dc: fileListed) {
+			dc.setMetric_featureenvy(true);
+			
+			if(and && atfdLessThan && laaLessThan) {
+				if (dc.getAtfd() <= atfdGUI && dc.getLaa() <= laaGUI)
+					dc.setMetric_featureenvy(false);
+			}
+			else if(!and && atfdLessThan && laaLessThan) {
+				if (dc.getAtfd() <= atfdGUI || dc.getLaa() <= laaGUI)
+					dc.setMetric_featureenvy(false);
+			}
+			
+			else if(and && !atfdLessThan && !laaLessThan) {
+				if (dc.getAtfd() > atfdGUI && dc.getLaa() > laaGUI)
+					dc.setMetric_featureenvy(false);
+			}
+			else if(!and && !atfdLessThan && !laaLessThan) {
+				if (dc.getAtfd() > atfdGUI || dc.getLaa() > laaGUI)
+					dc.setMetric_featureenvy(false);
+			}
+			
+			else if(and && atfdLessThan && !laaLessThan) {
+				if (dc.getAtfd() <= atfdGUI && dc.getLaa() > laaGUI)
+					dc.setMetric_featureenvy(false);
+			}
+			else if(!and && atfdLessThan && !laaLessThan) {
+				if (dc.getAtfd() <= atfdGUI || dc.getLaa() > laaGUI)
+					dc.setMetric_featureenvy(false);
+			}
+			
+			else if(and && !atfdLessThan && laaLessThan) {
+				if (dc.getAtfd() > atfdGUI && dc.getLaa() <= laaGUI)
+					dc.setMetric_featureenvy(false);
+			}
+			else if(!and && !atfdLessThan && laaLessThan) {
+				if (dc.getAtfd() > atfdGUI || dc.getLaa() <= laaGUI)
+					dc.setMetric_featureenvy(false);
+			}
+		}
 	}
 	
-
+	
 	
 	
 	/**
 	 * method that calculates all indicators
 	 * for each DataContainer:
-	 * -> overwrite is_long_method and is_feature_envy
-	 * -> compare is_long_method and PMD, write type of indicator in StatusPMD 
-	 * -> compare is_long_method and iPlasma, write type of indicator in StatusIPLASMA
-	 * @param bool
-	 * boolean that comes from GUI deciding AND/OR operator (true=OR/false=AND)
+	 * -> compare is_long_method and PMD, write type of indicator in qualityPMD 
+	 * -> compare is_long_method and iPlasma, write type of indicator in qualityIPLASMA
+	 * gives total for all indicators for iPlasma and PMD
 	 */
-	public void calculateIndicators (boolean bool) {
+	public void calculateIndicators () {
 		assert (fileListed != null);
 		
 		for (DataContainer dc: fileListed) {
@@ -328,11 +425,89 @@ public class Backend {
 		
 		System.out.println("PMD");
 		System.out.println(pdci+" / "+pdii+" / "+padci+" / "+padii);
-		System.out.println(a);
+		System.out.println("total: "+a);
 		
 		System.out.println("iPlasma");
 		System.out.println(ipdci+" / "+ipdii+" / "+ipadci+" / "+ipadii);
-		System.out.println(b);
+		System.out.println("total: "+b);
+		//
+	}
+	
+	
+	/**
+	 * method that calculates all indicators
+	 * for each DataContainer:
+	 * -> compare is_long_method and MetricLongMethod, write type of indicator in qualityMetricLongMethod
+	 * -> compare is_feature_envy and MetricFeatureEnvy, write type of indicator in qualityMetricFeatureEnvy
+	 * gives total for all indicators for MetricLongMethod and MetricFeatureEnvy
+	 */
+	public void calculateIndicatorsMetric () {
+		mLMdci=0;
+		mLMdii=0;
+		mLMadci=0;
+		mLMadii=0;
+		
+		mFEdci=0;
+		mFEdii=0;
+		mFEadci=0;
+		mFEadii=0;
+		
+		for (DataContainer dc: fileListed) {
+			
+			//loc and cyclo
+			if(dc.getMetricLongMethod() && dc.getIs_long_method()) {
+				dc.setQualityLM("DCI");
+				mLMdci++;
+			}
+		
+			else if(dc.getMetricLongMethod() && !dc.getIs_long_method()) {
+				dc.setQualityLM("DII");
+				mLMdii++;
+			}
+			
+			else if(!dc.getMetricLongMethod() && !dc.getIs_long_method()) {
+				dc.setQualityLM("ADCI");
+				mLMadci++;
+			}
+		
+			else if(!dc.getMetricLongMethod() && dc.getIs_long_method()) {
+				dc.setQualityLM("ADII");
+				mLMadii++;
+			}
+			
+			//atfd and laa
+			if(dc.getMetricFeatureEnvy() && dc.getIs_feature_envy()) {
+				dc.setQualityFE("DCI");
+				mFEdci++;
+			}
+		
+			else if(dc.getMetricFeatureEnvy() && !dc.getIs_feature_envy()) {
+				dc.setQualityFE("DII");
+				mFEdii++;
+			}
+			
+			else if(!dc.getMetricFeatureEnvy() && !dc.getIs_feature_envy()) {
+				dc.setQualityFE("ADCI");
+				mFEadci++;
+			}
+		
+			else if(!dc.getMetricFeatureEnvy() && dc.getIs_feature_envy()) {
+				dc.setQualityFE("ADII");
+				mFEadii++;
+			}
+
+		}
+		//debugging
+		int a = mLMdci+mLMdii+mLMadci+mLMadii;
+		int b = mFEdci+mFEdii+mFEadci+mFEadii;
+		
+		System.out.println("METRIC LM");
+		System.out.println(mLMdci+" / "+mLMdii+" / "+mLMadci+" / "+mLMadii);
+		System.out.println("total: "+a);
+		
+		System.out.println("METRIC FE");
+		System.out.println(mFEdci+" / "+mFEdii+" / "+mFEadci+" / "+mFEadii);
+		System.out.println("total: "+b);
 		//
 	}
 	

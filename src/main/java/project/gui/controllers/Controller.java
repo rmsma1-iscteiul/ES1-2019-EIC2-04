@@ -310,7 +310,7 @@ public class Controller extends Application implements Initializable {
 	@FXML
 	public void applyPressed(ActionEvent event) {
 		getMetrics();
-		manager.calculateIndicators(logicSelector);
+		manager.calculateIndicators();
 		setQualityIndicatorsTotals();
 	}
 
