@@ -6,7 +6,7 @@ import javax.swing.text.StyledEditorKit.BoldAction;
 
 import javafx.beans.property.*;
 /**
- * 
+ * Defines a Metric rule
  */
 public class MetricsRule {
 	
@@ -31,15 +31,39 @@ public class MetricsRule {
 	
 	
 	
-	
-	public MetricsRule(
+	/**
+	 * Creates a new instance of metric rule from scratch
+	@param name 
+	 * The rule name
+	 * @param locVal 
+	 * The rule's LOC Value
+	 * @param locComp 
+	 * The rule's LOC comparison method: true for greater than, false for lesser than
+	 * @param locCyclo
+	 * The rule's LOC and CYCLO logic operation type: true for And, false for OR
+	 * @param cycloVal
+	 * The rule's CYCLO Value
+	 * @param cycloComp
+	 * The rule's CYCLO comparison method: true for greater than, false for lesser than
+	 * @param aftdVal
+	 * The rule's AFTD Value
+	 * @param aftdComp
+	 * The rule's AFTD comparison method: true for greater than, false for lesser than
+	 * @param aftdLaa
+	 * The rule's AFTD and LAA logic operation type: true for And, false for OR
+	 * @param laaVal
+	 * The rule's LAA Value
+	 * @param laaComp
+	 * The rule's LAA comparison method: true for greater than, false for lesser than
+	 */
+	public MetricsRule(String name,
 			int locVal, boolean locComp,
 			boolean locCyclo,
 			int cycloVal, boolean cycloComp,
 			int aftdVal, boolean aftdComp,
 			boolean aftdLaa,
-			int laaVal, boolean laaComp,
-			String name) {
+			int laaVal, boolean laaComp
+			) {
 		
 		locValue.set(locVal);
 		locComparison.set(locComp);
@@ -59,6 +83,12 @@ public class MetricsRule {
 		
 		metricName.set(name);
 	}
+	
+	/**
+	 * Creates a new instance of MetricRule from a rule saved in string format
+	 * @param rule
+	 * Saved Rule
+	 */
 	public MetricsRule(String rule) {
 		
 		String[] atributes = rule.split("/");

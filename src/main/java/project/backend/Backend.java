@@ -233,6 +233,35 @@ public class Backend {
 	
 	//Create and save user defined rules
 	
+	/**
+	 * Creates a metric rule and saves it in the save file
+	 * @param name 
+	 * The rule name
+	 * @param locVal 
+	 * The rule's LOC Value
+	 * @param locComp 
+	 * The rule's LOC comparison method: true for greater than, false for lesser than
+	 * @param locCyclo
+	 * The rule's LOC and CYCLO logic operation type: true for And, false for OR
+	 * @param cycloVal
+	 * The rule's CYCLO Value
+	 * @param cycloComp
+	 * The rule's CYCLO comparison method: true for greater than, false for lesser than
+	 * @param aftdVal
+	 * The rule's AFTD Value
+	 * @param aftdComp
+	 * The rule's AFTD comparison method: true for greater than, false for lesser than
+	 * @param aftdLaa
+	 * The rule's AFTD and LAA logic operation type: true for And, false for OR
+	 * @param laaVal
+	 * The rule's LAA Value
+	 * @param laaComp
+	 * The rule's LAA comparison method: true for greater than, false for lesser than
+	 * @return
+	 * Returns the created rule After saving it to the save file
+	 * @throws IOException
+	 * Throws this exception case the are errors writing the save file(EX: file is missing);
+	 */
 	public static MetricsRule createRule(
 			String name,
 			int locVal, boolean locComp,
@@ -244,27 +273,39 @@ public class Backend {
 	{
 		MetricsRule newRule = new MetricsRule
 			(
-			 locVal,  
-			 locComp,
-			 locCyclo,
-			 cycloVal,  
-			 cycloComp,
-			 aftdVal,  
-			 aftdComp,
-			 aftdLaa,
-			 laaVal,  
-			 laaComp, 
-			 name
+					name,
+					locVal,  
+					locComp,
+					locCyclo,
+					cycloVal,  
+					cycloComp,
+					aftdVal,  
+					aftdComp,
+					aftdLaa,
+					laaVal,  
+					laaComp			 
 			 );
 		IO_Manager.writeRuleToFile(newRule);
 		return newRule;
 	}
 	
-	
+	/**
+	 * Deletes the given rule from the save file
+	 * @param ruleToDel 
+	 * The Metric rule object to remove from the save file
+	 * @throws IOException 
+	 * Throws this exception case the are errors rewriting the save file(EX: file is missing);
+	 */
 	public static void deleteRule(MetricsRule ruleToDel) throws IOException {
 		IO_Manager.removeRuleFromFile(ruleToDel);
 	}
-	
+	/**
+	 * Loads the list of Rules from the save file
+	 * @return 
+	 * Returns the saved list of metric rules
+	 * @throws IOException 
+	 * Throws this exception case the are errors reading the save file(EX: file is missing);
+	 */
 	public static List<MetricsRule> loadRules() throws IOException{
 		return IO_Manager.readListFromFile();
 	}
