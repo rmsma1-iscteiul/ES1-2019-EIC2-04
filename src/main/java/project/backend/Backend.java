@@ -14,8 +14,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import javafx.css.Rule;
 import project.backend.containers.DataContainer;
-
+import project.backend.containers.MetricsRule;
+import project.backend.IO_Manager;
 
 public class Backend {
 	private Workbook workbook;
@@ -228,9 +230,44 @@ public class Backend {
 				); 
 		return container;
 	}
-
+	
+	//Create and save user defined rules
+	
+	public static MetricsRule createRule(
+			String name,
+			int locVal, boolean locComp,
+			boolean locCyclo,
+			int cycloVal, boolean cycloComp,
+			int aftdVal, boolean aftdComp,
+			boolean aftdLaa,
+			int laaVal, boolean laaComp) throws IOException 
+	{
+		MetricsRule newRule = new MetricsRule
+			(
+			 locVal,  
+			 locComp,
+			 locCyclo,
+			 cycloVal,  
+			 cycloComp,
+			 aftdVal,  
+			 aftdComp,
+			 aftdLaa,
+			 laaVal,  
+			 laaComp, 
+			 name
+			 );
+		IO_Manager.writeRuleToFile(newRule);
+		return newRule;
+	}
 	
 	
+	public static void deleteRule(MetricsRule ruleToDel) throws IOException {
+		IO_Manager.removeRuleFromFile(ruleToDel);
+	}
+	
+	public static List<MetricsRule> loadRules() throws IOException{
+		return IO_Manager.readListFromFile();
+	}
 	
 	// check list with arguments from GUI
 	/**
@@ -243,9 +280,6 @@ public class Backend {
 		calculateIndicators ();
 		return fileListed;
 	}
-
-	
-	
 	
 	/**
 	 * sets column MetricLongMethod true or false, depending on inputs in GUI and comparing those inputs with values from file
@@ -761,5 +795,7 @@ public class Backend {
 	public void setmFEadii(int mFEadii) {
 		this.mFEadii = mFEadii;
 	}
+	
+	
 }
 
