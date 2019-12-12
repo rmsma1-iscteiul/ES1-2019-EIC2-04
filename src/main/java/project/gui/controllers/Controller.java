@@ -29,6 +29,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.RadioButton;
@@ -39,7 +40,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import project.backend.Backend;
@@ -63,14 +63,16 @@ public class Controller extends Application implements Initializable {
 	@FXML private TableView<DataContainer> table;
 	@FXML private Menu openRecentMenu;
 
-	@FXML private Text DCItext;
-	@FXML private Text DIItext;
-	@FXML private Text ADCItext;
-	@FXML private Text ADIItext;
+	@FXML private Label labelDCI;
+	@FXML private Label labelDII;
+	@FXML private Label labelADCI;
+	@FXML private Label labelADII;
+	@FXML private Label newRuleLabel;
 
 	@FXML private PieChart pieChartiPlasma;
 	@FXML private PieChart pieChartPMD;
-	@FXML private PieChart pieChartNewRule;
+	@FXML private PieChart pieChartFE;
+	@FXML private PieChart pieChartLM;
 
 	@FXML private StackedBarChart<String, Number> barChartPMD;
 	@FXML private StackedBarChart<String, Number> barChartiPlasma;
@@ -81,8 +83,6 @@ public class Controller extends Application implements Initializable {
 	@FXML private HBox hboxChartiPlasma;
 	@FXML private HBox hboxChartFE;
 	@FXML private HBox hboxChartLM;
-	@FXML private HBox hboxChartLE;
-	@FXML private HBox hboxChartFM;
 
 
 	//-----------------------------
@@ -257,21 +257,20 @@ public class Controller extends Application implements Initializable {
 	 * @param totalADII
 	 */
 	public void setQualityIndicatorsTotals() {
-		float total = manager.getPdci() + manager.getPdii() + manager.getPadci() + manager.getPadii();
-		double dciP = 0;
-		double diiP = 0;
-		double adciP = 0;
-		double adiiP = 0;
+		//newRuleLabel.setText(); getName()
+		
+		labelDCI.setText("iPlasma: " + Integer.toString(manager.getIpdci()) + "\n" + "PMD: " + Integer.toString(manager.getPdci()) + "\n" + 
+		"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMdci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdci()));
+		
+		labelDII.setText("iPlasma: " + Integer.toString(manager.getIpdii()) + "\n" + "PMD: " + Integer.toString(manager.getPdii()) + "\n" + 
+		"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMdii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdii()));
+		
 
-		dciP =(int) Math.round((((float)manager.getPdci() / total)) * 100.0);
-		diiP =(int) Math.round((((float)manager.getPdii() / total)) * 100.0);
-		adciP =(int) Math.round((((float)manager.getPadci() / total)) * 100.0);
-		adiiP =(int) Math.round((((float)manager.getPadii() / total)) * 100.0);
+		labelADCI.setText("iPlasma: " + Integer.toString(manager.getIpadci()) + "\n" + "PMD: " + Integer.toString(manager.getPadci()) + "\n" + 
+		"New Rule -" + "\n" + "Long Method: " + Integer.toString(manager.getmLMadci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadci()));
 
-		DCItext.setText(Double.toString(dciP) + "%");
-		DIItext.setText(Double.toString(diiP) + "%");
-		ADCItext.setText(Double.toString(adciP) + "%");
-		ADIItext.setText(Double.toString(adiiP) + "%");
+		labelADII.setText("iPlasma: " + Integer.toString(manager.getIpadii()) + "\n" + "PMD: " + Integer.toString(manager.getPadii()) + "\n" + 
+		"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMadii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadii()));
 
 		configurePieChart();
 		configureStackedBarChart();
@@ -350,9 +349,9 @@ public class Controller extends Application implements Initializable {
 				new PieChart.Data("DCI", manager.getmLMdci()), new PieChart.Data("DII", manager.getmLMdii()),
 				new PieChart.Data("ADCI", manager.getmLMadci()), new PieChart.Data("ADII", manager.getmLMadii()));
 		//pieChartDataPMD.
-		pieChartPMD.setData(pieChartDataLM);
-		pieChartPMD.setTitle("Long Method");
-		pieChartPMD.setLegendSide(Side.LEFT);
+		pieChartLM.setData(pieChartDataLM);
+		pieChartLM.setTitle("Long Method");
+		pieChartLM.setLegendSide(Side.LEFT);
 	}
 
 
@@ -371,9 +370,9 @@ public class Controller extends Application implements Initializable {
 				new PieChart.Data("DCI", manager.getmFEdci()), new PieChart.Data("DII", manager.getmFEdii()),
 				new PieChart.Data("ADCI", manager.getmFEadci()), new PieChart.Data("ADII", manager.getmFEadii()));
 		//pieChartDataPMD.
-		pieChartPMD.setData(pieChartDataFE);
-		pieChartPMD.setTitle("Feature Envy");
-		pieChartPMD.setLegendSide(Side.LEFT);
+		pieChartFE.setData(pieChartDataFE);
+		pieChartFE.setTitle("Feature Envy");
+		pieChartFE.setLegendSide(Side.LEFT);
 	}
 
 
