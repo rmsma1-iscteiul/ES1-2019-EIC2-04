@@ -373,6 +373,17 @@ public class Backend {
 	public void calculateIndicators () {
 		assert (fileListed != null);
 		
+		//reset values
+		pdci=0;
+		pdii=0;
+		padci=0;
+		padii=0;
+		
+		ipdci=0;
+		ipdii=0;
+		ipadci=0;
+		ipadii=0;
+		
 		for (DataContainer dc: fileListed) {
 			
 			//PMD
@@ -514,6 +525,13 @@ public class Backend {
 	
 	
 	/**
+	 * @return the workbook
+	 */
+	public Workbook getWorkbook() {
+		return workbook;
+	}
+
+	/**
 	 * @return the loc
 	 */
 	public double getLoc() {
@@ -542,17 +560,73 @@ public class Backend {
 	}
 
 	/**
-	 * @param laa the laa to set
+	 * @return the mLMdci
 	 */
-	public void setLaa(double laa) {
-		this.laa = laa;
+	public int getmLMdci() {
+		return mLMdci;
 	}
 
 	/**
-	 * @param atfd the atfd to set
+	 * @return the mLMdii
 	 */
-	public void setAtfd(double atfd) {
-		this.atfd = atfd;
+	public int getmLMdii() {
+		return mLMdii;
+	}
+
+	/**
+	 * @return the mLMadci
+	 */
+	public int getmLMadci() {
+		return mLMadci;
+	}
+
+	/**
+	 * @return the mLMadii
+	 */
+	public int getmLMadii() {
+		return mLMadii;
+	}
+
+	/**
+	 * @return the mFEdci
+	 */
+	public int getmFEdci() {
+		return mFEdci;
+	}
+
+	/**
+	 * @return the mFEdii
+	 */
+	public int getmFEdii() {
+		return mFEdii;
+	}
+
+	/**
+	 * @return the mFEadci
+	 */
+	public int getmFEadci() {
+		return mFEadci;
+	}
+
+	/**
+	 * @return the mFEadii
+	 */
+	public int getmFEadii() {
+		return mFEadii;
+	}
+
+	/**
+	 * @param workbook the workbook to set
+	 */
+	public void setWorkbook(Workbook workbook) {
+		this.workbook = workbook;
+	}
+
+	/**
+	 * @param loc the loc to set
+	 */
+	public void setLoc(double loc) {
+		this.loc = loc;
 	}
 
 	/**
@@ -563,10 +637,129 @@ public class Backend {
 	}
 
 	/**
-	 * @param loc the loc to set
+	 * @param atfd the atfd to set
 	 */
-	public void setLoc(double loc) {
-		this.loc = loc;
+	public void setAtfd(double atfd) {
+		this.atfd = atfd;
+	}
+
+	/**
+	 * @param laa the laa to set
+	 */
+	public void setLaa(double laa) {
+		this.laa = laa;
+	}
+
+	/**
+	 * @param pdci the pdci to set
+	 */
+	public void setPdci(int pdci) {
+		this.pdci = pdci;
+	}
+
+	/**
+	 * @param pdii the pdii to set
+	 */
+	public void setPdii(int pdii) {
+		this.pdii = pdii;
+	}
+
+	/**
+	 * @param padci the padci to set
+	 */
+	public void setPadci(int padci) {
+		this.padci = padci;
+	}
+
+	/**
+	 * @param padii the padii to set
+	 */
+	public void setPadii(int padii) {
+		this.padii = padii;
+	}
+
+	/**
+	 * @param ipdci the ipdci to set
+	 */
+	public void setIpdci(int ipdci) {
+		this.ipdci = ipdci;
+	}
+
+	/**
+	 * @param ipdii the ipdii to set
+	 */
+	public void setIpdii(int ipdii) {
+		this.ipdii = ipdii;
+	}
+
+	/**
+	 * @param ipadci the ipadci to set
+	 */
+	public void setIpadci(int ipadci) {
+		this.ipadci = ipadci;
+	}
+
+	/**
+	 * @param ipadii the ipadii to set
+	 */
+	public void setIpadii(int ipadii) {
+		this.ipadii = ipadii;
+	}
+
+	/**
+	 * @param mLMdci the mLMdci to set
+	 */
+	public void setmLMdci(int mLMdci) {
+		this.mLMdci = mLMdci;
+	}
+
+	/**
+	 * @param mLMdii the mLMdii to set
+	 */
+	public void setmLMdii(int mLMdii) {
+		this.mLMdii = mLMdii;
+	}
+
+	/**
+	 * @param mLMadci the mLMadci to set
+	 */
+	public void setmLMadci(int mLMadci) {
+		this.mLMadci = mLMadci;
+	}
+
+	/**
+	 * @param mLMadii the mLMadii to set
+	 */
+	public void setmLMadii(int mLMadii) {
+		this.mLMadii = mLMadii;
+	}
+
+	/**
+	 * @param mFEdci the mFEdci to set
+	 */
+	public void setmFEdci(int mFEdci) {
+		this.mFEdci = mFEdci;
+	}
+
+	/**
+	 * @param mFEdii the mFEdii to set
+	 */
+	public void setmFEdii(int mFEdii) {
+		this.mFEdii = mFEdii;
+	}
+
+	/**
+	 * @param mFEadci the mFEadci to set
+	 */
+	public void setmFEadci(int mFEadci) {
+		this.mFEadci = mFEadci;
+	}
+
+	/**
+	 * @param mFEadii the mFEadii to set
+	 */
+	public void setmFEadii(int mFEadii) {
+		this.mFEadii = mFEadii;
 	}
 }
 

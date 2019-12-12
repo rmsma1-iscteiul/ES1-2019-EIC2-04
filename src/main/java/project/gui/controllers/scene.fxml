@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
@@ -13,7 +16,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -176,7 +178,7 @@
             </TabPane>
             <SplitPane dividerPositions="0.5" maxWidth="300.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
               <items>
-                  <VBox minWidth="220.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                  <VBox minWidth="200.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -189,55 +191,57 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                            <children>
                               <Label minWidth="40.0" text="LOC" />
+                              <ChoiceBox fx:id="locBiggerThanSelector" maxWidth="100.0" minWidth="90.0" prefWidth="150.0" value="Bigger than">
+                                  <items>
+									        <FXCollections fx:factory="observableArrayList">
+									            <String fx:value="Bigger than" />
+									            <String fx:value="Less than" />
+									        </FXCollections>
+									    </items>
+                              </ChoiceBox>
                               <TextField fx:id="locText" maxWidth="300.0" minWidth="20.0" prefHeight="25.0" prefWidth="136.0" />
-                              <VBox prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <SplitMenuButton fx:id="locBiggerThanSelector" minWidth="102.0" mnemonicParsing="false" text="Bigger than">
-                                      <items>
-                                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                                      </items>
-                                    </SplitMenuButton>
-                                 </children>
-                              </VBox>
                            </children>
                         </HBox>
                         <HBox prefHeight="64.0" prefWidth="260.0">
                            <children>
                               <Region prefHeight="200.0" prefWidth="200.0" />
-                              <RadioButton fx:id="locCycloandButton" minWidth="50.0" mnemonicParsing="false" selected="true" text="AND">
+                              <RadioButton fx:id="locCycloAndButton" minWidth="50.0" mnemonicParsing="false" selected="true" text="AND">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="AndOr" />
                                  </toggleGroup>
                               </RadioButton>
                               <Region prefHeight="200.0" prefWidth="200.0" />
-                              <RadioButton fx:id="locCycloOrButton" minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr" />
+                              <RadioButton minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr" />
                               <Region prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                            <children>
                               <Label minWidth="40.0" text="CYCLO" />
-                              <TextField fx:id="cycloText" maxWidth="300.0" minWidth="20.0" />
-                              <SplitMenuButton fx:id="cycloBiggerThanSelector" minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                              <ChoiceBox fx:id="cycloBiggerThanSelector" maxWidth="100.0" minWidth="90.0" prefWidth="150.0" value="Bigger than">
                                  <items>
-                                    <MenuItem mnemonicParsing="false" text="Bigger than" />
-                                    <MenuItem mnemonicParsing="false" text="Less than" />
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="Bigger than" />
+                                       <String fx:value="Less than" />
+                                    </FXCollections>
                                  </items>
-                              </SplitMenuButton>
+                              </ChoiceBox>
+                              <TextField fx:id="cycloText" maxWidth="300.0" minWidth="20.0" />
                            </children>
                         </HBox>
                         <Separator prefWidth="200.0" />
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                            <children>
                               <Label minWidth="40.0" text="ATFD" />
-                              <TextField fx:id="atfdText" maxWidth="300.0" minWidth="20.0" />
-                              <SplitMenuButton fx:id="atfdBiggerThanSelector" minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                              <ChoiceBox fx:id="atfdBiggerThanSelector" maxWidth="100.0" minWidth="90.0" prefWidth="150.0" value="Bigger than">
                                  <items>
-                                    <MenuItem mnemonicParsing="false" text="Bigger than" />
-                                    <MenuItem mnemonicParsing="false" text="Less than" />
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="Bigger than" />
+                                       <String fx:value="Less than" />
+                                    </FXCollections>
                                  </items>
-                              </SplitMenuButton>
+                              </ChoiceBox>
+                              <TextField fx:id="atfdText" maxWidth="300.0" minWidth="20.0" />
                            </children>
                         </HBox>
                         <HBox layoutX="20.0" layoutY="102.0" prefHeight="64.0" prefWidth="260.0">
@@ -249,20 +253,22 @@
                                  </toggleGroup>
                               </RadioButton>
                               <Region prefHeight="200.0" prefWidth="200.0" />
-                              <RadioButton fx:id="atfdLaaOrButton" minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr1" />
+                              <RadioButton minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr1" />
                               <Region prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                            <children>
                               <Label minWidth="40.0" text="LAA" />
-                              <TextField fx:id="laaText" maxWidth="300.0" minWidth="20.0" />
-                              <SplitMenuButton fx:id="laaBiggerThanSelector" minWidth="102.0" mnemonicParsing="false" text="Bigger than">
+                              <ChoiceBox fx:id="laaBiggerThanSelector" maxWidth="100.0" minWidth="90.0" prefWidth="150.0" value="Bigger than">
                                  <items>
-                                    <MenuItem mnemonicParsing="false" text="Bigger than" />
-                                    <MenuItem mnemonicParsing="false" text="Less than" />
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="Bigger than" />
+                                       <String fx:value="Less than" />
+                                    </FXCollections>
                                  </items>
-                              </SplitMenuButton>
+                              </ChoiceBox>
+                              <TextField fx:id="laaText" maxWidth="300.0" minWidth="20.0" />
                            </children>
                         </HBox>
                         <Separator prefWidth="200.0" />
@@ -297,24 +303,6 @@
                            </padding>
                         </HBox>
                         <ListView fx:id="metricList" prefHeight="319.0" prefWidth="280.0" />
-                        <HBox maxWidth="20.0" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label minWidth="35.0" prefWidth="200.0" text="DCI:" />
-                              <Label fx:id="DCI" minWidth="35.0" prefWidth="200.0" />
-                              <Label minWidth="35.0" prefWidth="200.0" text="DII:" />
-                              <Label fx:id="DII" minWidth="35.0" prefWidth="200.0" />
-                              <Label minWidth="35.0" prefWidth="200.0" text="ADCI:" />
-                              <Label fx:id="ADCI" minWidth="35.0" prefWidth="200.0" />
-                              <Label minWidth="35.0" prefWidth="200.0" text="ADII:" />
-                              <Label fx:id="ADII" minWidth="35.0" prefWidth="200.0" />
-                           </children>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="10.0" top="10.0" />
-                           </padding>
-                        </HBox>
                      </children>
                   </VBox>
               </items>

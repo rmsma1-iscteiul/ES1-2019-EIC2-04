@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,11 +26,10 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -63,11 +61,6 @@ public class Controller extends Application implements Initializable {
 	@FXML private TableView<DataContainer> table;
 	@FXML private Menu openRecentMenu;
 
-	@FXML private Label DCI;
-	@FXML private Label DII;
-	@FXML private Label ADCI;
-	@FXML private Label ADII;
-
 	@FXML private Text DCItext;
 	@FXML private Text DIItext;
 	@FXML private Text ADCItext;
@@ -89,27 +82,25 @@ public class Controller extends Application implements Initializable {
 	//-----------------------------
 	//LOC
 	@FXML private TextField locText;
-	@FXML private SplitMenuButton locBiggerThanSelector;
+	@FXML private ChoiceBox<String> locBiggerThanSelector;
 
 	//AND OR
-	@FXML private RadioButton locCycloandButton;
-	@FXML private RadioButton locCycloOrButton;
+	@FXML private RadioButton locCycloAndButton;
 
 	//CYCLO
 	@FXML private TextField cycloText;
-	@FXML private SplitMenuButton cycloBiggerThanSelector;
+	@FXML private ChoiceBox<String> cycloBiggerThanSelector;
 
 	//AFTD
 	@FXML private TextField atfdText;
-	@FXML private SplitMenuButton atfdBiggerThanSelector;
+	@FXML private ChoiceBox<String> atfdBiggerThanSelector;
 
 	//AND OR
 	@FXML private RadioButton atfdLaaAndButton;
-	@FXML private RadioButton atfdLaaOrButton;    
 
 	//LAA
 	@FXML private TextField laaText;
-	@FXML private SplitMenuButton laaBiggerThanSelector;
+	@FXML private ChoiceBox<String> laaBiggerThanSelector;
 	//----------------------------
 
 	@FXML private ListView<MetricsRule> metricList;
@@ -117,6 +108,11 @@ public class Controller extends Application implements Initializable {
 
 
 
+
+	/**
+	 * Saves metric in a list
+	 * @param event
+	 */
 	@FXML
 	public void saveMetric(ActionEvent event) {
 		if(validateInput()) {
@@ -124,6 +120,7 @@ public class Controller extends Application implements Initializable {
 			System.out.println(name);
 			//call backend to create metricRule
 			//add metric to list
+			//TODO Rui Menoita
 		}
 	}
 
@@ -154,16 +151,20 @@ public class Controller extends Application implements Initializable {
 		if (!laaText.getText().isBlank()){
 			try {
 				if(Double.parseDouble(laaText.getText())<0 || Double.parseDouble(laaText.getText())>1) {
-					showErrorDialog("Laa must be a number bigger than 0 and less then 1 and not empty");
+					showErrorDialog("Laa must be a number bigger than 0 and less then 1 ");
 					return false;
 				}
 			}catch(NumberFormatException e ) {
 				showErrorDialog("Laa must be a number");
 			}
+		}else {
+			showErrorDialog("Laa must be a number and not empty");
+			return false;
 		}
-
 		return true;
 	}
+
+
 
 
 
@@ -199,35 +200,15 @@ public class Controller extends Application implements Initializable {
 
 
 
+
+
+
 	/**
 	 * @param rowList List to be load on TableView table
 	 */
 	private void loadList(List<DataContainer> rowList) {
 		table.getItems().clear();
 		table.getItems().addAll(FXCollections.observableList(rowList));
-	}
-
-
-
-
-
-
-	/**
-	 * This method will retrieve the values from the LOC, CYCLO, ATFD and LAA
-	 * fields, call a function and give them as parameters. In case, any field is
-	 * blank, it will assume a predefined value.
-	 *
-	 * @param event
-	 */
-	public void getMetrics() {
-		if(validateInput() ) {
-			manager.setLOC(Double.parseDouble(locText.getText()));
-			manager.setCYCLO(Double.parseDouble(cycloText.getText()));
-			manager.setATFD(Double.parseDouble(atfdText.getText()));
-			manager.setLAA(Double.parseDouble(laaText.getText()));
-		}
-		// manager.checkList();
-		// loadList(manager.checkList(logicSelector));
 	}
 
 
@@ -252,11 +233,6 @@ public class Controller extends Application implements Initializable {
 		double adciP = 0;
 		double adiiP = 0;
 
-		DCI.setText(Integer.toString(manager.getPdci() + manager.getIpdci()));
-		DII.setText(Integer.toString(manager.getPdii() + manager.getIpdii()));
-		ADCI.setText(Integer.toString(manager.getPadci() + + manager.getIpadci()));
-		ADII.setText(Integer.toString(manager.getPadii() + + manager.getIpadii()));
-
 		dciP =(int) Math.round((((float)manager.getPdci() / total)) * 100.0);
 		diiP =(int) Math.round((((float)manager.getPdii() / total)) * 100.0);
 		adciP =(int) Math.round((((float)manager.getPadci() / total)) * 100.0);
@@ -276,6 +252,9 @@ public class Controller extends Application implements Initializable {
 
 
 
+
+
+
 	/**
 	 * Creates and adds to the UI a Pie Chart for the iPlasma, PMD and (if selected) the new Rule
 	 */
@@ -284,8 +263,14 @@ public class Controller extends Application implements Initializable {
 		pmdPieChart();		
 		//		if() //check if there is a new rule selected
 		newRulePieChart();
-
 	}
+
+
+
+
+
+
+
 
 
 	/**
@@ -300,6 +285,10 @@ public class Controller extends Application implements Initializable {
 		pieChartiPlasma.setTitle("iPlasma");
 		pieChartiPlasma.setLegendSide(Side.LEFT);
 	}
+
+
+
+
 
 
 
@@ -323,6 +312,10 @@ public class Controller extends Application implements Initializable {
 
 
 
+
+
+
+
 	/**
 	 * Creates pie chart for the new rule
 	 */
@@ -341,6 +334,10 @@ public class Controller extends Application implements Initializable {
 
 
 
+
+
+
+
 	/**
 	 * 
 	 * This method will create the iPlasma and PMD bar charts
@@ -354,6 +351,9 @@ public class Controller extends Application implements Initializable {
 		//		}
 
 	}
+
+
+
 
 
 
@@ -398,6 +398,9 @@ public class Controller extends Application implements Initializable {
 
 
 
+
+
+
 	/**
 	 * Creates iPlasma bar chart
 	 */
@@ -428,6 +431,11 @@ public class Controller extends Application implements Initializable {
 		//draws it on the hbox
 		hboxChartiPlasma.getChildren().add(barChartiPlasma);
 	}
+
+
+
+
+
 
 
 
@@ -466,15 +474,41 @@ public class Controller extends Application implements Initializable {
 
 
 
+
+
+
+
+
 	/**
 	 * This method will be called when the Apply button is pressed
 	 * @param event
 	 */
 	@FXML
 	public void applyPressed(ActionEvent event) {
-		getMetrics();
-		setQualityIndicatorsTotals();
+		if(validateInput()) {
+				boolean atfdAndLaa = atfdLaaAndButton.isSelected();
+				boolean atfdLessThan = atfdBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
+				boolean laaLessThan = laaBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
+				int atfdGUI = Integer.parseInt(atfdText.getText());
+				double laaGUI = Double.parseDouble(laaText.getText());
+				
+				manager.MetricFeatureEnvy(atfdAndLaa, atfdLessThan, laaLessThan, atfdGUI, laaGUI);
+				
+				boolean locAndCyclo = locCycloAndButton.isSelected();
+				boolean locLessThan = locBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
+				boolean cycloLessThan = cycloBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
+				int locGUI = Integer.parseInt(locText.getText());
+				int cycloGUI = Integer.parseInt(cycloText.getText());
+				
+				manager.MetricLongMethod(locAndCyclo, locLessThan, cycloLessThan, locGUI, cycloGUI);
+				manager.calculateIndicatorsMetric();
+				
+				setQualityIndicatorsTotals();
+		}
 	}
+
+
+
 
 
 
@@ -506,6 +540,10 @@ public class Controller extends Application implements Initializable {
 
 
 
+
+
+
+
 	/**
 	 * Displays a error dialog with @param error message
 	 */
@@ -519,10 +557,14 @@ public class Controller extends Application implements Initializable {
 		});
 	}
 
-	
-	
 
-	
+
+
+
+
+
+
+
 	/**
 	 * Displays an dialog that waits for user input
 	 * @param message message to be displayed next to text field
@@ -533,15 +575,15 @@ public class Controller extends Application implements Initializable {
 		dialog.setHeaderText(null);
 		dialog.setGraphic(null);
 		dialog.setContentText(message);
-		
+
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent())
-		    return result.get();
+			return result.get();
 		return null;
 	}
-	
-	
-	
+
+
+
 
 
 
@@ -565,6 +607,9 @@ public class Controller extends Application implements Initializable {
 			showErrorDialog(e.getMessage());
 		}
 	}
+
+
+
 
 
 
@@ -617,6 +662,9 @@ public class Controller extends Application implements Initializable {
 
 
 
+
+
+
 	/**
 	 * This makes table size responsive when Data tab is resized
 	 * and creates Metric list listener
@@ -624,12 +672,15 @@ public class Controller extends Application implements Initializable {
 	private void initListeners() {
 		dataTabPane.heightProperty().addListener((obs, old, newValue) -> table.setPrefHeight(newValue.doubleValue()));
 		dataTabPane.widthProperty().addListener((obs, old, newValue) -> table.setPrefWidth(newValue.doubleValue()));
-		
-		
+
+
 		metricList.getSelectionModel().selectedItemProperty().addListener((obs, old, newValue) ->{
-				//load metric
-            });
+			//load metric TODO Rui Menoita
+		});
 	}
+
+
+
 
 
 
