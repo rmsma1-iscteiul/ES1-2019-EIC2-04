@@ -102,6 +102,7 @@ public class Controller extends Application implements Initializable {
 	@FXML private TextField atfdText;
 	@FXML private ChoiceBox<String> atfdBiggerThanSelector;
 
+	
 	//AND OR
 	@FXML private RadioButton atfdLaaAndButton;
 	@FXML private RadioButton atfdLaaOrButton;
