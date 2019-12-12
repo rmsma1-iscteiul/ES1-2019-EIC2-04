@@ -26,6 +26,8 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
@@ -121,10 +123,34 @@ public class Controller extends Application implements Initializable {
 	public void saveMetric(ActionEvent event) {
 		if(validateInput()) {
 			String name = getAndShowInputTextDialog("Please enter metric name:");
-			System.out.println(name);
-			//call backend to create metricRule
-			//add metric to list
-			//TODO Rui Menoita
+
+			for(MetricsRule mr : metricList.getItems()) {
+				if(mr.getMetricName().equals(name)){
+					showErrorDialog("There is Already a metric rule with that name\n Please choose another name");
+					return;
+				}
+			}
+			try {
+				
+				boolean atfdAndLaa = atfdLaaAndButton.isSelected();
+				boolean atfdBiggerThan = atfdBiggerThanSelector.getSelectionModel().getSelectedIndex() == 0;
+				boolean laaBiggerThan = laaBiggerThanSelector.getSelectionModel().getSelectedIndex() == 0;
+				boolean locAndCyclo = locCycloAndButton.isSelected();
+				boolean locBiggerThan = locBiggerThanSelector.getSelectionModel().getSelectedIndex() == 0;
+				boolean cycloBiggerThan = cycloBiggerThanSelector.getSelectionModel().getSelectedIndex() == 0;
+				int locGUI = Integer.parseInt(locText.getText());
+				int cycloGUI = Integer.parseInt(cycloText.getText());
+				int atfdGUI = Integer.parseInt(atfdText.getText());
+				double laaGUI = Double.parseDouble(laaText.getText());
+
+				metricList.getItems().add(manager.createRule(name, locGUI, locBiggerThan, locAndCyclo, cycloGUI, cycloBiggerThan, 
+															 atfdGUI, atfdBiggerThan, atfdAndLaa, laaGUI, laaBiggerThan));		//creates and add metric to list
+			}catch (Exception e) {
+				e.printStackTrace();
+				showErrorDialog("Something went wrong:\n"+e.getMessage());
+			}
+			
+			showInfoDialog("Metric " +name + " has been saved with success");
 		}
 	}
 
@@ -328,14 +354,14 @@ public class Controller extends Application implements Initializable {
 		pieChartPMD.setTitle("Long Method");
 		pieChartPMD.setLegendSide(Side.LEFT);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 	/**
 	 * Creates pie chart for PMD
 	 */
@@ -492,11 +518,11 @@ public class Controller extends Application implements Initializable {
 		hboxChartFE.getChildren().add(barChartFE);
 	}
 
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * Creates bar chart for the Long Method
 	 */
@@ -526,9 +552,9 @@ public class Controller extends Application implements Initializable {
 		hboxChartLM.getChildren().add(barChartLM);
 	}
 
-	
-	
-	
+
+
+
 	private void setUpGraphsFeLMG() {
 		fePieChart();
 		lmPieChart();
@@ -549,26 +575,26 @@ public class Controller extends Application implements Initializable {
 	@FXML
 	public void applyPressed(ActionEvent event) {
 		if(validateInput()) {
-				boolean atfdAndLaa = atfdLaaAndButton.isSelected();
-				boolean atfdLessThan = atfdBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
-				boolean laaLessThan = laaBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
-				int atfdGUI = Integer.parseInt(atfdText.getText());
-				double laaGUI = Double.parseDouble(laaText.getText());
-				
-				manager.MetricFeatureEnvy(atfdAndLaa, atfdLessThan, laaLessThan, atfdGUI, laaGUI);
-				
-				boolean locAndCyclo = locCycloAndButton.isSelected();
-				boolean locLessThan = locBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
-				boolean cycloLessThan = cycloBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
-				int locGUI = Integer.parseInt(locText.getText());
-				int cycloGUI = Integer.parseInt(cycloText.getText());
-				
-				manager.MetricLongMethod(locAndCyclo, locLessThan, cycloLessThan, locGUI, cycloGUI);
-				manager.calculateIndicatorsMetric();
-				
-				setQualityIndicatorsTotals();
-				setUpGraphsFeLMG();
-				
+			boolean atfdAndLaa = atfdLaaAndButton.isSelected();
+			boolean atfdLessThan = atfdBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
+			boolean laaLessThan = laaBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
+			int atfdGUI = Integer.parseInt(atfdText.getText());
+			double laaGUI = Double.parseDouble(laaText.getText());
+
+			manager.MetricFeatureEnvy(atfdAndLaa, atfdLessThan, laaLessThan, atfdGUI, laaGUI);
+
+			boolean locAndCyclo = locCycloAndButton.isSelected();
+			boolean locLessThan = locBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
+			boolean cycloLessThan = cycloBiggerThanSelector.getSelectionModel().getSelectedIndex() != 0;
+			int locGUI = Integer.parseInt(locText.getText());
+			int cycloGUI = Integer.parseInt(cycloText.getText());
+
+			manager.MetricLongMethod(locAndCyclo, locLessThan, cycloLessThan, locGUI, cycloGUI);
+			manager.calculateIndicatorsMetric();
+
+			setQualityIndicatorsTotals();
+			setUpGraphsFeLMG();
+
 		}
 	}
 
@@ -738,11 +764,127 @@ public class Controller extends Application implements Initializable {
 		dataTabPane.heightProperty().addListener((obs, old, newValue) -> table.setPrefHeight(newValue.doubleValue()));
 		dataTabPane.widthProperty().addListener((obs, old, newValue) -> table.setPrefWidth(newValue.doubleValue()));
 
+		try {
+			metricList.getItems().addAll(FXCollections.observableArrayList(manager.loadRules()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			showErrorDialog("Something went wrong loading saved metric rules.");
+		}
 
-		metricList.getSelectionModel().selectedItemProperty().addListener((obs, old, newValue) ->{
-			//load metric TODO Rui Menoita
+		metricList.getSelectionModel().selectedItemProperty().addListener((obs, old, newValue) -> showMetricDialog());
+	}
+
+
+
+
+
+
+	/**
+	 * Show metric dialog with three buttons 
+	 * Load -> loads metric
+	 * Delete -> Deletes metric
+	 * Cancel -> Cancels action
+	 */
+	private void showMetricDialog() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Load metric");
+		alert.setHeaderText("Do you want to load or delete this metric?");
+		alert.setContentText("Choose your option.");
+
+		ButtonType loadButton = new ButtonType("Load");
+		ButtonType deleteButton = new ButtonType("Delete");
+		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+		alert.getButtonTypes().setAll(loadButton, deleteButton, buttonTypeCancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
 		
-		});
+		if (result.get() == loadButton){					//process the dialog output
+		    loadMetric();
+		    
+		} else if (result.get() == deleteButton) {
+			
+		    try {
+				manager.deleteRule(metricList.getSelectionModel().getSelectedItem());
+			} catch (IOException e) {
+				e.printStackTrace();
+				showErrorDialog("Something went wrong.\n"+e.getLocalizedMessage());
+			}
+		    showInfoDialog("Rule deleted with Success");
+		} 
+	}
+
+
+
+
+
+
+
+
+	/**
+	 * This method displays a dialog with the given message
+	 * @param message message to be displayed as info dialog
+	 */
+	private void showInfoDialog(String message) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Info");
+		alert.setHeaderText("Info");
+		alert.setContentText(message);
+		alert.showAndWait();
+	}
+
+
+
+
+
+
+
+
+	/**
+	 * This method loads the selected metric
+	 */
+	private void loadMetric() {
+			MetricsRule mr = metricList.getSelectionModel().getSelectedItem();
+			
+			boolean atfdAndLaa = mr.getAftdLaaAndOr();
+			atfdLaaAndButton.setSelected(mr.getAftdLaaAndOr());
+			
+			boolean atfdLessThan = !mr.getAftdComparison();
+			atfdBiggerThanSelector.getSelectionModel().select(mr.getAftdComparison() ? 0 : 1);
+			
+			boolean laaLessThan = !mr.getLaaComparison();
+			laaBiggerThanSelector.getSelectionModel().select(mr.getLaaComparison() ? 0 : 1);
+			
+			int atfdGUI = mr.getAftdValue();
+			atfdText.setText(mr.getAftdValue()+"");
+			
+			double laaGUI = mr.getLaaValue();
+			laaText.setText(mr.getLaaValue()+"");
+
+			manager.MetricFeatureEnvy(atfdAndLaa, atfdLessThan, laaLessThan, atfdGUI, laaGUI);
+
+			//--------------
+			
+			boolean locAndCyclo = mr.getLocCycloAndOr();
+			locCycloAndButton.setSelected(mr.getLocCycloAndOr());
+			
+			boolean locLessThan = !mr.getLocComparison();
+			locBiggerThanSelector.getSelectionModel().select(mr.getLocComparison() ? 0 : 1);
+			
+			boolean cycloLessThan = mr.getCycloComparison();
+			cycloBiggerThanSelector.getSelectionModel().select(mr.getCycloComparison() ? 0 : 1);
+			
+			int locGUI = mr.getLocValue();
+			locText.setText(mr.getLocValue()+"");
+			
+			int cycloGUI = mr.getCycloValue();
+			cycloText.setText(mr.getCycloValue()+"");
+
+			manager.MetricLongMethod(locAndCyclo, locLessThan, cycloLessThan, locGUI, cycloGUI);
+			manager.calculateIndicatorsMetric();
+
+			setQualityIndicatorsTotals();
+			setUpGraphsFeLMG();
 	}
 
 

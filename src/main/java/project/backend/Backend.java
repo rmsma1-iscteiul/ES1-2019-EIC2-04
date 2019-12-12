@@ -14,7 +14,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import javafx.css.Rule;
 import project.backend.containers.DataContainer;
 import project.backend.containers.MetricsRule;
 import project.backend.IO_Manager;
@@ -52,70 +51,6 @@ public class Backend {
 	
 	private List<DataContainer> fileListed;
 
-
-
-	public void setLOC(double lOC) {
-		loc = lOC;
-	}
-
-	public void setCYCLO(double cYCLO) {
-		cyclo = cYCLO;
-	}
-
-	public void setATFD(double aTFD) {
-		atfd = aTFD;
-	}
-
-	public void setLAA(double lAA) {
-		laa = lAA;
-	}
-	
-	
-	
-	
-	public int getPdci() {
-		return pdci;
-	}
-
-	public int getPdii() {
-		return pdii;
-	}
-
-	public int getPadci() {
-		return padci;
-	}
-
-	public int getPadii() {
-		return padii;
-	}
-
-	public int getIpdci() {
-		return ipdci;
-	}
-
-	public int getIpdii() {
-		return ipdii;
-	}
-
-	public int getIpadci() {
-		return ipadci;
-	}
-
-	public int getIpadii() {
-		return ipadii;
-	}
-
-	
-	public List<DataContainer> getFileListed() {
-		return fileListed;
-	}
-	public void setFileListed(List<DataContainer> filelisted) {
-		fileListed = filelisted;
-	}
-	
-
-	
-	
 	
 	
 	/**
@@ -233,6 +168,8 @@ public class Backend {
 	
 	//Create and save user defined rules
 	
+	
+	
 	/**
 	 * Creates a metric rule and saves it in the save file
 	 * @param name 
@@ -262,14 +199,14 @@ public class Backend {
 	 * @throws IOException
 	 * Throws this exception case the are errors writing the save file(EX: file is missing);
 	 */
-	public static MetricsRule createRule(
+	public MetricsRule createRule(
 			String name,
 			int locVal, boolean locComp,
 			boolean locCyclo,
 			int cycloVal, boolean cycloComp,
 			int aftdVal, boolean aftdComp,
 			boolean aftdLaa,
-			int laaVal, boolean laaComp) throws IOException 
+			double laaVal, boolean laaComp) throws IOException 
 	{
 		MetricsRule newRule = new MetricsRule
 			(
@@ -289,6 +226,11 @@ public class Backend {
 		return newRule;
 	}
 	
+	
+	
+	
+	
+	
 	/**
 	 * Deletes the given rule from the save file
 	 * @param ruleToDel 
@@ -296,9 +238,15 @@ public class Backend {
 	 * @throws IOException 
 	 * Throws this exception case the are errors rewriting the save file(EX: file is missing);
 	 */
-	public static void deleteRule(MetricsRule ruleToDel) throws IOException {
+	public void deleteRule(MetricsRule ruleToDel) throws IOException {
 		IO_Manager.removeRuleFromFile(ruleToDel);
 	}
+	
+	
+	
+	
+	
+	
 	/**
 	 * Loads the list of Rules from the save file
 	 * @return 
@@ -306,9 +254,16 @@ public class Backend {
 	 * @throws IOException 
 	 * Throws this exception case the are errors reading the save file(EX: file is missing);
 	 */
-	public static List<MetricsRule> loadRules() throws IOException{
+	public List<MetricsRule> loadRules() throws IOException{
 		return IO_Manager.readListFromFile();
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	// check list with arguments from GUI
 	/**
@@ -837,6 +792,63 @@ public class Backend {
 		this.mFEadii = mFEadii;
 	}
 	
+
+
+
+	public void setLOC(double lOC) {
+		loc = lOC;
+	}
+
+	public void setCYCLO(double cYCLO) {
+		cyclo = cYCLO;
+	}
+
+	public void setATFD(double aTFD) {
+		atfd = aTFD;
+	}
+
+	public void setLAA(double lAA) {
+		laa = lAA;
+	}
 	
+	public int getPdci() {
+		return pdci;
+	}
+
+	public int getPdii() {
+		return pdii;
+	}
+
+	public int getPadci() {
+		return padci;
+	}
+
+	public int getPadii() {
+		return padii;
+	}
+
+	public int getIpdci() {
+		return ipdci;
+	}
+
+	public int getIpdii() {
+		return ipdii;
+	}
+
+	public int getIpadci() {
+		return ipadci;
+	}
+
+	public int getIpadii() {
+		return ipadii;
+	}
+
+	
+	public List<DataContainer> getFileListed() {
+		return fileListed;
+	}
+	public void setFileListed(List<DataContainer> filelisted) {
+		fileListed = filelisted;
+	}
 }
 

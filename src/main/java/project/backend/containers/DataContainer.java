@@ -35,11 +35,6 @@ public class DataContainer {
 	private SimpleStringProperty quality_metric_longmethod = new SimpleStringProperty();
 	private SimpleStringProperty quality_metric_featureenvy = new SimpleStringProperty();
 
-	private SimpleBooleanProperty LOBATO = new SimpleBooleanProperty();
-	private SimpleBooleanProperty NUNO = new SimpleBooleanProperty();
-	private SimpleStringProperty quality_NUNO = new SimpleStringProperty();
-	private SimpleStringProperty quality_LOBATO = new SimpleStringProperty();
-	
 	
 	
 	public DataContainer(int methodID, String packageName, String className, String method, int lOC, int cYCLO, int aTFD,

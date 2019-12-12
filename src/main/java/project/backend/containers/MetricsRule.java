@@ -1,9 +1,5 @@
 package project.backend.containers;
 
-import java.awt.List;
-
-import javax.swing.text.StyledEditorKit.BoldAction;
-
 import javafx.beans.property.*;
 /**
  * Defines a Metric rule
@@ -25,7 +21,7 @@ public class MetricsRule {
 	
 	private SimpleBooleanProperty aftdLaaAndOr = new SimpleBooleanProperty();
 	
-	private SimpleIntegerProperty laaValue = new SimpleIntegerProperty();
+	private SimpleDoubleProperty laaValue = new SimpleDoubleProperty();
 	private SimpleBooleanProperty laaComparison = new SimpleBooleanProperty();
 	
 	
@@ -62,7 +58,7 @@ public class MetricsRule {
 			int cycloVal, boolean cycloComp,
 			int aftdVal, boolean aftdComp,
 			boolean aftdLaa,
-			int laaVal, boolean laaComp
+			double laaVal, boolean laaComp
 			) {
 		
 		locValue.set(locVal);
@@ -101,7 +97,7 @@ public class MetricsRule {
 		int aftdVal = Integer.parseInt(atributes[6]); 
 		boolean aftdComp = Boolean.parseBoolean(atributes[7]);
 		boolean aftdLaa = Boolean.parseBoolean(atributes[8]);
-		int laaVal = Integer.parseInt(atributes[9]); 
+		double laaVal = Double.parseDouble(atributes[9]); 
 		boolean laaComp = Boolean.parseBoolean(atributes[10]);
 		String name = atributes[0];
 		
@@ -259,7 +255,7 @@ public class MetricsRule {
 
 
 
-	public int getLaaValue() {
+	public double getLaaValue() {
 		return laaValue.get();
 	}
 
@@ -311,6 +307,16 @@ public class MetricsRule {
 	
 	@Override
 	public String toString() {
+		return metricName.get();
+	}
+	
+	
+	
+	/**
+	 * This method is used by IO_Manager to write this object into a file
+	 * @return return a parsed string
+	 */
+	public String fileToString() {
 		String rule = "";
 		rule += this.metricName.get();
 		
