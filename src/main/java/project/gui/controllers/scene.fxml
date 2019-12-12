@@ -75,16 +75,16 @@
                                                 <Insets bottom="20.0" left="20.0" top="20.0" />
                                              </HBox.margin>
                                              <children>
-                                                <Text fx:id="DCItext" layoutX="47.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font size="31.0" />
-                                                   </font>
-                                                </Text>
                                                 <Text layoutX="60.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DCI">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font>
                                                 </Text>
+                                                <Label fx:id="labelDCI" layoutX="61.0" layoutY="40.0">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
                                              </children>
                                           </Pane>
                                           <Region prefHeight="200.0" prefWidth="0.0" />
@@ -93,16 +93,16 @@
                                                 <Insets bottom="20.0" top="20.0" />
                                              </HBox.margin>
                                              <children>
-                                                <Text fx:id="DIItext" layoutX="56.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font size="31.0" />
-                                                   </font>
-                                                </Text>
                                                 <Text layoutX="64.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DII">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font>
                                                 </Text>
+                                                <Label fx:id="labelDII" layoutX="60.0" layoutY="39.0">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
                                              </children>
                                           </Pane>
                                           <Region layoutX="180.0" layoutY="10.0" prefHeight="200.0" prefWidth="0.0" />
@@ -111,16 +111,16 @@
                                                 <Insets bottom="20.0" top="20.0" />
                                              </HBox.margin>
                                              <children>
-                                                <Text fx:id="ADCItext" layoutX="37.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font size="31.0" />
-                                                   </font>
-                                                </Text>
                                                 <Text layoutX="54.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ADCI">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font>
                                                 </Text>
+                                                <Label fx:id="labelADCI" layoutX="57.0" layoutY="38.0">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
                                              </children>
                                           </Pane>
                                           <Region layoutX="673.0" layoutY="10.0" prefHeight="200.0" prefWidth="0.0" />
@@ -129,16 +129,16 @@
                                                 <Insets bottom="20.0" right="20.0" top="20.0" />
                                              </HBox.margin>
                                              <children>
-                                                <Text fx:id="ADIItext" layoutX="45.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font size="31.0" />
-                                                   </font>
-                                                </Text>
                                                 <Text layoutX="57.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ADII">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font>
                                                 </Text>
+                                                <Label fx:id="labelADII" layoutX="59.0" layoutY="39.0">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
                                              </children>
                                           </Pane>
                                        </children>
@@ -157,6 +157,17 @@
                                                       <HBox fx:id="hboxChartiPlasma" prefHeight="400.0" prefWidth="712.0">
                                                          <children>
                                                             <PieChart fx:id="pieChartiPlasma" prefHeight="400.0" prefWidth="400.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Region prefHeight="200.0" prefWidth="200.0" />
+                                                            <Label fx:id="newRuleLabel" text="New Rule">
+                                                               <font>
+                                                                  <Font name="System Bold" size="20.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
                                                          </children>
                                                       </HBox>
                                                       <HBox fx:id="hboxChartFE" prefHeight="400.0" prefWidth="712.0">
