@@ -230,7 +230,7 @@
                                  </toggleGroup>
                               </RadioButton>
                               <Region prefHeight="200.0" prefWidth="200.0" />
-                              <RadioButton minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr" />
+                              <RadioButton fx:id="locCycloOrButton" minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr" />
                               <Region prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </HBox>
@@ -272,7 +272,7 @@
                                  </toggleGroup>
                               </RadioButton>
                               <Region prefHeight="200.0" prefWidth="200.0" />
-                              <RadioButton minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr1" />
+                              <RadioButton fx:id="atfdLaaOrButton" minWidth="50.0" mnemonicParsing="false" text="OR" textAlignment="RIGHT" toggleGroup="$AndOr1" />
                               <Region prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </HBox>

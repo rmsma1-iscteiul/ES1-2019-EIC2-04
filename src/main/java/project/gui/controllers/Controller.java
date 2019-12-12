@@ -92,7 +92,8 @@ public class Controller extends Application implements Initializable {
 
 	//AND OR
 	@FXML private RadioButton locCycloAndButton;
-
+	@FXML private RadioButton locCycloOrButton;
+	
 	//CYCLO
 	@FXML private TextField cycloText;
 	@FXML private ChoiceBox<String> cycloBiggerThanSelector;
@@ -103,7 +104,8 @@ public class Controller extends Application implements Initializable {
 
 	//AND OR
 	@FXML private RadioButton atfdLaaAndButton;
-
+	@FXML private RadioButton atfdLaaOrButton;
+	
 	//LAA
 	@FXML private TextField laaText;
 	@FXML private ChoiceBox<String> laaBiggerThanSelector;
@@ -131,7 +133,7 @@ public class Controller extends Application implements Initializable {
 				}
 			}
 			try {
-				
+
 				boolean atfdAndLaa = atfdLaaAndButton.isSelected();
 				boolean atfdBiggerThan = atfdBiggerThanSelector.getSelectionModel().getSelectedIndex() == 0;
 				boolean laaBiggerThan = laaBiggerThanSelector.getSelectionModel().getSelectedIndex() == 0;
@@ -144,12 +146,12 @@ public class Controller extends Application implements Initializable {
 				double laaGUI = Double.parseDouble(laaText.getText());
 
 				metricList.getItems().add(manager.createRule(name, locGUI, locBiggerThan, locAndCyclo, cycloGUI, cycloBiggerThan, 
-															 atfdGUI, atfdBiggerThan, atfdAndLaa, laaGUI, laaBiggerThan));		//creates and add metric to list
+						atfdGUI, atfdBiggerThan, atfdAndLaa, laaGUI, laaBiggerThan));		//creates and add metric to list
 			}catch (Exception e) {
 				e.printStackTrace();
 				showErrorDialog("Something went wrong:\n"+e.getMessage());
 			}
-			
+
 			showInfoDialog("Metric " +name + " has been saved with success");
 		}
 	}
@@ -258,19 +260,19 @@ public class Controller extends Application implements Initializable {
 	 */
 	public void setQualityIndicatorsTotals() {
 		//newRuleLabel.setText(); getName()
-		
+
 		labelDCI.setText("iPlasma: " + Integer.toString(manager.getIpdci()) + "\n" + "PMD: " + Integer.toString(manager.getPdci()) + "\n" + 
-		"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMdci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdci()));
-		
+				"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMdci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdci()));
+
 		labelDII.setText("iPlasma: " + Integer.toString(manager.getIpdii()) + "\n" + "PMD: " + Integer.toString(manager.getPdii()) + "\n" + 
-		"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMdii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdii()));
-		
+				"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMdii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdii()));
+
 
 		labelADCI.setText("iPlasma: " + Integer.toString(manager.getIpadci()) + "\n" + "PMD: " + Integer.toString(manager.getPadci()) + "\n" + 
-		"New Rule -" + "\n" + "Long Method: " + Integer.toString(manager.getmLMadci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadci()));
+				"New Rule -" + "\n" + "Long Method: " + Integer.toString(manager.getmLMadci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadci()));
 
 		labelADII.setText("iPlasma: " + Integer.toString(manager.getIpadii()) + "\n" + "PMD: " + Integer.toString(manager.getPadii()) + "\n" + 
-		"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMadii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadii()));
+				"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMadii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadii()));
 
 		configurePieChart();
 		configureStackedBarChart();
@@ -797,19 +799,24 @@ public class Controller extends Application implements Initializable {
 		alert.getButtonTypes().setAll(loadButton, deleteButton, buttonTypeCancel);
 
 		Optional<ButtonType> result = alert.showAndWait();
-		
+
 		if (result.get() == loadButton){					//process the dialog output
-		    loadMetric();
-		    
+			loadMetric();
+
 		} else if (result.get() == deleteButton) {
-			
-		    try {
+
+			try {
 				manager.deleteRule(metricList.getSelectionModel().getSelectedItem());
+				
+				if(!metricList.getItems().remove(metricList.getSelectionModel().getSelectedItem())) {
+					showErrorDialog("Something went wrong deleting metric");
+					return;
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 				showErrorDialog("Something went wrong.\n"+e.getLocalizedMessage());
 			}
-		    showInfoDialog("Rule deleted with Success");
+			showInfoDialog("Rule deleted with Success");
 		} 
 	}
 
@@ -843,47 +850,49 @@ public class Controller extends Application implements Initializable {
 	 * This method loads the selected metric
 	 */
 	private void loadMetric() {
-			MetricsRule mr = metricList.getSelectionModel().getSelectedItem();
-			
-			boolean atfdAndLaa = mr.getAftdLaaAndOr();
-			atfdLaaAndButton.setSelected(mr.getAftdLaaAndOr());
-			
-			boolean atfdLessThan = !mr.getAftdComparison();
-			atfdBiggerThanSelector.getSelectionModel().select(mr.getAftdComparison() ? 0 : 1);
-			
-			boolean laaLessThan = !mr.getLaaComparison();
-			laaBiggerThanSelector.getSelectionModel().select(mr.getLaaComparison() ? 0 : 1);
-			
-			int atfdGUI = mr.getAftdValue();
-			atfdText.setText(mr.getAftdValue()+"");
-			
-			double laaGUI = mr.getLaaValue();
-			laaText.setText(mr.getLaaValue()+"");
+		MetricsRule mr = metricList.getSelectionModel().getSelectedItem();
 
-			manager.MetricFeatureEnvy(atfdAndLaa, atfdLessThan, laaLessThan, atfdGUI, laaGUI);
+		boolean atfdAndLaa = mr.getAftdLaaAndOr();
+		atfdLaaAndButton.setSelected(mr.getAftdLaaAndOr());
+		atfdLaaOrButton.setSelected(!mr.getAftdLaaAndOr());
+		
+		boolean atfdLessThan = !mr.getAftdComparison();
+		atfdBiggerThanSelector.getSelectionModel().select(mr.getAftdComparison() ? 0 : 1);
 
-			//--------------
-			
-			boolean locAndCyclo = mr.getLocCycloAndOr();
-			locCycloAndButton.setSelected(mr.getLocCycloAndOr());
-			
-			boolean locLessThan = !mr.getLocComparison();
-			locBiggerThanSelector.getSelectionModel().select(mr.getLocComparison() ? 0 : 1);
-			
-			boolean cycloLessThan = mr.getCycloComparison();
-			cycloBiggerThanSelector.getSelectionModel().select(mr.getCycloComparison() ? 0 : 1);
-			
-			int locGUI = mr.getLocValue();
-			locText.setText(mr.getLocValue()+"");
-			
-			int cycloGUI = mr.getCycloValue();
-			cycloText.setText(mr.getCycloValue()+"");
+		boolean laaLessThan = !mr.getLaaComparison();
+		laaBiggerThanSelector.getSelectionModel().select(mr.getLaaComparison() ? 0 : 1);
 
-			manager.MetricLongMethod(locAndCyclo, locLessThan, cycloLessThan, locGUI, cycloGUI);
-			manager.calculateIndicatorsMetric();
+		int atfdGUI = mr.getAftdValue();
+		atfdText.setText(mr.getAftdValue()+"");
 
-			setQualityIndicatorsTotals();
-			setUpGraphsFeLMG();
+		double laaGUI = mr.getLaaValue();
+		laaText.setText(mr.getLaaValue()+"");
+
+		manager.MetricFeatureEnvy(atfdAndLaa, atfdLessThan, laaLessThan, atfdGUI, laaGUI);
+
+		//--------------
+
+		boolean locAndCyclo = mr.getLocCycloAndOr();
+		locCycloAndButton.setSelected(mr.getLocCycloAndOr());
+		locCycloOrButton.setSelected(!mr.getLocCycloAndOr());
+
+		boolean locLessThan = !mr.getLocComparison();
+		locBiggerThanSelector.getSelectionModel().select(mr.getLocComparison() ? 0 : 1);
+
+		boolean cycloLessThan = mr.getCycloComparison();
+		cycloBiggerThanSelector.getSelectionModel().select(mr.getCycloComparison() ? 0 : 1);
+
+		int locGUI = mr.getLocValue();
+		locText.setText(mr.getLocValue()+"");
+
+		int cycloGUI = mr.getCycloValue();
+		cycloText.setText(mr.getCycloValue()+"");
+
+		manager.MetricLongMethod(locAndCyclo, locLessThan, cycloLessThan, locGUI, cycloGUI);
+		manager.calculateIndicatorsMetric();
+
+		setQualityIndicatorsTotals();
+		setUpGraphsFeLMG();
 	}
 
 
