@@ -72,11 +72,15 @@ public class Controller extends Application implements Initializable {
 
 	@FXML private StackedBarChart<String, Number> barChartPMD;
 	@FXML private StackedBarChart<String, Number> barChartiPlasma;
-	@FXML private StackedBarChart<String, Number> barChartNewRule;
+	@FXML private StackedBarChart<String, Number> barChartFE;
+	@FXML private StackedBarChart<String, Number> barChartLM;
 
 	@FXML private HBox hboxChartPMD;
 	@FXML private HBox hboxChartiPlasma;
-	@FXML private HBox hboxChartNewRule;
+	@FXML private HBox hboxChartFE;
+	@FXML private HBox hboxChartLM;
+	@FXML private HBox hboxChartLE;
+	@FXML private HBox hboxChartFM;
 
 
 	//-----------------------------
@@ -261,8 +265,6 @@ public class Controller extends Application implements Initializable {
 	private void configurePieChart() {
 		iPlasmaPieChart();
 		pmdPieChart();		
-		//		if() //check if there is a new rule selected
-		newRulePieChart();
 	}
 
 
@@ -313,22 +315,43 @@ public class Controller extends Application implements Initializable {
 
 
 
-
-
-
 	/**
-	 * Creates pie chart for the new rule
+	 * Creates pie chart for PMD
 	 */
-	private void newRulePieChart() {
-		//		ObservableList<PieChart.Data> pieChartDataNewRule = FXCollections.observableArrayList(
-		//		new PieChart.Data("DCI", manager.getPdci()), new PieChart.Data("DII", manager.getPdii()),
-		//		new PieChart.Data("ADCI", manager.getPadci()), new PieChart.Data("ADII", manager.getPadii()));
-		//pieChartNewRule.setData(pieChartDataNewRule); 
-		//pieChartNewRule.setTitle();	//getRuleName()
-		//pieChartNewRule.setLegendSide(Side.RIGHT);
-		//pieChartNewRule.setVisible(true);
-
+	private void lmPieChart() {
+		//create PMD PieChart
+		ObservableList<PieChart.Data> pieChartDataLM = FXCollections.observableArrayList(
+				new PieChart.Data("DCI", manager.getmLMdci()), new PieChart.Data("DII", manager.getmLMdii()),
+				new PieChart.Data("ADCI", manager.getmLMadci()), new PieChart.Data("ADII", manager.getmLMadii()));
+		//pieChartDataPMD.
+		pieChartPMD.setData(pieChartDataLM);
+		pieChartPMD.setTitle("Long Method");
+		pieChartPMD.setLegendSide(Side.LEFT);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Creates pie chart for PMD
+	 */
+	private void fePieChart() {
+		//create PMD PieChart
+		ObservableList<PieChart.Data> pieChartDataFE = FXCollections.observableArrayList(
+				new PieChart.Data("DCI", manager.getmFEdci()), new PieChart.Data("DII", manager.getmFEdii()),
+				new PieChart.Data("ADCI", manager.getmFEadci()), new PieChart.Data("ADII", manager.getmFEadii()));
+		//pieChartDataPMD.
+		pieChartPMD.setData(pieChartDataFE);
+		pieChartPMD.setTitle("Feature Envy");
+		pieChartPMD.setLegendSide(Side.LEFT);
+	}
+
+
+
 
 
 
@@ -441,37 +464,77 @@ public class Controller extends Application implements Initializable {
 
 
 	/**
-	 * 
-	 * Creates bar chart for the new rule selected
-	 * 
+	 * Creates bar chart for the new rule selected 
 	 */
 	@SuppressWarnings("unchecked")
-	private void newRuleBarChart() {
-		//creating/setting up iPlasma bar chart
-		hboxChartNewRule.getChildren().remove(barChartNewRule);
+	private void newRuleFEBarChart() {
+		//creating/setting up Feature Envy bar chart
+		hboxChartFE.getChildren().remove(barChartFE);
 
 		CategoryAxis xAxisNewRule = new CategoryAxis(); // String
 
 		xAxisNewRule.setCategories(FXCollections.<String>observableArrayList(Arrays.asList("DCI", "DII", "ADCI", "ADII")));
 
 		NumberAxis yAxisNewRule = new NumberAxis(); // int
-		barChartNewRule = new StackedBarChart<>(xAxisNewRule, yAxisNewRule);			
+		barChartFE = new StackedBarChart<>(xAxisNewRule, yAxisNewRule);
 
-		//creates iPlasma data
-		XYChart.Series<String, Number> dataNewRule = new XYChart.Series<>();
-		dataNewRule.getData().add(new XYChart.Data<>("DCI", manager.getIpdci()));
-		dataNewRule.getData().add(new XYChart.Data<>("DII", manager.getIpdii()));
-		dataNewRule.getData().add(new XYChart.Data<>("ADCI", manager.getIpadci()));
-		dataNewRule.getData().add(new XYChart.Data<>("ADII", manager.getIpadii()));
+		//creates Feature Envy data
+		XYChart.Series<String, Number> dataFE = new XYChart.Series<>();
+		dataFE.getData().add(new XYChart.Data<>("DCI", manager.getmFEdci()));
+		dataFE.getData().add(new XYChart.Data<>("DII", manager.getmFEdci()));
+		dataFE.getData().add(new XYChart.Data<>("ADCI", manager.getmFEadci()));
+		dataFE.getData().add(new XYChart.Data<>("ADII", manager.getmFEadii()));
 
 		//sets the data in the StackedBarChart
-		barChartNewRule.getData().addAll(dataNewRule);
+		barChartFE.getData().addAll(dataFE);
 
 		//draws it on the hbox
-		hboxChartNewRule.getChildren().add(barChartNewRule);
+		hboxChartFE.getChildren().add(barChartFE);
 	}
 
+	
+	
+	
+	
+	
+	/**
+	 * Creates bar chart for the Long Method
+	 */
+	@SuppressWarnings("unchecked")
+	private void newRuleLMBarChart() {
+		//creating/setting up Long Method bar chart
+		hboxChartLM.getChildren().remove(barChartLM);
 
+		CategoryAxis xAxisNewRule = new CategoryAxis(); // String
+
+		xAxisNewRule.setCategories(FXCollections.<String>observableArrayList(Arrays.asList("DCI", "DII", "ADCI", "ADII")));
+
+		NumberAxis yAxisNewRule = new NumberAxis(); // int
+		barChartLM = new StackedBarChart<>(xAxisNewRule, yAxisNewRule);
+
+		//creates Long Method data
+		XYChart.Series<String, Number> dataLM = new XYChart.Series<>();
+		dataLM.getData().add(new XYChart.Data<>("DCI", manager.getmLMdci()));
+		dataLM.getData().add(new XYChart.Data<>("DII", manager.getmLMdci()));
+		dataLM.getData().add(new XYChart.Data<>("ADCI", manager.getmLMadci()));
+		dataLM.getData().add(new XYChart.Data<>("ADII", manager.getmLMadii()));
+
+		//sets the data in the StackedBarChart
+		barChartLM.getData().addAll(dataLM);
+
+		//draws it on the hbox
+		hboxChartLM.getChildren().add(barChartLM);
+	}
+
+	
+	
+	
+	private void setUpGraphsFeLMG() {
+		fePieChart();
+		lmPieChart();
+		newRuleFEBarChart();
+		newRuleLMBarChart();
+	}
 
 
 
@@ -504,6 +567,8 @@ public class Controller extends Application implements Initializable {
 				manager.calculateIndicatorsMetric();
 				
 				setQualityIndicatorsTotals();
+				setUpGraphsFeLMG();
+				
 		}
 	}
 
@@ -676,6 +741,7 @@ public class Controller extends Application implements Initializable {
 
 		metricList.getSelectionModel().selectedItemProperty().addListener((obs, old, newValue) ->{
 			//load metric TODO Rui Menoita
+		
 		});
 	}
 
