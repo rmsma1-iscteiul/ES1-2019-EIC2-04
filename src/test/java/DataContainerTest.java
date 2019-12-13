@@ -417,42 +417,90 @@ class DataContainerTest {
 
 	@Test
 	void testSetIs_long_method() {
-		fail("Not yet implemented");
+		DataContainer a = new DataContainer
+				(0, "s", "s", "s", 0, 0, 0,
+				0.0, false, false,false, false,
+				"s","s", false, false,
+				"s", "s");
+		a.setIs_long_method(true);
+		assertEquals(true,a.getIs_long_method());
 	}
 
 	@Test
 	void testSetIs_feature_envy() {
-		fail("Not yet implemented");
+		DataContainer a = new DataContainer
+				(0, "s", "s", "s", 0, 0, 0,
+				0.0, false, false,false, false,
+				"s","s", false, false,
+				"s", "s");
+		a.setIs_feature_envy(true);
+		assertEquals(true,a.getIs_feature_envy());
 	}
 
 	@Test
 	void testSetStatusPMD() {
-		fail("Not yet implemented");
+		DataContainer a = new DataContainer
+				(0, "s", "s", "s", 0, 0, 0,
+				0.0, false, false,false, false,
+				"s","s", false, false,
+				"s", "s");
+		a.setStatusPMD("a");
+		assertEquals("a",a.getStatusPMD());
 	}
 
 	@Test
 	void testSetStatusIPLASMA() {
-		fail("Not yet implemented");
+		DataContainer a = new DataContainer
+				(0, "s", "s", "s", 0, 0, 0,
+				0.0, false, false,false, false,
+				"s","s", false, false,
+				"s", "s");
+		a.setStatusIPLASMA("a");
+		assertEquals("a",a.getStatusIPLASMA());
 	}
 
 	@Test
 	void testSetMetric_longmethod() {
-		fail("Not yet implemented");
+		DataContainer a = new DataContainer
+				(0, "s", "s", "s", 0, 0, 0,
+				0.0, false, false,false, false,
+				"s","s", false, false,
+				"s", "s");
+		a.setMetric_longmethod(true);
+		assertEquals(true,a.getMetricLongMethod());
 	}
 
 	@Test
 	void testSetMetric_featureenvy() {
-		fail("Not yet implemented");
+		DataContainer a = new DataContainer
+				(0, "s", "s", "s", 0, 0, 0,
+				0.0, false, false,false, false,
+				"s","s", false, false,
+				"s", "s");
+		a.setMetric_featureenvy(true);
+		assertEquals(true,a.getMetricFeatureEnvy());
 	}
 
 	@Test
 	void testSetQualityLM() {
-		fail("Not yet implemented");
+		DataContainer a = new DataContainer
+				(0, "s", "s", "s", 0, 0, 0,
+				0.0, false, false,false, false,
+				"s","s", false, false,
+				"s", "s");
+		a.setQualityLM("a");
+		assertEquals("a",a.getQualityMetricLongMethod());
 	}
 
 	@Test
 	void testSetQualityFE() {
-		fail("Not yet implemented");
+		DataContainer a = new DataContainer
+				(0, "s", "s", "s", 0, 0, 0,
+				0.0, false, false,false, false,
+				"s","s", false, false,
+				"s", "s");
+		a.setQualityFE("a");
+		assertEquals("a",a.getQualityMetricFeatureEnvy());
 	}
 
 }

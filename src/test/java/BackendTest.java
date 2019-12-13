@@ -1,6 +1,13 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,14 +19,17 @@ import org.junit.jupiter.api.Test;
 
 import project.backend.Backend;
 import project.backend.containers.DataContainer;
+import project.backend.containers.MetricsRule;
 
 class BackendTest {
-	
+	private static final String fileLocation = System.getProperty("user.dir")
+			+ "/src/main/java/project/saves/saved_rules.txt";
+
 	static Backend manager = new Backend();
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		manager.setFileListed( new ArrayList<DataContainer>() );
+		manager.setFileListed(new ArrayList<DataContainer>());
 	}
 
 	@AfterAll
@@ -36,141 +46,190 @@ class BackendTest {
 
 	@Test
 	void testParseFileToMap() {
-		fail("Not yet implemented");
+		File file = new File(System.getProperty("user.dir") + "/src/test/java/test_file.txt");
+		assertNotNull(manager.parseFileToMap(file));
 	}
 
 	@Test
 	void testCreateRule() {
-		fail("Not yet implemented");
+		Path file = Paths.get(fileLocation);
+
+		try {
+			MetricsRule a = manager.createRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+			assertNotNull(a);
+			List<String> lines = Files.readAllLines(file);
+			boolean b = false;
+			for (String string : lines) {
+				if (string.equals(a.fileToString())) {
+					b = true;
+				}
+			}
+			assertEquals(true, b);
+		} catch (IOException e) {
+			fail("Threw IOException");
+		}
 	}
 
 	@Test
 	void testDeleteRule() {
-		fail("Not yet implemented");
+
+		Path file = Paths.get(fileLocation);
+
+		try {
+			MetricsRule a = manager.createRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+			assumeNotNull(a);
+			manager.deleteRule(a);
+			List<String> lines = Files.readAllLines(file);
+			boolean b = true;
+			for (String string : lines) {
+				if (string.equals(a.fileToString())) {
+					b = false;
+				}
+			}
+			assertEquals(false, b);
+		} catch (IOException e) {
+			fail("Threw IOException");
+		}
+
 	}
 
 	@Test
 	void testLoadRules() {
-		fail("Not yet implemented");
+		try {
+			assertNotNull(manager.loadRules());
+		} catch (IOException e) {
+			fail("Threw IOException");
+		}
 	}
-	
+
 	@Test
 	void testCheckList() {
-		DataContainer dc1 = new DataContainer(1,"test","test","test",1,1,10,8,true,true,true,true,"","",true,true,"","");
+		DataContainer dc1 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 8, true, true, true, true, "", "",
+				true, true, "", "");
 		manager.getFileListed().add(dc1);
 		assertNotNull(manager.checkList());
 	}
 
 	@Test
 	void testMetricLongMethod() {
-		DataContainer dc1 = new DataContainer(1,"test","test","test",10,10,1,1,true,true,true,true,"","",false,false,"","");
+		DataContainer dc1 = new DataContainer(1, "test", "test", "test", 10, 10, 1, 1, true, true, true, true, "", "",
+				false, false, "", "");
 		manager.getFileListed().add(dc1);
-		
+
 		manager.MetricLongMethod(true, true, true, 11, 11);
 		assertEquals(dc1.getMetricLongMethod(), false);
-		
+
 		manager.MetricLongMethod(false, true, true, 11, 9);
 		assertEquals(dc1.getMetricLongMethod(), false);
-		
+
 		manager.MetricLongMethod(true, false, false, 9, 9);
 		assertEquals(dc1.getMetricLongMethod(), false);
-		
+
 		manager.MetricLongMethod(false, false, false, 9, 11);
 		assertEquals(dc1.getMetricLongMethod(), false);
-		
+
 		manager.MetricLongMethod(true, true, false, 11, 9);
 		assertEquals(dc1.getMetricLongMethod(), false);
-		
+
 		manager.MetricLongMethod(false, true, false, 11, 9);
 		assertEquals(dc1.getMetricLongMethod(), false);
-		
+
 		manager.MetricLongMethod(true, false, true, 9, 11);
 		assertEquals(dc1.getMetricLongMethod(), false);
-		
+
 		manager.MetricLongMethod(false, false, true, 9, 11);
 		assertEquals(dc1.getMetricLongMethod(), false);
 	}
 
 	@Test
 	void testMetricFeatureEnvy() {
-		DataContainer dc1 = new DataContainer(1,"test","test","test",1,1,10,10,true,true,true,true,"","",false,false,"","");
+		DataContainer dc1 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 10, true, true, true, true, "", "",
+				false, false, "", "");
 		manager.getFileListed().add(dc1);
-		
+
 		manager.MetricFeatureEnvy(true, true, true, 11, 11);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
-		
+
 		manager.MetricFeatureEnvy(false, true, true, 11, 9);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
-		
+
 		manager.MetricFeatureEnvy(true, false, false, 9, 9);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
-		
+
 		manager.MetricFeatureEnvy(false, false, false, 9, 11);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
-		
+
 		manager.MetricFeatureEnvy(true, true, false, 11, 9);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
-		
+
 		manager.MetricFeatureEnvy(false, true, false, 11, 9);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
-		
+
 		manager.MetricFeatureEnvy(true, false, true, 9, 11);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
-		
+
 		manager.MetricFeatureEnvy(false, false, true, 9, 11);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
 	}
 
 	@Test
 	void testCalculateIndicators() {
-		DataContainer dc1 = new DataContainer(1,"test","test","test",1,1,10,8,true,true,true,true,"","",true,true,"","");
+		DataContainer dc1 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 8, true, true, true, true, "", "",
+				true, true, "", "");
 		manager.getFileListed().add(dc1);
-		DataContainer dc2 = new DataContainer(1,"test","test","test",1,1,10,8,false,true,true,true,"","",true,true,"","");
+		DataContainer dc2 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 8, false, true, true, true, "", "",
+				true, true, "", "");
 		manager.getFileListed().add(dc2);
-		DataContainer dc3 = new DataContainer(1,"test","test","test",1,1,10,8,false,false,false,true,"","",true,true,"","");
+		DataContainer dc3 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 8, false, false, false, true, "", "",
+				true, true, "", "");
 		manager.getFileListed().add(dc3);
-		DataContainer dc4 = new DataContainer(1,"test","test","test",1,1,10,8,true,false,false,true,"","",true,true,"","");
+		DataContainer dc4 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 8, true, false, false, true, "", "",
+				true, true, "", "");
 		manager.getFileListed().add(dc4);
-		
+
 		manager.calculateIndicators();
 
-		
 		assertEquals(dc1.getStatusPMD(), "DCI");
 		assertEquals(dc1.getStatusIPLASMA(), "DCI");
-		
+
 		assertEquals(dc2.getStatusPMD(), "DII");
 		assertEquals(dc2.getStatusIPLASMA(), "DII");
-		
+
 		assertEquals(dc3.getStatusPMD(), "ADCI");
 		assertEquals(dc3.getStatusIPLASMA(), "ADCI");
-		
+
 		assertEquals(dc4.getStatusPMD(), "ADII");
 		assertEquals(dc4.getStatusIPLASMA(), "ADII");
-		
+
 	}
 
 	@Test
 	void testCalculateIndicatorsMetric() {
-		DataContainer dc1 = new DataContainer(1,"test","test","test",1,1,10,8,true,true,true,true,"","",true,true,"","");
+		DataContainer dc1 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 8, true, true, true, true, "", "",
+				true, true, "", "");
 		manager.getFileListed().add(dc1);
-		DataContainer dc2 = new DataContainer(1,"test","test","test",1,1,10,8,false,true,true,false,"","",true,true,"","");
+		DataContainer dc2 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 8, false, true, true, false, "", "",
+				true, true, "", "");
 		manager.getFileListed().add(dc2);
-		DataContainer dc3 = new DataContainer(1,"test","test","test",1,1,10,8,false,false,false,false,"","",false,false,"","");
+		DataContainer dc3 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 8, false, false, false, false, "",
+				"", false, false, "", "");
 		manager.getFileListed().add(dc3);
-		DataContainer dc4 = new DataContainer(1,"test","test","test",1,1,10,8,true,false,false,true,"","",false,false,"","");
+		DataContainer dc4 = new DataContainer(1, "test", "test", "test", 1, 1, 10, 8, true, false, false, true, "", "",
+				false, false, "", "");
 		manager.getFileListed().add(dc4);
-		
-		manager.calculateIndicatorsMetric();;
-		
+
+		manager.calculateIndicatorsMetric();
+		;
+
 		assertEquals(dc1.getQualityMetricLongMethod(), "DCI");
 		assertEquals(dc1.getQualityMetricFeatureEnvy(), "DCI");
-		
+
 		assertEquals(dc2.getQualityMetricLongMethod(), "DII");
 		assertEquals(dc2.getQualityMetricFeatureEnvy(), "DII");
-		
+
 		assertEquals(dc3.getQualityMetricLongMethod(), "ADCI");
 		assertEquals(dc3.getQualityMetricFeatureEnvy(), "ADCI");
-		
+
 		assertEquals(dc4.getQualityMetricLongMethod(), "ADII");
 		assertEquals(dc4.getQualityMetricFeatureEnvy(), "ADII");
 	}
@@ -179,7 +238,7 @@ class BackendTest {
 	void testGetWorkbook() {
 		fail("Not yet implemented");
 	}
-	
+
 	@Test
 	void testSetWorkbook() {
 		fail("Not yet implemented");
@@ -436,7 +495,7 @@ class BackendTest {
 
 	@Test
 	void testSetFileListed() {
-		manager.setFileListed( new ArrayList<DataContainer>() );
+		manager.setFileListed(new ArrayList<DataContainer>());
 		assertNotNull(manager.getFileListed());
 	}
 
