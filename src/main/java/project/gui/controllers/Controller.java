@@ -210,7 +210,7 @@ public class Controller extends Application implements Initializable {
 				return false;
 			}
 		}else {
-			showErrorDialog("No file found! \nPlease load a file first");
+			showErrorDialog("File not found! \nPlease load file first");
 			return false;
 		}
 		return true;
@@ -617,6 +617,7 @@ public class Controller extends Application implements Initializable {
 			setQualityIndicatorsTotals();
 			setUpGraphsFeLMG();
 
+			table.refresh();
 		}
 	}
 
@@ -793,7 +794,10 @@ public class Controller extends Application implements Initializable {
 			showErrorDialog("Something went wrong loading saved metric rules.");
 		}
 
-		metricList.getSelectionModel().selectedItemProperty().addListener((obs, old, newValue) -> showMetricDialog());
+		metricList.getSelectionModel().selectedItemProperty().addListener((obs, old, newValue) -> {
+			showMetricDialog();
+			metricList.getSelectionModel().clearSelection();
+		});
 	}
 
 
@@ -830,7 +834,10 @@ public class Controller extends Application implements Initializable {
 				try {
 					manager.deleteRule(metricList.getSelectionModel().getSelectedItem());
 
-					if(!metricList.getItems().remove(metricList.getSelectionModel().getSelectedItem())) {
+					MetricsRule mr = metricList.getSelectionModel().getSelectedItem();
+					metricList.getSelectionModel().clearSelection();
+					
+					if(!metricList.getItems().remove(mr)) {
 						showErrorDialog("Something went wrong deleting metric");
 						return;
 					}
@@ -841,7 +848,7 @@ public class Controller extends Application implements Initializable {
 				showInfoDialog("Rule deleted with Success");
 			} 
 		}else
-			showErrorDialog("No file found! \nPlease load a file first");
+			showErrorDialog("File not found! \nPlease load file first");
 	}
 
 
@@ -917,6 +924,8 @@ public class Controller extends Application implements Initializable {
 
 		setQualityIndicatorsTotals();
 		setUpGraphsFeLMG();
+		
+		table.refresh();
 	}
 
 
