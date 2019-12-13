@@ -5,7 +5,7 @@ Nome              	| Numero
 Rui Menoita       	| 82331
 Francisco Cardoso 	| 78329
 Miguel Malheiro		| 82145  
-Nuno Lobato       | 82217
+Nuno Lobato       	| 82217
 *
 
 
