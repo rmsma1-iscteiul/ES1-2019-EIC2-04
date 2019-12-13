@@ -53,6 +53,8 @@ public class Backend {
 
 	
 	
+	
+	
 	/**
 	 * parse file to List of DataContainers
 	 * @param file file ot be parsed
@@ -97,6 +99,7 @@ public class Backend {
 	
 	
 	
+	
 	/**
 	 * takes in a excel file and converts it into a apache.poi sheet
 	 * @param file to be converted
@@ -110,6 +113,7 @@ public class Backend {
 		return sheet;
 	}
 
+	
 	
 	
 	
@@ -165,6 +169,11 @@ public class Backend {
 				); 
 		return container;
 	}
+	
+	
+	
+	
+	
 	
 	//Create and save user defined rules
 	
@@ -335,6 +344,9 @@ public class Backend {
 	
 	
 	
+	
+	
+	
 	/**
 	 *  sets column MetricFeatureEnvy true or false, depending on inputs in GUI and comparing those inputs with values from file
 	 * @param and
@@ -389,6 +401,8 @@ public class Backend {
 			}
 		}
 	}
+	
+	
 	
 	
 	
@@ -459,19 +473,11 @@ public class Backend {
 			}
 
 		}
-		//debugging
-		int a = pdci+pdii+padci+padii;
-		int b = ipdci+ipdii+ipadci+ipadii;
-		
-		System.out.println("PMD");
-		System.out.println(pdci+" / "+pdii+" / "+padci+" / "+padii);
-		System.out.println("total: "+a);
-		
-		System.out.println("iPlasma");
-		System.out.println(ipdci+" / "+ipdii+" / "+ipadci+" / "+ipadii);
-		System.out.println("total: "+b);
-		//
 	}
+	
+	
+	
+	
 	
 	
 	/**
@@ -537,20 +543,10 @@ public class Backend {
 			}
 
 		}
-		//debugging
-		int a = mLMdci+mLMdii+mLMadci+mLMadii;
-		int b = mFEdci+mFEdii+mFEadci+mFEadii;
-		
-		System.out.println("METRIC LM");
-		System.out.println(mLMdci+" / "+mLMdii+" / "+mLMadci+" / "+mLMadii);
-		System.out.println("total: "+a);
-		
-		System.out.println("METRIC FE");
-		System.out.println(mFEdci+" / "+mFEdii+" / "+mFEadci+" / "+mFEadii);
-		System.out.println("total: "+b);
-		//
 	}
 
+	
+	
 	
 	
 	
