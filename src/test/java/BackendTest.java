@@ -63,62 +63,132 @@ class BackendTest {
 
 	@Test
 	void testMetricLongMethod() {
+		manager.setFileListed( new ArrayList<DataContainer>() );
 		DataContainer dc1 = new DataContainer(1,"test","test","test",10,10,1,1,true,true,true,true,"","",false,false,"","");
 		manager.getFileListed().add(dc1);
 		
+		DataContainer dc2 = new DataContainer(1,"test","test","test",10,12,1,1,true,true,true,true,"","",false,false,"","");
+		manager.getFileListed().add(dc2);
+		
+		DataContainer dc3 = new DataContainer(1,"test","test","test",12,12,1,1,true,true,true,true,"","",false,false,"","");
+		manager.getFileListed().add(dc3);
+		
+		DataContainer dc4 = new DataContainer(1,"test","test","test",12,10,1,1,true,true,true,true,"","",false,false,"","");
+		manager.getFileListed().add(dc4);
+		
 		manager.MetricLongMethod(true, true, true, 11, 11);
 		assertEquals(dc1.getMetricLongMethod(), false);
+		assertEquals(dc2.getMetricLongMethod(), true);
+		assertEquals(dc3.getMetricLongMethod(), true);
+		assertEquals(dc4.getMetricLongMethod(), true);
 		
-		manager.MetricLongMethod(false, true, true, 11, 9);
+		manager.MetricLongMethod(false, true, true, 11, 11);
 		assertEquals(dc1.getMetricLongMethod(), false);
+		assertEquals(dc2.getMetricLongMethod(), false);
+		assertEquals(dc3.getMetricLongMethod(), true);
+		assertEquals(dc4.getMetricLongMethod(), false);
 		
-		manager.MetricLongMethod(true, false, false, 9, 9);
-		assertEquals(dc1.getMetricLongMethod(), false);
+		manager.MetricLongMethod(true, false, false, 11, 11);
+		assertEquals(dc1.getMetricLongMethod(), true);
+		assertEquals(dc2.getMetricLongMethod(), true);
+		assertEquals(dc3.getMetricLongMethod(), false);
+		assertEquals(dc4.getMetricLongMethod(), true);
 		
-		manager.MetricLongMethod(false, false, false, 9, 11);
-		assertEquals(dc1.getMetricLongMethod(), false);
+		manager.MetricLongMethod(false, false, false, 11, 11);
+		assertEquals(dc1.getMetricLongMethod(), true);
+		assertEquals(dc2.getMetricLongMethod(), false);
+		assertEquals(dc3.getMetricLongMethod(), false);
+		assertEquals(dc4.getMetricLongMethod(), false);
 		
-		manager.MetricLongMethod(true, true, false, 11, 9);
-		assertEquals(dc1.getMetricLongMethod(), false);
+		manager.MetricLongMethod(true, true, false, 11, 11);
+		assertEquals(dc1.getMetricLongMethod(), true);
+		assertEquals(dc2.getMetricLongMethod(), false);
+		assertEquals(dc3.getMetricLongMethod(), true);
+		assertEquals(dc4.getMetricLongMethod(), true);
 		
-		manager.MetricLongMethod(false, true, false, 11, 9);
+		manager.MetricLongMethod(false, true, false, 11, 11);
 		assertEquals(dc1.getMetricLongMethod(), false);
+		assertEquals(dc2.getMetricLongMethod(), false);
+		assertEquals(dc3.getMetricLongMethod(), false);
+		assertEquals(dc4.getMetricLongMethod(), true);
 		
-		manager.MetricLongMethod(true, false, true, 9, 11);
-		assertEquals(dc1.getMetricLongMethod(), false);
+		manager.MetricLongMethod(true, false, true, 11, 11);
+		assertEquals(dc1.getMetricLongMethod(), true);
+		assertEquals(dc2.getMetricLongMethod(), true);
+		assertEquals(dc3.getMetricLongMethod(), true);
+		assertEquals(dc4.getMetricLongMethod(), false);
 		
-		manager.MetricLongMethod(false, false, true, 9, 11);
+		manager.MetricLongMethod(false, false, true, 11, 11);
 		assertEquals(dc1.getMetricLongMethod(), false);
+		assertEquals(dc2.getMetricLongMethod(), true);
+		assertEquals(dc3.getMetricLongMethod(), false);
+		assertEquals(dc4.getMetricLongMethod(), false);
+		
+		
 	}
 
 	@Test
 	void testMetricFeatureEnvy() {
+		manager.setFileListed( new ArrayList<DataContainer>() );
 		DataContainer dc1 = new DataContainer(1,"test","test","test",1,1,10,10,true,true,true,true,"","",false,false,"","");
 		manager.getFileListed().add(dc1);
 		
+		DataContainer dc2 = new DataContainer(1,"test","test","test",1,1,10,12,true,true,true,true,"","",false,false,"","");
+		manager.getFileListed().add(dc2);
+		
+		DataContainer dc3 = new DataContainer(1,"test","test","test",1,1,12,12,true,true,true,true,"","",false,false,"","");
+		manager.getFileListed().add(dc3);
+		
+		DataContainer dc4 = new DataContainer(1,"test","test","test",1,1,12,10,true,true,true,true,"","",false,false,"","");
+		manager.getFileListed().add(dc4);
+		
 		manager.MetricFeatureEnvy(true, true, true, 11, 11);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
+		assertEquals(dc2.getMetricFeatureEnvy(), true);
+		assertEquals(dc3.getMetricFeatureEnvy(), true);
+		assertEquals(dc4.getMetricFeatureEnvy(), true);
 		
-		manager.MetricFeatureEnvy(false, true, true, 11, 9);
+		manager.MetricFeatureEnvy(false, true, true, 11, 11);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
+		assertEquals(dc2.getMetricFeatureEnvy(), false);
+		assertEquals(dc3.getMetricFeatureEnvy(), true);
+		assertEquals(dc4.getMetricFeatureEnvy(), false);
 		
-		manager.MetricFeatureEnvy(true, false, false, 9, 9);
-		assertEquals(dc1.getMetricFeatureEnvy(), false);
+		manager.MetricFeatureEnvy(true, false, false, 11, 11);
+		assertEquals(dc1.getMetricFeatureEnvy(), true);
+		assertEquals(dc2.getMetricFeatureEnvy(), true);
+		assertEquals(dc3.getMetricFeatureEnvy(), false);
+		assertEquals(dc4.getMetricFeatureEnvy(), true);
 		
-		manager.MetricFeatureEnvy(false, false, false, 9, 11);
-		assertEquals(dc1.getMetricFeatureEnvy(), false);
+		manager.MetricFeatureEnvy(false, false, false, 11, 11);
+		assertEquals(dc1.getMetricFeatureEnvy(), true);
+		assertEquals(dc2.getMetricFeatureEnvy(), false);
+		assertEquals(dc3.getMetricFeatureEnvy(), false);
+		assertEquals(dc4.getMetricFeatureEnvy(), false);
 		
-		manager.MetricFeatureEnvy(true, true, false, 11, 9);
-		assertEquals(dc1.getMetricFeatureEnvy(), false);
+		manager.MetricFeatureEnvy(true, true, false, 11, 11);
+		assertEquals(dc1.getMetricFeatureEnvy(), true);
+		assertEquals(dc2.getMetricFeatureEnvy(), false);
+		assertEquals(dc3.getMetricFeatureEnvy(), true);
+		assertEquals(dc4.getMetricFeatureEnvy(), true);
 		
-		manager.MetricFeatureEnvy(false, true, false, 11, 9);
+		manager.MetricFeatureEnvy(false, true, false, 11, 11);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
+		assertEquals(dc2.getMetricFeatureEnvy(), false);
+		assertEquals(dc3.getMetricFeatureEnvy(), false);
+		assertEquals(dc4.getMetricFeatureEnvy(), true);
 		
-		manager.MetricFeatureEnvy(true, false, true, 9, 11);
-		assertEquals(dc1.getMetricFeatureEnvy(), false);
+		manager.MetricFeatureEnvy(true, false, true, 11, 11);
+		assertEquals(dc1.getMetricFeatureEnvy(), true);
+		assertEquals(dc2.getMetricFeatureEnvy(), true);
+		assertEquals(dc3.getMetricFeatureEnvy(), true);
+		assertEquals(dc4.getMetricFeatureEnvy(), false);
 		
-		manager.MetricFeatureEnvy(false, false, true, 9, 11);
+		manager.MetricFeatureEnvy(false, false, true, 11, 11);
 		assertEquals(dc1.getMetricFeatureEnvy(), false);
+		assertEquals(dc2.getMetricFeatureEnvy(), true);
+		assertEquals(dc3.getMetricFeatureEnvy(), false);
+		assertEquals(dc4.getMetricFeatureEnvy(), false);
 	}
 
 	@Test
@@ -146,6 +216,9 @@ class BackendTest {
 		
 		assertEquals(dc4.getStatusPMD(), "ADII");
 		assertEquals(dc4.getStatusIPLASMA(), "ADII");
+		
+		manager.setFileListed(null);
+		manager.calculateIndicators();
 		
 	}
 

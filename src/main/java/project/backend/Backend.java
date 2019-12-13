@@ -306,34 +306,34 @@ public class Backend {
 				if (dc.getLoc() <= locGUI && dc.getCyclo() <= cycloGUI)
 					dc.setMetric_longmethod(false);
 			}
-			else if(!and && locLessThan && cycloLessThan) {
+			if(!and && locLessThan && cycloLessThan) {
 				if (dc.getLoc() <= locGUI || dc.getCyclo() <= cycloGUI)
 					dc.setMetric_longmethod(false);
 			}
 			
-			else if(and && !locLessThan && !cycloLessThan) {
+			if(and && !locLessThan && !cycloLessThan) {
 				if (dc.getLoc() > locGUI && dc.getCyclo() > cycloGUI)
 					dc.setMetric_longmethod(false);
 			}
-			else if(!and && !locLessThan && !cycloLessThan) {
+			if(!and && !locLessThan && !cycloLessThan) {
 				if (dc.getLoc() > locGUI || dc.getCyclo() > cycloGUI)
 					dc.setMetric_longmethod(false);
 			}
 			
-			else if(and && locLessThan && !cycloLessThan) {
+			if(and && locLessThan && !cycloLessThan) {
 				if (dc.getLoc() <= locGUI && dc.getCyclo() > cycloGUI)
 					dc.setMetric_longmethod(false);
 			}
-			else if(!and && locLessThan && !cycloLessThan) {
+			if(!and && locLessThan && !cycloLessThan) {
 				if (dc.getLoc() <= locGUI || dc.getCyclo() > cycloGUI)
 					dc.setMetric_longmethod(false);
 			}
 			
-			else if(and && !locLessThan && cycloLessThan) {
+			if(and && !locLessThan && cycloLessThan) {
 				if (dc.getLoc() > locGUI && dc.getCyclo() <= cycloGUI)
 					dc.setMetric_longmethod(false);
 			}
-			else if(!and && !locLessThan && cycloLessThan) {
+			if(!and && !locLessThan && cycloLessThan) {
 				if (dc.getLoc() > locGUI || dc.getCyclo() <= cycloGUI)
 					dc.setMetric_longmethod(false);
 			}
@@ -367,34 +367,34 @@ public class Backend {
 				if (dc.getAtfd() <= atfdGUI && dc.getLaa() <= laaGUI)
 					dc.setMetric_featureenvy(false);
 			}
-			else if(!and && atfdLessThan && laaLessThan) {
+			if(!and && atfdLessThan && laaLessThan) {
 				if (dc.getAtfd() <= atfdGUI || dc.getLaa() <= laaGUI)
 					dc.setMetric_featureenvy(false);
 			}
 			
-			else if(and && !atfdLessThan && !laaLessThan) {
+			if(and && !atfdLessThan && !laaLessThan) {
 				if (dc.getAtfd() > atfdGUI && dc.getLaa() > laaGUI)
 					dc.setMetric_featureenvy(false);
 			}
-			else if(!and && !atfdLessThan && !laaLessThan) {
+			if(!and && !atfdLessThan && !laaLessThan) {
 				if (dc.getAtfd() > atfdGUI || dc.getLaa() > laaGUI)
 					dc.setMetric_featureenvy(false);
 			}
 			
-			else if(and && atfdLessThan && !laaLessThan) {
+			if(and && atfdLessThan && !laaLessThan) {
 				if (dc.getAtfd() <= atfdGUI && dc.getLaa() > laaGUI)
 					dc.setMetric_featureenvy(false);
 			}
-			else if(!and && atfdLessThan && !laaLessThan) {
+			if(!and && atfdLessThan && !laaLessThan) {
 				if (dc.getAtfd() <= atfdGUI || dc.getLaa() > laaGUI)
 					dc.setMetric_featureenvy(false);
 			}
 			
-			else if(and && !atfdLessThan && laaLessThan) {
+			if(and && !atfdLessThan && laaLessThan) {
 				if (dc.getAtfd() > atfdGUI && dc.getLaa() <= laaGUI)
 					dc.setMetric_featureenvy(false);
 			}
-			else if(!and && !atfdLessThan && laaLessThan) {
+			if(!and && !atfdLessThan && laaLessThan) {
 				if (dc.getAtfd() > atfdGUI || dc.getLaa() <= laaGUI)
 					dc.setMetric_featureenvy(false);
 			}
@@ -414,63 +414,64 @@ public class Backend {
 	 * gives total for all indicators for iPlasma and PMD
 	 */
 	public void calculateIndicators () {
-		assert (fileListed != null);
-		
-		//reset values
-		pdci=0;
-		pdii=0;
-		padci=0;
-		padii=0;
-		
-		ipdci=0;
-		ipdii=0;
-		ipadci=0;
-		ipadii=0;
-		
-		for (DataContainer dc: fileListed) {
-			
-			//PMD
-			if(dc.getPmd() && dc.getIs_long_method()) {
-				dc.setStatusPMD("DCI");
-				pdci++;
-			}
-		
-			else if(dc.getPmd() && !dc.getIs_long_method()) {
-				dc.setStatusPMD("DII");
-				pdii++;
-			}
-			
-			else if(!dc.getPmd() && !dc.getIs_long_method()) {
-				dc.setStatusPMD("ADCI");
-				padci++;
-			}
-		
-			else if(!dc.getPmd() && dc.getIs_long_method()) {
-				dc.setStatusPMD("ADII");
-				padii++;
-			}
-			
-			//iPLASMA
-			if(dc.getiPlasma() && dc.getIs_long_method()) {
-				dc.setStatusIPLASMA("DCI");
-				ipdci++;
-			}
-		
-			else if(dc.getiPlasma() && !dc.getIs_long_method()) {
-				dc.setStatusIPLASMA("DII");
-				ipdii++;
-			}
-			
-			else if(!dc.getiPlasma() && !dc.getIs_long_method()) {
-				dc.setStatusIPLASMA("ADCI");
-				ipadci++;
-			}
-		
-			else if(!dc.getiPlasma() && dc.getIs_long_method()) {
-				dc.setStatusIPLASMA("ADII");
-				ipadii++;
-			}
+		if (fileListed != null) {
 
+			//reset values
+			pdci=0;
+			pdii=0;
+			padci=0;
+			padii=0;
+
+			ipdci=0;
+			ipdii=0;
+			ipadci=0;
+			ipadii=0;
+
+			for (DataContainer dc: fileListed) {
+
+				//PMD
+				if(dc.getPmd() && dc.getIs_long_method()) {
+					dc.setStatusPMD("DCI");
+					pdci++;
+				}
+
+				if(dc.getPmd() && !dc.getIs_long_method()) {
+					dc.setStatusPMD("DII");
+					pdii++;
+				}
+
+				if(!dc.getPmd() && !dc.getIs_long_method()) {
+					dc.setStatusPMD("ADCI");
+					padci++;
+				}
+
+				if(!dc.getPmd() && dc.getIs_long_method()) {
+					dc.setStatusPMD("ADII");
+					padii++;
+				}
+
+				//iPLASMA
+				if(dc.getiPlasma() && dc.getIs_long_method()) {
+					dc.setStatusIPLASMA("DCI");
+					ipdci++;
+				}
+
+				if(dc.getiPlasma() && !dc.getIs_long_method()) {
+					dc.setStatusIPLASMA("DII");
+					ipdii++;
+				}
+
+				if(!dc.getiPlasma() && !dc.getIs_long_method()) {
+					dc.setStatusIPLASMA("ADCI");
+					ipadci++;
+				}
+
+				if(!dc.getiPlasma() && dc.getIs_long_method()) {
+					dc.setStatusIPLASMA("ADII");
+					ipadii++;
+				}
+
+			}
 		}
 	}
 	
@@ -505,17 +506,17 @@ public class Backend {
 				mLMdci++;
 			}
 		
-			else if(dc.getMetricLongMethod() && !dc.getIs_long_method()) {
+			if(dc.getMetricLongMethod() && !dc.getIs_long_method()) {
 				dc.setQualityLM("DII");
 				mLMdii++;
 			}
 			
-			else if(!dc.getMetricLongMethod() && !dc.getIs_long_method()) {
+			if(!dc.getMetricLongMethod() && !dc.getIs_long_method()) {
 				dc.setQualityLM("ADCI");
 				mLMadci++;
 			}
 		
-			else if(!dc.getMetricLongMethod() && dc.getIs_long_method()) {
+			if(!dc.getMetricLongMethod() && dc.getIs_long_method()) {
 				dc.setQualityLM("ADII");
 				mLMadii++;
 			}
@@ -526,17 +527,17 @@ public class Backend {
 				mFEdci++;
 			}
 		
-			else if(dc.getMetricFeatureEnvy() && !dc.getIs_feature_envy()) {
+			if(dc.getMetricFeatureEnvy() && !dc.getIs_feature_envy()) {
 				dc.setQualityFE("DII");
 				mFEdii++;
 			}
 			
-			else if(!dc.getMetricFeatureEnvy() && !dc.getIs_feature_envy()) {
+			if(!dc.getMetricFeatureEnvy() && !dc.getIs_feature_envy()) {
 				dc.setQualityFE("ADCI");
 				mFEadci++;
 			}
 		
-			else if(!dc.getMetricFeatureEnvy() && dc.getIs_feature_envy()) {
+			if(!dc.getMetricFeatureEnvy() && dc.getIs_feature_envy()) {
 				dc.setQualityFE("ADII");
 				mFEadii++;
 			}
