@@ -260,20 +260,26 @@ public class Controller extends Application implements Initializable {
 	 * @param totalADII
 	 */
 	public void setQualityIndicatorsTotals() {
-		//newRuleLabel.setText(); getName()
+		MetricsRule mr = metricList.getSelectionModel().getSelectedItem();
+		String metricName = "New Rule";
+		if(mr!=null) {
+			metricName  = mr.getMetricName();	
+		}
+		newRuleLabel.setText(metricName);
+		
 
 		labelDCI.setText("iPlasma: " + Integer.toString(manager.getIpdci()) + "\n" + "PMD: " + Integer.toString(manager.getPdci()) + "\n" + 
-				"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMdci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdci()));
+				metricName + "\n" + "Long Method: " + Integer.toString(manager.getmLMdci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdci()));
 
 		labelDII.setText("iPlasma: " + Integer.toString(manager.getIpdii()) + "\n" + "PMD: " + Integer.toString(manager.getPdii()) + "\n" + 
-				"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMdii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdii()));
+				metricName + "\n" + "Long Method: " + Integer.toString(manager.getmLMdii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdii()));
 
 
 		labelADCI.setText("iPlasma: " + Integer.toString(manager.getIpadci()) + "\n" + "PMD: " + Integer.toString(manager.getPadci()) + "\n" + 
-				"New Rule -" + "\n" + "Long Method: " + Integer.toString(manager.getmLMadci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadci()));
+				metricName + "\n" + "Long Method: " + Integer.toString(manager.getmLMadci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadci()));
 
 		labelADII.setText("iPlasma: " + Integer.toString(manager.getIpadii()) + "\n" + "PMD: " + Integer.toString(manager.getPadii()) + "\n" + 
-				"New Rule" + "\n" + "Long Method: " + Integer.toString(manager.getmLMadii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadii()));
+				metricName + "\n" + "Long Method: " + Integer.toString(manager.getmLMadii()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEadii()));
 
 		configurePieChart();
 		configureStackedBarChart();
