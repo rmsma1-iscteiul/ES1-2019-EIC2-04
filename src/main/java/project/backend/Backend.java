@@ -280,8 +280,7 @@ public class Backend {
 	 * @param bool from GUI deciding AND/OR operator (true=OR/false=AND)
 	 * @return list after calculating indicators
 	 */
-	public List<DataContainer> checkList (boolean bool) {
-		assert (fileListed != null);
+	public List<DataContainer> checkList () {
 		calculateIndicators ();
 		return fileListed;
 	}
