@@ -115,6 +115,19 @@ public class Controller extends Application implements Initializable {
 	@FXML private ListView<MetricsRule> metricList;
 
 
+	
+	
+	
+	/**
+	 * Opens Java Doc in users browser
+	 */
+	public void openJavaDoc() {
+		//getHostServices().showDocument("C:\\Users\\Rui Menoita\\git\\ES1-2019-EIC2-04\\doc\\allpackages-index.html");
+		getHostServices().showDocument(System.getProperty("user.dir")+"\\doc\\allpackages-index.html");
+	}
+	
+	
+	
 
 
 
@@ -151,6 +164,7 @@ public class Controller extends Application implements Initializable {
 			}catch (Exception e) {
 				e.printStackTrace();
 				showErrorDialog("Something went wrong:\n"+e.getMessage());
+				return;
 			}
 
 			showInfoDialog("Metric " +name + " has been saved with success");
@@ -791,8 +805,8 @@ public class Controller extends Application implements Initializable {
 	private void showMetricDialog() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Load metric");
-		alert.setHeaderText("Do you want to load or delete this metric?");
-		alert.setContentText("Choose your option.");
+		alert.setHeaderText("Do you want to load or delete "+ metricList.getSelectionModel().getSelectedItem().getMetricName()+ " metric?");
+		alert.setContentText("Choose an option.");
 
 		ButtonType loadButton = new ButtonType("Load");
 		ButtonType deleteButton = new ButtonType("Delete");
@@ -814,7 +828,7 @@ public class Controller extends Application implements Initializable {
 					showErrorDialog("Something went wrong deleting metric");
 					return;
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				showErrorDialog("Something went wrong.\n"+e.getLocalizedMessage());
 			}
@@ -910,5 +924,6 @@ public class Controller extends Application implements Initializable {
 	 */
 	public static void show(String[] args) {
 		launch(args);
+//		System.out.println(System.getProperty("user.dir")+"\\doc\\allpackages.html");
 	}
 }

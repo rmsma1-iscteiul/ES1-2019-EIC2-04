@@ -1,4 +1,4 @@
 name2/1/true/false/2/true/1/true/false/1/false
 name/1/true/false/2/true/1/true/false/1/false
-teste/80/true/true/10/true/4/true/true/0.42/true
-Menoita Teste/5610/false/false/54/true/5/false/true/0.3/true
+teste/1/true/false/2/true/1/true/false/1.0/false
+Menoita/40/false/true/5/true/5/true/false/0.5/false
