@@ -808,37 +808,40 @@ public class Controller extends Application implements Initializable {
 	 * Cancel -> Cancels action
 	 */
 	private void showMetricDialog() {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Load metric");
-		alert.setHeaderText("Do you want to load or delete "+ metricList.getSelectionModel().getSelectedItem().getMetricName()+ " metric?");
-		alert.setContentText("Choose an option.");
+		if(isFileLoaded) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Load metric");
+			alert.setHeaderText("Do you want to load or delete "+ metricList.getSelectionModel().getSelectedItem().getMetricName()+ " metric?");
+			alert.setContentText("Choose an option.");
 
-		ButtonType loadButton = new ButtonType("Load");
-		ButtonType deleteButton = new ButtonType("Delete");
-		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+			ButtonType loadButton = new ButtonType("Load");
+			ButtonType deleteButton = new ButtonType("Delete");
+			ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-		alert.getButtonTypes().setAll(loadButton, deleteButton, buttonTypeCancel);
+			alert.getButtonTypes().setAll(loadButton, deleteButton, buttonTypeCancel);
 
-		Optional<ButtonType> result = alert.showAndWait();
+			Optional<ButtonType> result = alert.showAndWait();
 
-		if (result.get() == loadButton){					//process the dialog output
-			loadMetric();
+			if (result.get() == loadButton){					//process the dialog output
+				loadMetric();
 
-		} else if (result.get() == deleteButton) {
+			} else if (result.get() == deleteButton) {
 
-			try {
-				manager.deleteRule(metricList.getSelectionModel().getSelectedItem());
+				try {
+					manager.deleteRule(metricList.getSelectionModel().getSelectedItem());
 
-				if(!metricList.getItems().remove(metricList.getSelectionModel().getSelectedItem())) {
-					showErrorDialog("Something went wrong deleting metric");
-					return;
+					if(!metricList.getItems().remove(metricList.getSelectionModel().getSelectedItem())) {
+						showErrorDialog("Something went wrong deleting metric");
+						return;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					showErrorDialog("Something went wrong.\n"+e.getLocalizedMessage());
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				showErrorDialog("Something went wrong.\n"+e.getLocalizedMessage());
-			}
-			showInfoDialog("Rule deleted with Success");
-		} 
+				showInfoDialog("Rule deleted with Success");
+			} 
+		}else
+			showErrorDialog("No file found! \nPlease load a file first");
 	}
 
 
