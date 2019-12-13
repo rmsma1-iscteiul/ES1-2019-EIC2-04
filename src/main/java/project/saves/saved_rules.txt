@@ -2,3 +2,5 @@ name2/1/true/false/2/true/1/true/false/1/false
 name/1/true/false/2/true/1/true/false/1/false
 teste/1/true/false/2/true/1/true/false/1.0/false
 Menoita/40/false/true/5/true/5/true/false/0.5/false
+
+name/1/true/true/1/true/1/true/true/1.0/true

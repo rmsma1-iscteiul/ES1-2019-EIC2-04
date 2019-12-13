@@ -1,158 +1,182 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import project.backend.containers.MetricsRule;
 class MetricsRuleTest {
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
 
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
+	
+	
 
-	@BeforeEach
-	void setUp() throws Exception {
-		
-	}
 
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
+	
 	@Test
 	void testMetricsRuleConstructor1() {
-		
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertNotNull(a);
 	}
 
 	@Test
 	void testMetricsRuleConstuructor2() {
-		fail("Not yet implemented");
+		MetricsRule b = new MetricsRule("name/1/true/true/1/true/1/true/true/1/true");
+		assertNotNull(b);
 	}
 
 	@Test
 	void testGetLocValue() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(1, a.getLocValue());
 	}
 
 	@Test
-	void testSetLocValue() {
-		fail("Not yet implemented");
+	void testSetLocValue() {		
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setLocValue(2);
+		assertEquals(2, a.getLocValue());
 	}
 
 	@Test
 	void testGetLocComparison() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(true, a.getLocComparison());
 	}
 
 	@Test
 	void testSetLocComparison() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setLocComparison(false);
+		assertEquals(false, a.getLocComparison());
 	}
 
 	@Test
 	void testGetLocCycloAndOr() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(true, a.getLocCycloAndOr());
 	}
 
 	@Test
 	void testSetLocCycloAndOr() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setLocCycloAndOr(false);
+		assertEquals(false, a.getLocCycloAndOr());
 	}
 
 	@Test
 	void testGetCycloValue() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(1, a.getCycloValue());
 	}
 
 	@Test
 	void testSetCycloValue() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setCycloValue(2);
+		assertEquals(2, a.getCycloValue());
 	}
 
 	@Test
 	void testGetCycloComparison() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(true, a.getCycloComparison());
 	}
 
 	@Test
 	void testSetCycloComparison() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setCycloComparison(false);
+		assertEquals(false, a.getCycloComparison());
 	}
 
 	@Test
 	void testGetAftdValue() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(1, a.getAftdValue());
 	}
 
 	@Test
 	void testSetAftdValue() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setAftdValue(2);
+		assertEquals(2, a.getAftdValue());
 	}
 
 	@Test
 	void testGetAftdComparison() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(true, a.getAftdComparison());
 	}
 
 	@Test
 	void testSetAftdComparison() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setAftdComparison(false);
+		assertEquals(false, a.getAftdComparison());
 	}
 
 	@Test
 	void testGetAftdLaaAndOr() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(true, a.getAftdLaaAndOr());
 	}
 
 	@Test
 	void testSetAftdLaaAndOr() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setAftdLaaAndOr(false);
+		assertEquals(false, a.getAftdLaaAndOr());
 	}
 
 	@Test
 	void testGetLaaValue() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(1, a.getLaaValue());
 	}
 
 	@Test
 	void testSetLaaValue() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setLaaValue(2);
+		assertEquals(2, a.getLaaValue());
 	}
 
 	@Test
 	void testGetLaaComparison() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals(true, a.getLaaComparison());
 	}
 
 	@Test
 	void testSetLaaComparison() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setLaaComparison(false);
+		assertEquals(false, a.getLaaComparison());
 	}
 
 	@Test
 	void testGetMetricName() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals("name", a.getMetricName());
 	}
 
 	@Test
 	void testSetMetricName() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		a.setMetricName("mane");
+		assertEquals("mane", a.getMetricName());
 	}
 
 	@Test
 	void testToString() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals("name",a.toString());
 	}
 
 	@Test
 	void testFileToString() {
-		fail("Not yet implemented");
+		MetricsRule a = new MetricsRule("name", 1, true, true, 1, true, 1, true, true, 1, true);
+		assertEquals("name/1/true/true/1/true/1/true/true/1/true",a.fileToString());
 	}
 
 }

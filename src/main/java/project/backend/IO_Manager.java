@@ -85,8 +85,4 @@ public class IO_Manager {
 		return savedRules;
 	}
 
-
-	public static void main(String[] args) throws IOException {
-		readListFromFile();
-	}
 }
