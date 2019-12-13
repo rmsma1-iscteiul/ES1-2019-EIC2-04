@@ -1,0 +1,5 @@
+project.backend
+project.backend.containers
+project.gui.controllers
+project.gui.launcher
+project.utils

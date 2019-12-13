@@ -254,10 +254,6 @@ public class Controller extends Application implements Initializable {
 	 * This method will get the total values from DCI,DII,ADCI,ADII and show them to
 	 * the user in the form of results
 	 *
-	 * @param totalDCI
-	 * @param totalDII
-	 * @param totalADCI
-	 * @param totalADII
 	 */
 	public void setQualityIndicatorsTotals() {
 		MetricsRule mr = metricList.getSelectionModel().getSelectedItem();
@@ -403,9 +399,6 @@ public class Controller extends Application implements Initializable {
 	private void configureStackedBarChart() {
 		pmdBarChart();
 		iPlasmaBarChart();
-		//		if(){
-		//			newRuleBarChart();
-		//		}
 
 	}
 
@@ -562,7 +555,9 @@ public class Controller extends Application implements Initializable {
 
 
 
-
+	/**
+	 * Sets up all the graphs
+	 */
 	private void setUpGraphsFeLMG() {
 		fePieChart();
 		lmPieChart();
