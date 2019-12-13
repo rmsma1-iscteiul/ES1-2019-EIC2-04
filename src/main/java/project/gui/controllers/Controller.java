@@ -93,7 +93,7 @@ public class Controller extends Application implements Initializable {
 	//AND OR
 	@FXML private RadioButton locCycloAndButton;
 	@FXML private RadioButton locCycloOrButton;
-	
+
 	//CYCLO
 	@FXML private TextField cycloText;
 	@FXML private ChoiceBox<String> cycloBiggerThanSelector;
@@ -102,11 +102,11 @@ public class Controller extends Application implements Initializable {
 	@FXML private TextField atfdText;
 	@FXML private ChoiceBox<String> atfdBiggerThanSelector;
 
-	
+
 	//AND OR
 	@FXML private RadioButton atfdLaaAndButton;
 	@FXML private RadioButton atfdLaaOrButton;
-	
+
 	//LAA
 	@FXML private TextField laaText;
 	@FXML private ChoiceBox<String> laaBiggerThanSelector;
@@ -115,19 +115,19 @@ public class Controller extends Application implements Initializable {
 	@FXML private ListView<MetricsRule> metricList;
 
 
-	
-	
-	
+	private boolean isFileLoaded = false;
+
+
+
 	/**
 	 * Opens Java Doc in users browser
 	 */
 	public void openJavaDoc() {
-		//getHostServices().showDocument("C:\\Users\\Rui Menoita\\git\\ES1-2019-EIC2-04\\doc\\allpackages-index.html");
 		getHostServices().showDocument(System.getProperty("user.dir")+"\\doc\\allpackages-index.html");
 	}
-	
-	
-	
+
+
+
 
 
 
@@ -183,29 +183,34 @@ public class Controller extends Application implements Initializable {
 	 * If this return true it means inputs are valid otherwise they are invalid
 	 */
 	private boolean validateInput() {
-		if (!locText.getText().matches("[0-9]{1,}") &&  locText.getText().isBlank()){
-			showErrorDialog("Loc must be a number and not empty");
-			return false;
-		}
-		if (!cycloText.getText().matches("[0-9]{1,}") &&  cycloText.getText().isBlank()){
-			showErrorDialog("Cyclo must be a number and not empty");
-			return false;
-		}
-		if (!atfdText.getText().matches("[0-9]{1,}") &&  atfdText.getText().isBlank()){
-			showErrorDialog("Atfd must be a number and not empty");
-			return false;
-		}
-		if (!laaText.getText().isBlank()){
-			try {
-				if(Double.parseDouble(laaText.getText())<0 || Double.parseDouble(laaText.getText())>1) {
-					showErrorDialog("Laa must be a number bigger than 0 and less then 1 ");
-					return false;
+		if(isFileLoaded) {
+			if (!locText.getText().matches("[0-9]{1,}") &&  locText.getText().isBlank()){
+				showErrorDialog("Loc must be a number and not empty");
+				return false;
+			}
+			if (!cycloText.getText().matches("[0-9]{1,}") &&  cycloText.getText().isBlank()){
+				showErrorDialog("Cyclo must be a number and not empty");
+				return false;
+			}
+			if (!atfdText.getText().matches("[0-9]{1,}") &&  atfdText.getText().isBlank()){
+				showErrorDialog("Atfd must be a number and not empty");
+				return false;
+			}
+			if (!laaText.getText().isBlank()){
+				try {
+					if(Double.parseDouble(laaText.getText())<0 || Double.parseDouble(laaText.getText())>1) {
+						showErrorDialog("Laa must be a number bigger than 0 and less then 1 ");
+						return false;
+					}
+				}catch(NumberFormatException e ) {
+					showErrorDialog("Laa must be a number");
 				}
-			}catch(NumberFormatException e ) {
-				showErrorDialog("Laa must be a number");
+			}else {
+				showErrorDialog("Laa must be a number and not empty");
+				return false;
 			}
 		}else {
-			showErrorDialog("Laa must be a number and not empty");
+			showErrorDialog("No file found! \nPlease load a file first");
 			return false;
 		}
 		return true;
@@ -235,7 +240,7 @@ public class Controller extends Application implements Initializable {
 			//Calculates everything without the need to press the apply button
 			//manager.calculateIndicators();
 			setQualityIndicatorsTotals();
-
+			isFileLoaded = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			showErrorDialog(e.getMessage());
@@ -276,7 +281,7 @@ public class Controller extends Application implements Initializable {
 			metricName  = mr.getMetricName();	
 		}
 		newRuleLabel.setText(metricName);
-		
+
 
 		labelDCI.setText("iPlasma: " + Integer.toString(manager.getIpdci()) + "\n" + "PMD: " + Integer.toString(manager.getPdci()) + "\n" + 
 				metricName + "\n" + "Long Method: " + Integer.toString(manager.getmLMdci()) + "\n" + "Feature Envy: " + Integer.toString(manager.getmFEdci()));
@@ -823,7 +828,7 @@ public class Controller extends Application implements Initializable {
 
 			try {
 				manager.deleteRule(metricList.getSelectionModel().getSelectedItem());
-				
+
 				if(!metricList.getItems().remove(metricList.getSelectionModel().getSelectedItem())) {
 					showErrorDialog("Something went wrong deleting metric");
 					return;
@@ -871,7 +876,7 @@ public class Controller extends Application implements Initializable {
 		boolean atfdAndLaa = mr.getAftdLaaAndOr();
 		atfdLaaAndButton.setSelected(mr.getAftdLaaAndOr());
 		atfdLaaOrButton.setSelected(!mr.getAftdLaaAndOr());
-		
+
 		boolean atfdLessThan = !mr.getAftdComparison();
 		atfdBiggerThanSelector.getSelectionModel().select(mr.getAftdComparison() ? 0 : 1);
 
@@ -917,13 +922,10 @@ public class Controller extends Application implements Initializable {
 
 
 
-
-
 	/**
 	 * Calls the application start method that creates the platform thread
 	 */
 	public static void show(String[] args) {
 		launch(args);
-//		System.out.println(System.getProperty("user.dir")+"\\doc\\allpackages.html");
 	}
 }
